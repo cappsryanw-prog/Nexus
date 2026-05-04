@@ -3,1331 +3,772 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>NEXUS // Case Files</title>
-
-  <!-- 
-    ████████████████████████████████████████████████████
-    NEXUS INVESTIGATION SYSTEM — BUILD 2.1.4
-    CLASSIFICATION: LEVEL 3 — RESTRICTED
-    
-    If you're reading this, you're already deeper than you think.
-    
-    INCOMING DIRECTIVE:
-    The ledger is split into four parts. Start at the Harlow.
-    The frequency will open everything.
-    
-    >> CONSOLE COMMAND: NEXUS.status()
-    >> HINT SYSTEM:     NEXUS.unlock('harlow')
-    
-    OPERATION CODENAME: PHANTOM_LEDGER
-    PRIMARY SUSPECT ALIAS: VALE
-    ████████████████████████████████████████████████████
-  -->
-
-  <!-- SYSTEM TAGS — DO NOT MODIFY -->
-
-  <!-- nexus:account_ref=0x4F2A9C1D -->
-
-  <!-- nexus:signatory=VALE -->
-
-  <!-- nexus:frequency=147.3 -->
-
-  <!-- nexus:operation=PHANTOM_LEDGER -->
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <style>
-    /*
-    ── NEXUS SYSTEM VARS (classified) ──────────────────
-    --classified-frequency: 147.3MHz;
-    --suspect-count: 7;
-    --operation-name: "PHANTOM LEDGER";
-    --primary-alias: "VALE";
-    --nexus-key: "follow the signal";
-    ────────────────────────────────────────────────────
-    */
-
     :root {
-      --bg-primary:    #09090c;
-      --bg-secondary:  #0e0f14;
-      --bg-card:       #12141b;
-      --bg-highlight:  #191d28;
-      --accent-amber:  #f59e0b;
-      --accent-red:    #ef4444;
-      --accent-green:  #10b981;
-      --accent-blue:   #3b82f6;
-      --text-primary:  #e2e8f0;
-      --text-secondary:#94a3b8;
-      --text-muted:    #475569;
-      --border:        #1b2030;
-      --border-active: #2d3a52;
+      --bg:#09090c;--bg2:#0e0f14;--card:#12141b;--hi:#191d28;
+      --amber:#f59e0b;--red:#ef4444;--green:#10b981;--blue:#3b82f6;
+      --txt:#e2e8f0;--txt2:#94a3b8;--muted:#475569;
+      --border:#1b2030;--border2:#2d3a52;
     }
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:90px}
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+```
+/* HEADER */
+.header{position:sticky;top:0;z-index:200;background:rgba(9,9,12,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.25rem;height:54px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:4px;color:var(--amber);text-shadow:0 0 20px rgba(245,158,11,.3);cursor:pointer;user-select:none}
+.logo sub{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:2px;color:var(--muted);vertical-align:middle;margin-left:6px}
+.live{display:flex;align-items:center;gap:5px;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-    body {
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-family: 'Barlow', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(9,9,12,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:transparent;gap:4px;transition:background .15s;position:relative}
+.nbtn.active{background:rgba(245,158,11,.06)}
+.nbtn.active .nico,.nbtn.active .nlbl{color:var(--amber)}
+.nico{font-size:1rem;color:var(--muted);transition:color .15s}
+.nlbl{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--muted);text-transform:uppercase;transition:color .15s}
+.npip{position:absolute;top:8px;right:calc(50% - 18px);width:5px;height:5px;border-radius:50%}
 
-    /* Grain texture */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-    }
+/* PANELS */
+.panel{display:none;padding:1.25rem;animation:fadeUp .2s ease}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ── HEADER ─────────────────────────────────────── */
-    .header {
-      height: 58px;
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      background: rgba(9,9,12,0.96);
-      backdrop-filter: blur(12px);
-      z-index: 200;
-    }
+/* TYPE */
+.cnum{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--muted);margin-bottom:3px}
+.ctitle{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;line-height:1;margin-bottom:4px}
+.csub{font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem;line-height:1.5}
+.srow{display:flex;align-items:center;gap:10px;margin:1.5rem 0 .85rem}
+.slbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--muted);white-space:nowrap;text-transform:uppercase}
+.sline{flex:1;height:1px;background:var(--border)}
 
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.75rem;
-      letter-spacing: 5px;
-      color: var(--accent-amber);
-      text-shadow: 0 0 24px rgba(245,158,11,0.25);
-    }
-    .logo em {
-      font-family: 'Space Mono', monospace;
-      font-style: normal;
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      margin-left: 10px;
-    }
+/* STATS */
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
+.scard{background:var(--card);border:1px solid var(--border);padding:1rem;border-radius:4px}
+.sval{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;line-height:1}
+.slb{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:1px;color:var(--muted)}
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
+/* PROGRESS */
+.pwrap{margin-bottom:1.25rem}
+.ptop{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:5px}
+.ptrack{height:3px;background:var(--border);border-radius:2px}
+.pfill{height:100%;background:var(--amber);border-radius:2px;transition:width .6s ease}
 
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-    }
-    .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent-green);
-      animation: blink 2s infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+/* EVIDENCE */
+.evcard{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:10px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s;-webkit-user-select:none;user-select:none}
+.evcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.evcard.cr::before{background:var(--red)}
+.evcard.cb::before{background:var(--blue)}
+.evcard.cg::before{background:var(--green)}
+.evcard.ca::before{background:var(--amber)}
+.evcard.locked{opacity:.5;cursor:default}
+.evtype{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.evtitle{font-weight:600;font-size:.88rem;margin-bottom:4px}
+.evdesc{font-size:.78rem;color:var(--txt2);line-height:1.55}
+.evlock{position:absolute;top:.85rem;right:.85rem;font-size:.75rem}
+.evreveal{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.66rem;color:var(--green);line-height:1.85;animation:fadeUp .3s ease}
+.evreveal.show{display:block}
+.phint{position:absolute;bottom:.6rem;right:.85rem;font-family:'Space Mono',monospace;font-size:.5rem;color:var(--border2);letter-spacing:1px}
 
-    .agent-chip {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 4px 12px;
-      letter-spacing: 1px;
-    }
+/* SMS */
+.smsthread{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1.25rem}
+.smshdr{padding:.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.smsav{width:32px;height:32px;background:var(--hi);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);flex-shrink:0}
+.smsname{font-size:.82rem;font-weight:600}
+.smsnum{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted)}
+.smsbody{padding:.85rem 1rem}
+.smsmsg{margin-bottom:8px;display:flex;gap:8px;align-items:flex-end}
+.smsmsg.me{flex-direction:row-reverse}
+.smsbub{max-width:78%;padding:8px 12px;border-radius:14px;font-size:.8rem;line-height:1.5}
+.smsmsg:not(.me) .smsbub{background:var(--hi);color:var(--txt);border-bottom-left-radius:4px}
+.smsmsg.me .smsbub{background:rgba(59,130,246,.2);color:var(--txt);border-bottom-right-radius:4px;border:1px solid rgba(59,130,246,.25)}
+.smstime{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted)}
 
-    /* ── LAYOUT ─────────────────────────────────────── */
-    .layout {
-      display: grid;
-      grid-template-columns: 270px 1fr;
-      min-height: calc(100vh - 58px);
-    }
+/* TERMINAL */
+.twrap{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1.25rem}
+.tbar{background:var(--hi);border-bottom:1px solid var(--border);padding:8px 12px;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);display:flex;align-items:center;gap:8px}
+.tdot span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.tout{padding:1rem;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--green);line-height:2;min-height:80px;max-height:220px;overflow-y:auto;white-space:pre-wrap}
+.tm{color:var(--muted)}.ta{color:var(--amber)}.tr{color:var(--red)}
+.tinrow{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:6px}
+.tprompt{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--green)}
+.tinput{flex:1;background:transparent;border:none;outline:none;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--txt);padding:10px 0;caret-color:var(--green)}
+.trun{background:var(--green);color:#000;border:none;padding:5px 10px;font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;border-radius:3px;cursor:pointer}
 
-    /* ── SIDEBAR ─────────────────────────────────────── */
-    .sidebar {
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 0;
-      position: sticky;
-      top: 58px;
-      height: calc(100vh - 58px);
-      overflow-y: auto;
-      scrollbar-width: thin;
-    }
+/* UNLOCK */
+.ubox{background:var(--card);border:1px solid rgba(245,158,11,.25);border-radius:4px;padding:1.1rem;margin-top:1.25rem}
+.ulbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--amber);margin-bottom:.75rem}
+.uhint{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:10px;line-height:1.7}
+.urow{display:flex;gap:6px}
+.uinput{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--txt);padding:.65rem .9rem;font-family:'Space Mono',monospace;font-size:.75rem;outline:none;border-radius:3px;transition:border-color .2s}
+.uinput:focus{border-color:var(--amber)}
+.ubtn{background:var(--amber);color:#000;border:none;padding:.65rem 1rem;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;cursor:pointer;border-radius:3px;letter-spacing:1px}
+.ures{display:none;margin-top:.75rem;font-family:'Space Mono',monospace;font-size:.7rem;line-height:1.75;white-space:pre-wrap}
+.ok{color:var(--green)}.err{color:var(--red)}
 
-    .sb-label {
-      padding: 0 1.5rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 3px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
+/* INFO */
+.iblock{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.1rem;margin-bottom:1.25rem}
+.iblock p{font-size:.82rem;color:var(--txt2);line-height:1.75}
+.inote{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:.6rem}
 
-    .sb-section { margin-bottom: 2rem; }
+/* TIMELINE */
+.timeline{padding-left:1.5rem;position:relative;margin-bottom:1rem}
+.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:0;width:1px;background:var(--border)}
+.tli{position:relative;margin-bottom:1.1rem}
+.tli::before{content:'';position:absolute;left:-1.3rem;top:4px;width:8px;height:8px;border-radius:50%;background:var(--card);border:2px solid var(--border2)}
+.tlt{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:2px}
+.tle{font-size:.8rem;color:var(--txt2);line-height:1.55}
 
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.55rem 1.5rem;
-      cursor: pointer;
-      transition: background 0.15s;
-      border-left: 2px solid transparent;
-    }
-    .nav-item:hover { background: var(--bg-highlight); }
-    .nav-item.active {
-      background: var(--bg-highlight);
-      border-left-color: var(--accent-amber);
-    }
+/* BADGE */
+.badge{display:inline-block;font-family:'Space Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:2px;letter-spacing:1px}
+.br{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.bb{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+.bg{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.ba{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
 
-    .case-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%; flex-shrink: 0;
-    }
-    .dot-red   { background: var(--accent-red);   box-shadow: 0 0 5px var(--accent-red); }
-    .dot-blue  { background: var(--accent-blue);  box-shadow: 0 0 5px var(--accent-blue); }
-    .dot-green { background: var(--accent-green); box-shadow: 0 0 5px var(--accent-green); }
-    .dot-amber { background: var(--accent-amber); box-shadow: 0 0 5px var(--accent-amber); }
-    .dot-dim   { background: var(--text-muted); }
+/* TOAST */
+.toast{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;letter-spacing:1px;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:1000;transition:all .3s ease;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    .nav-text { flex: 1; }
-    .nav-name { font-size: 0.82rem; font-weight: 500; }
-    .nav-sub  { font-size: 0.65rem; font-family: 'Space Mono', monospace; color: var(--text-muted); }
+/* MODAL */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:flex-end;justify-content:center}
+.moverlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px 12px 0 0;padding:1.5rem;width:100%;max-height:80vh;overflow-y:auto;animation:slideUp .25s ease;position:relative}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhandle{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1.25rem}
+.mtitle{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:.5rem}
+.mclose{position:absolute;top:1.25rem;right:1.25rem;background:var(--hi);border:none;color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.8rem}
+```
 
-    .badge {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.55rem;
-      padding: 2px 6px;
-      border-radius: 2px;
-    }
-    .badge-open   { background: rgba(239,68,68,0.12); color: var(--accent-red);   border: 1px solid rgba(239,68,68,0.25); }
-    .badge-active { background: rgba(245,158,11,0.12); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.25); }
-    .badge-cold   { background: rgba(59,130,246,0.12); color: var(--accent-blue);  border: 1px solid rgba(59,130,246,0.25); }
-
-    .sb-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0 1.5rem 1.5rem;
-    }
-
-    .progress-wrap { padding: 0 1.5rem; margin-bottom: 1.5rem; }
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-    }
-    .progress-track { height: 2px; background: var(--border); border-radius: 2px; }
-    .progress-fill  { height: 100%; background: var(--accent-amber); border-radius: 2px; transition: width 0.6s ease; }
-
-    .console-card {
-      margin: 0 1.5rem;
-      padding: 0.9rem;
-      background: rgba(16,185,129,0.04);
-      border: 1px solid rgba(16,185,129,0.18);
-      border-radius: 3px;
-    }
-    .console-card p {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--accent-green);
-      line-height: 1.8;
-    }
-
-    /* ── CONTENT ─────────────────────────────────────── */
-    .content { padding: 2.5rem 2rem; }
-
-    .panel { display: none; }
-    .panel.active {
-      display: block;
-      animation: fadeUp 0.25s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(10px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    /* Case header */
-    .case-hdr {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-    }
-    .case-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .case-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.6rem;
-      letter-spacing: 3px;
-      line-height: 1;
-    }
-    .case-sub {
-      margin-top: 5px;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-    }
-    .case-tags { display: flex; gap: 8px; }
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      padding: 4px 10px;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-
-    /* Section header */
-    .sec-hdr {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .sec-title {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 3px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .sec-line { flex: 1; height: 1px; background: var(--border); }
-
-    /* Stat cards */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-      border-radius: 3px;
-    }
-    .stat-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
-    .stat-lbl {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    /* Connection map */
-    .conn-map {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 2rem;
-      min-height: 280px;
-      position: relative;
-      margin-bottom: 2.5rem;
-      overflow: hidden;
-    }
-    .conn-map-lbl {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-    .map-node {
-      position: absolute;
-      background: var(--bg-highlight);
-      border: 1px solid var(--border-active);
-      padding: 6px 14px;
-      border-radius: 3px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-      letter-spacing: 1px;
-    }
-    .map-node:hover {
-      border-color: var(--accent-amber);
-      color: var(--accent-amber);
-      z-index: 2;
-    }
-    .map-node.hub {
-      border-color: var(--accent-red);
-      color: var(--accent-red);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-    }
-
-    /* Evidence cards */
-    .evidence-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .ev-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.2rem;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.18s;
-      position: relative;
-      overflow: hidden;
-    }
-    .ev-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-    }
-    .ev-card.red::before   { background: var(--accent-red); }
-    .ev-card.blue::before  { background: var(--accent-blue); }
-    .ev-card.green::before { background: var(--accent-green); }
-    .ev-card.amber::before { background: var(--accent-amber); }
-    .ev-card:hover:not(.locked) {
-      border-color: var(--border-active);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.5);
-    }
-    .ev-card.locked { opacity: 0.45; cursor: not-allowed; }
-    .ev-type {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-    }
-    .ev-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
-    .ev-desc  { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.55; }
-    .ev-lock  { position: absolute; top: 1rem; right: 1rem; font-size: 0.7rem; color: var(--text-muted); }
-
-    /* Suspect cards */
-    .suspect-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .sus-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.2rem;
-      border-radius: 3px;
-      transition: border-color 0.18s;
-      cursor: pointer;
-    }
-    .sus-card:hover { border-color: var(--border-active); }
-    .sus-avatar {
-      width: 46px; height: 46px;
-      background: var(--bg-highlight);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
-    .sus-name { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
-    .sus-role { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px; }
-    .sus-status {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem;
-      padding: 2px 7px;
-      display: inline-block;
-    }
-    .s-suspect { background: rgba(239,68,68,0.1);  color: var(--accent-red);   border: 1px solid rgba(239,68,68,0.2); }
-    .s-witness { background: rgba(59,130,246,0.1); color: var(--accent-blue);  border: 1px solid rgba(59,130,246,0.2); }
-    .s-unknown { background: rgba(71,85,105,0.15); color: var(--text-muted);   border: 1px solid var(--border); }
-
-    /* Timeline */
-    .timeline { position: relative; padding-left: 1.75rem; margin-bottom: 2rem; }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 6px; top: 6px; bottom: 0;
-      width: 1px;
-      background: var(--border);
-    }
-    .tl-item { position: relative; margin-bottom: 1.2rem; }
-    .tl-item::before {
-      content: '';
-      position: absolute;
-      left: -1.52rem; top: 5px;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 2px solid var(--border-active);
-    }
-    .tl-time  { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-bottom: 2px; }
-    .tl-event { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
-
-    /* Clue unlock */
-    .unlock-box {
-      background: var(--bg-card);
-      border: 1px solid rgba(245,158,11,0.25);
-      padding: 1.25rem;
-      border-radius: 3px;
-      margin-top: 2rem;
-    }
-    .unlock-lbl {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 2px;
-      color: var(--accent-amber);
-      margin-bottom: 0.75rem;
-    }
-    .unlock-row { display: flex; gap: 6px; }
-    .unlock-input {
-      flex: 1;
-      background: var(--bg-primary);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      padding: 0.6rem 1rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.78rem;
-      outline: none;
-      transition: border-color 0.2s;
-      border-radius: 2px;
-    }
-    .unlock-input:focus { border-color: var(--accent-amber); }
-    .unlock-btn {
-      background: var(--accent-amber);
-      color: #000;
-      border: none;
-      padding: 0.6rem 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: opacity 0.2s;
-      border-radius: 2px;
-    }
-    .unlock-btn:hover { opacity: 0.85; }
-    .unlock-result {
-      margin-top: 0.75rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      line-height: 1.7;
-      display: none;
-    }
-    .unlock-result.ok  { color: var(--accent-green); }
-    .unlock-result.err { color: var(--accent-red); }
-
-    /* Terminal block */
-    .terminal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      line-height: 2;
-      color: var(--accent-green);
-      border-radius: 3px;
-      margin-bottom: 2rem;
-    }
-    .terminal .muted { color: var(--text-muted); }
-
-    /* Info block */
-    .info-block {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    .info-block p {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      line-height: 1.8;
-    }
-    .info-block .note {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
-
-    /* ── HIDDEN GAME ELEMENTS ────────────────────────── */
-    #hidden-alpha {
-      display: none;
-      /* CLUE: frequency=147.3 | origin=HARLOW_ROOM_1106 | codename=PHANTOM_LEDGER */
-    }
-
-    /* This element is invisible but inspectable */
-    #cipher-span {
-      visibility: hidden;
-      position: absolute;
-      font-size: 1px;
-      color: transparent;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border-active); }
-
-    @media (max-width: 768px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .stat-grid { grid-template-columns: repeat(2,1fr); }
-    }
   </style>
-
 </head>
 <body>
 
-<!--
-  ════════════════════════════════════════════════
-  INTERCEPTED TRANSMISSION // 2024-11-14 // 03:17
-  ORIGIN: [ENCRYPTED]
-  
-  "The ledger is in four parts. You'll find the
-  first key at the Harlow. Check the frequency.
-  It's always 147.3. Always.
-  
-  Don't trust anyone above rank 6 in the dept.
-  They know about the signal. VALE is protected.
-  
-  Reeve tried to expose it. Now he's dead."
-  
-  END TRANSMISSION
-  ════════════════════════════════════════════════
--->
-
-<!-- Hidden data element — inspectable via dev tools -->
-
-<div id="hidden-alpha"
-     data-signal="147.3"
-     data-origin="HARLOW_ROOM_1106"
-     data-codename="PHANTOM_LEDGER"
-     data-account="0x4F2A9C1D"
-     data-signatory="VALE"
-     data-hint="You found a hidden element. These data attributes are clues. The frequency unlocks the Harlow audio. The codename unlocks the Redline file.">
-</div>
-
-<!-- Invisible cipher text — visible in Inspector -->
-
-<span id="cipher-span"
-aria-hidden="true"
-title="PHANTOM LEDGER: ACCT=0x4F2A9C1D | SIG=VALE | OP_ACTIVE">
-PHANTOM LEDGER // VALE // 0x4F2A9C1D
-</span>
-
-<!-- ── HEADER ──────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
 
 <header class="header">
-  <div class="logo">NEXUS <em>// CASE FILES</em></div>
-  <div class="header-right">
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      SYSTEM ACTIVE
-    </div>
-    <div class="agent-chip">AGENT // RW-7734</div>
-  </div>
+  <div class="logo" id="logo-tap" onclick="logoTap()">NEXUS <sub>// CASE FILES</sub></div>
+  <div class="live"><div class="dot"></div>AGENT RW-7734</div>
 </header>
 
-<!-- ── LAYOUT ─────────────────────────────────────── -->
+<!-- ═══ OVERVIEW ════════════════════════════ -->
 
-<div class="layout">
-
-  <!-- SIDEBAR -->
-
-  <aside class="sidebar">
-    <div class="sb-section">
-      <div class="sb-label">Investigations</div>
-
-```
-  <div class="nav-item active" onclick="showPanel('overview', this)">
-    <div class="case-dot dot-amber"></div>
-    <div class="nav-text">
-      <div class="nav-name">Overview</div>
-      <div class="nav-sub">All threads</div>
-    </div>
-  </div>
-
-  <div class="nav-item" onclick="showPanel('harlow', this)">
-    <div class="case-dot dot-red"></div>
-    <div class="nav-text">
-      <div class="nav-name">The Harlow</div>
-      <div class="nav-sub">Case #2024-0441</div>
-    </div>
-    <span class="badge badge-open">OPEN</span>
-  </div>
-
-  <div class="nav-item" onclick="showPanel('signal', this)">
-    <div class="case-dot dot-blue"></div>
-    <div class="nav-text">
-      <div class="nav-name">Ghost Signal</div>
-      <div class="nav-sub">Case #2024-0449</div>
-    </div>
-    <span class="badge badge-active">ACTIVE</span>
-  </div>
-
-  <div class="nav-item" onclick="showPanel('hollow', this)">
-    <div class="case-dot dot-green"></div>
-    <div class="nav-text">
-      <div class="nav-name">The Hollow</div>
-      <div class="nav-sub">Case #2024-0453</div>
-    </div>
-    <span class="badge badge-cold">COLD</span>
-  </div>
-
-  <div class="nav-item" onclick="showPanel('redline', this)">
-    <div class="case-dot dot-amber"></div>
-    <div class="nav-text">
-      <div class="nav-name">Redline</div>
-      <div class="nav-sub">Case #2024-0461</div>
-    </div>
-    <span class="badge badge-active">ACTIVE</span>
-  </div>
-</div>
-
-<div class="sb-divider"></div>
-
-<div class="sb-section">
-  <div class="sb-label">Progress</div>
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <span>CASE SOLVED</span>
-      <span id="pct-label">8%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="prog-fill" style="width:8%"></div>
-    </div>
-  </div>
-
-  <div class="console-card">
-    <p>// SYSTEM NOTE<br>
-    // Open DevTools (F12)<br>
-    // Console holds active<br>
-    // transmissions.<br>
-    // Type NEXUS.status()</p>
-  </div>
-</div>
-```
-
-  </aside>
-
-  <!-- MAIN CONTENT -->
-
-  <main class="content">
-
-```
-<!-- ═══ OVERVIEW ════════════════════════════════ -->
 <div class="panel active" id="panel-overview">
-  <div class="case-hdr">
-    <div>
-      <div class="case-num">NEXUS // INVESTIGATION COMMAND</div>
-      <div class="case-title">OPERATION OVERVIEW</div>
-      <div class="case-sub">Four active threads. One conspiracy. Find the connection.</div>
-    </div>
-    <div class="case-tags">
-      <span class="tag">CLASSIFIED</span>
-      <span class="tag">LVL 3</span>
-    </div>
+  <div class="cnum">NEXUS // ALL ACTIVE THREADS</div>
+  <div class="ctitle">OPERATION<br>OVERVIEW</div>
+  <div class="csub">Four cases. One conspiracy. Find what connects them.</div>
+
+  <div class="pwrap">
+    <div class="ptop"><span>CASE SOLVED</span><span id="pct-label">8%</span></div>
+    <div class="ptrack"><div class="pfill" id="prog-fill" style="width:8%"></div></div>
   </div>
 
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-val" style="color:var(--accent-red)">4</div>
-      <div class="stat-lbl">Open Cases</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" style="color:var(--accent-amber)">7</div>
-      <div class="stat-lbl">Known Suspects</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" style="color:var(--accent-blue)">23</div>
-      <div class="stat-lbl">Evidence Items</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" style="color:var(--accent-green)" id="clue-counter">2</div>
-      <div class="stat-lbl">Clues Unlocked</div>
-    </div>
+  <div class="sgrid">
+    <div class="scard"><div class="sval" style="color:var(--red)">4</div><div class="slb">Open Cases</div></div>
+    <div class="scard"><div class="sval" style="color:var(--amber)">7</div><div class="slb">Suspects</div></div>
+    <div class="scard"><div class="sval" style="color:var(--blue)">23</div><div class="slb">Evidence Items</div></div>
+    <div class="scard"><div class="sval" style="color:var(--green)" id="clue-counter">2</div><div class="slb">Clues Found</div></div>
   </div>
 
-  <div class="sec-hdr">
-    <div class="sec-title">Entity Connection Map</div>
-    <div class="sec-line"></div>
-  </div>
-
-  <div class="conn-map">
-    <div class="conn-map-lbl">// KNOWN RELATIONSHIPS // INCOMPLETE — MORE THREADS VISIBLE AS CASES PROGRESS</div>
-    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L6,3 z" fill="#2d3a52"/>
-        </marker>
-      </defs>
-      <line x1="50%" y1="50%" x2="18%" y2="22%" stroke="#f59e0b" stroke-width="1" stroke-dasharray="5,4" opacity="0.3" marker-end="url(#arr)"/>
-      <line x1="50%" y1="50%" x2="82%" y2="22%" stroke="#3b82f6" stroke-width="1" stroke-dasharray="5,4" opacity="0.3" marker-end="url(#arr)"/>
-      <line x1="50%" y1="50%" x2="18%" y2="78%" stroke="#10b981" stroke-width="1" stroke-dasharray="5,4" opacity="0.3" marker-end="url(#arr)"/>
-      <line x1="50%" y1="50%" x2="82%" y2="78%" stroke="#ef4444" stroke-width="1" stroke-dasharray="5,4" opacity="0.3" marker-end="url(#arr)"/>
-      <line x1="18%" y1="22%" x2="82%" y2="22%" stroke="#2d3a52" stroke-width="1" stroke-dasharray="3,7" opacity="0.4"/>
-      <line x1="18%" y1="78%" x2="82%" y2="78%" stroke="#2d3a52" stroke-width="1" stroke-dasharray="3,7" opacity="0.4"/>
-    </svg>
-    <div class="map-node hub" style="left:calc(50% - 58px);top:calc(50% - 18px)">? &nbsp;VALE&nbsp; ?</div>
-    <div class="map-node" style="left:6%;top:12%" onclick="showPanel('harlow', null)">THE HARLOW</div>
-    <div class="map-node" style="right:6%;top:12%" onclick="showPanel('signal', null)">GHOST SIGNAL</div>
-    <div class="map-node" style="left:6%;bottom:12%" onclick="showPanel('hollow', null)">THE HOLLOW</div>
-    <div class="map-node" style="right:6%;bottom:12%" onclick="showPanel('redline', null)">REDLINE</div>
-  </div>
-
-  <div class="sec-hdr">
-    <div class="sec-title">Mission Briefing</div>
-    <div class="sec-line"></div>
-  </div>
-
-  <div class="info-block">
-    <p>Four cases. At first glance — unrelated. A suspicious death at a downtown hotel. Encrypted radio transmissions with no traceable origin. A city auditor gone missing. An untraceable shell company moving millions through a maze of accounts.</p>
+  <div class="srow"><div class="slbl">Briefing</div><div class="sline"></div></div>
+  <div class="iblock">
+    <p>Four cases — at first glance, unrelated. A suspicious death at a downtown hotel. Encrypted radio transmissions. A city auditor gone missing. A shell company moving millions through untraceable accounts.</p>
     <br>
-    <p>They're connected. We don't know how yet. Your job is to work all four threads simultaneously — evidence from one case unlocks leads in another. No single file holds the answer.</p>
+    <p>They're connected. Evidence from one case unlocks leads in another. The truth is buried — but it's there if you dig.</p>
     <br>
-    <p style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-muted)">// NOTE: Some clues exist <em style="color:var(--accent-amber)">outside</em> this interface entirely. Open your browser's developer tools. Check the page source. Listen to the console. Inspect hidden elements. Look where most people don't think to look.</p>
+    <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted)">// TIP: Hold your finger on evidence cards to reveal hidden data. Explore everything — some clues won't announce themselves.</p>
+  </div>
+
+  <div class="srow"><div class="slbl">Active Threads</div><div class="sline"></div></div>
+
+  <div class="evcard cr" onclick="showPanel('harlow')">
+    <div class="evtype">CASE #2024-0441 // HOMICIDE</div>
+    <div class="evtitle">The Harlow <span class="badge br" style="float:right">OPEN</span></div>
+    <div class="evdesc">A death in Room 1106. Staged to look like suicide. Two unregistered keycards. No exits logged after 02:51.</div>
+  </div>
+  <div class="evcard cb" onclick="showPanel('signal')">
+    <div class="evtype">CASE #2024-0449 // SIGNALS</div>
+    <div class="evtitle">Ghost Signal <span class="badge bb" style="float:right">ACTIVE</span></div>
+    <div class="evdesc">Encrypted transmissions on 147.3 MHz. Partial decode names the victim — and an operation codename.</div>
+  </div>
+  <div class="evcard cg" onclick="showPanel('hollow')">
+    <div class="evtype">CASE #2024-0453 // MISSING</div>
+    <div class="evtitle">The Hollow <span class="badge bg" style="float:right">COLD</span></div>
+    <div class="evdesc">City auditor Elena Marsh. Filed a discrepancy report Nov 4. Gone Nov 12. Car found two blocks from the Harlow.</div>
+  </div>
+  <div class="evcard ca" onclick="showPanel('redline')">
+    <div class="evtype">CASE #2024-0461 // FINANCIAL</div>
+    <div class="evtitle">Redline <span class="badge ba" style="float:right">ACTIVE</span></div>
+    <div class="evdesc">$4.2M through 12 accounts. One signature on every transfer: VALE. Not registered anywhere.</div>
   </div>
 </div>
 
-<!-- ═══ HARLOW ════════════════════════════════════ -->
+<!-- ═══ HARLOW ════════════════════════════════ -->
+
 <div class="panel" id="panel-harlow">
-  <div class="case-hdr">
-    <div>
-      <div class="case-num">CASE #2024-0441 // HOMICIDE</div>
-      <div class="case-title" style="color:var(--accent-red)">THE HARLOW</div>
-      <div class="case-sub">Apparent suicide. Room 1106. November 14. Scene says otherwise.</div>
+  <div class="cnum">CASE #2024-0441 // HOMICIDE</div>
+  <div class="ctitle" style="color:var(--red)">THE HARLOW</div>
+  <div class="csub">Room 1106. November 14. They called it a suicide. The scene disagreed.</div>
+
+  <div class="srow"><div class="slbl">Evidence</div><div class="sline"></div></div>
+
+  <div class="evcard cr" id="ev-h1" onmousedown="startPress('h1')" ontouchstart="startPress('h1')" onmouseup="endPress()" onmouseleave="endPress()" ontouchend="endPress()" ontouchcancel="endPress()">
+    <div class="evtype">Physical // Item 001</div>
+    <div class="evtitle">Room 1106 — Keycard Log</div>
+    <div class="evdesc">Three entries after midnight. Two unregistered at 02:14 and 02:51. No exits logged after 02:51.</div>
+    <div class="evreveal" id="reveal-h1">// HIDDEN NOTE — CARD READER MEMORY
+// Card serial: MASTER-07 — issued to: [STAFF OVERRIDE]
+// Override requires rank 6+ — OR a known alias.
+// Cross-reference: Redline. "VALE" holds staff-level
+// clearance at the Harlow Hotel.</div>
+    <div class="phint">HOLD TO REVEAL</div>
+  </div>
+
+  <div class="evcard cr" id="ev-h2" onmousedown="startPress('h2')" ontouchstart="startPress('h2')" onmouseup="endPress()" onmouseleave="endPress()" ontouchend="endPress()" ontouchcancel="endPress()">
+    <div class="evtype">Document // Item 002</div>
+    <div class="evtitle">Victim ID — Marcus Reeve</div>
+    <div class="evdesc">Financial analyst. Employed by Crestview Capital. Stayed at the Harlow 11 times in 18 months — always Room 1106, always cash.</div>
+    <div class="evreveal" id="reveal-h2">// BANK SUBPOENA — RETRIEVED SEPARATELY
+// 3 cash withdrawals totaling $8,400 in the week before death.
+// Two burner phones purchased same period.
+// One recovered. One still missing.
+// He knew he was in danger. He was building a trail.</div>
+    <div class="phint">HOLD TO REVEAL</div>
+  </div>
+
+  <div class="srow"><div class="slbl">Recovered Text Thread</div><div class="sline"></div></div>
+  <div class="smsthread">
+    <div class="smshdr">
+      <div class="smsav">??</div>
+      <div>
+        <div class="smsname">UNKNOWN — +1 (555) 019-XXXX</div>
+        <div class="smsnum">Prepaid // Last active Nov 13</div>
+      </div>
     </div>
-    <div class="case-tags">
-      <span class="tag">HOMICIDE</span>
-      <span class="badge badge-open">OPEN</span>
+    <div class="smsbody">
+      <div class="smsmsg">
+        <div class="smsbub">The ledger is complete. All four parts. I'm going to the press tomorrow if I don't hear back.</div>
+        <div class="smstime">Nov 13 / 21:04</div>
+      </div>
+      <div class="smsmsg">
+        <div class="smsbub">Don't do anything stupid Marcus. Stay at the Harlow. We'll talk.</div>
+        <div class="smstime">Nov 13 / 21:18</div>
+      </div>
+      <div class="smsmsg">
+        <div class="smsbub">Who is this? Who gave you this number?</div>
+        <div class="smstime">Nov 13 / 21:44</div>
+      </div>
+      <div class="smsmsg">
+        <div class="smsbub" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2)">You already know who this is. 147.3. Tonight. Don't make this harder than it needs to be.</div>
+        <div class="smstime">Nov 13 / 22:01</div>
+      </div>
+      <div class="smsmsg">
+        <div class="smsbub" style="color:var(--muted)">[NO REPLY]</div>
+        <div class="smstime">Nov 13 / 22:01 — last message</div>
+      </div>
     </div>
   </div>
 
-  <div class="sec-hdr"><div class="sec-title">Evidence</div><div class="sec-line"></div></div>
-  <div class="evidence-grid">
-    <div class="ev-card red">
-      <div class="ev-type">Physical // Item 001</div>
-      <div class="ev-title">Room 1106 — Keycard Log</div>
-      <div class="ev-desc">Three entries after midnight. Victim checked in alone. Two unregistered entries at 02:14 and 02:51. No exits logged after 02:51.</div>
-    </div>
-    <div class="ev-card red">
-      <div class="ev-type">Document // Item 002</div>
-      <div class="ev-title">Victim ID — Marcus Reeve</div>
-      <div class="ev-desc">Financial analyst. No priors. Employed by Crestview Capital. Stayed at the Harlow 11 times in 18 months — always Room 1106. Always cash.</div>
-    </div>
-    <div class="ev-card red">
-      <div class="ev-type">Digital // Item 003</div>
-      <div class="ev-title">Recovered Burner Phone</div>
-      <div class="ev-desc">3 contacts. All prepaid numbers. Last outgoing call 2 hours before death. Recipient unknown. Call duration: 4 minutes, 12 seconds.</div>
-    </div>
-    <div class="ev-card red locked">
-      <div class="ev-type">Audio // Item 004</div>
-      <div class="ev-title">Room Recording — [LOCKED]</div>
-      <div class="ev-desc">Audio intercept from room 1106. Encrypted. Requires frequency key to decrypt. The frequency is hidden somewhere on this page.</div>
-      <div class="ev-lock">🔒</div>
-    </div>
-  </div>
-
-  <div class="sec-hdr"><div class="sec-title">Persons of Interest</div><div class="sec-line"></div></div>
-  <div class="suspect-grid">
-    <div class="sus-card">
-      <div class="sus-avatar">MR</div>
-      <div class="sus-name">Marcus Reeve</div>
-      <div class="sus-role">Victim — Financial Analyst</div>
-      <span class="sus-status s-unknown">DECEASED</span>
-    </div>
-    <div class="sus-card">
-      <div class="sus-avatar">??</div>
-      <div class="sus-name">Unknown — "V"</div>
-      <div class="sus-role">Unregistered entry 02:14</div>
-      <span class="sus-status s-suspect">SUSPECT</span>
-    </div>
-    <div class="sus-card">
-      <div class="sus-avatar">DN</div>
-      <div class="sus-name">Dana Nouri</div>
-      <div class="sus-role">Night Manager, Harlow Hotel</div>
-      <span class="sus-status s-witness">WITNESS</span>
-    </div>
-  </div>
-
-  <div class="sec-hdr"><div class="sec-title">Timeline</div><div class="sec-line"></div></div>
+  <div class="srow"><div class="slbl">Timeline</div><div class="sline"></div></div>
   <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-time">NOV 13 // 18:42</div>
-      <div class="tl-event">Marcus Reeve checks into Room 1106. Cash payment. Minimal luggage — only a laptop bag.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 14 // 02:14</div>
-      <div class="tl-event">First unregistered keycard entry to Room 1106. Duration: 22 minutes.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 14 // 02:36</div>
-      <div class="tl-event">First entry exits. Hallway camera obscured — lens smeared. No footage.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 14 // 02:51</div>
-      <div class="tl-event">Second unregistered keycard entry. Duration unknown. No exit ever logged.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 14 // 06:17</div>
-      <div class="tl-event">Body discovered by housekeeping. Scene staged to appear as suicide. Medical examiner disputes official ruling.</div>
-    </div>
+    <div class="tli"><div class="tlt">NOV 13 // 18:42</div><div class="tle">Reeve checks into Room 1106. Cash payment. Only a laptop bag.</div></div>
+    <div class="tli"><div class="tlt">NOV 13 // 22:01</div><div class="tle">Final text received from unknown number. Reference to "147.3." No reply.</div></div>
+    <div class="tli"><div class="tlt">NOV 14 // 02:14</div><div class="tle">First unregistered keycard entry. Duration 22 minutes. Camera obscured.</div></div>
+    <div class="tli"><div class="tlt">NOV 14 // 02:51</div><div class="tle">Second unregistered entry. No exit ever logged.</div></div>
+    <div class="tli"><div class="tlt">NOV 14 // 06:17</div><div class="tle">Body found by housekeeping. Scene staged. M.E. disputes official ruling.</div></div>
   </div>
 
-  <div class="unlock-box">
-    <div class="unlock-lbl">// DECRYPT ITEM 004 — ENTER FREQUENCY KEY</div>
-    <div class="unlock-row">
-      <input class="unlock-input" id="inp-harlow" type="text" placeholder="Signal frequency...">
-      <button class="unlock-btn" onclick="checkHarlow()">DECRYPT</button>
+  <div class="ubox">
+    <div class="ulbl">// DECRYPT ROOM AUDIO — ENTER SIGNAL FREQUENCY</div>
+    <div class="uhint">The frequency appears in the text thread on this page. The unknown sender referenced it directly. What number did they send?</div>
+    <div class="urow">
+      <input class="uinput" id="inp-harlow" type="text" placeholder="e.g. 000.0" autocomplete="off">
+      <button class="ubtn" onclick="checkHarlow()">SUBMIT</button>
     </div>
-    <div class="unlock-result" id="res-harlow"></div>
+    <div class="ures" id="res-harlow"></div>
   </div>
 </div>
 
-<!-- ═══ GHOST SIGNAL ═════════════════════════════ -->
+<!-- ═══ GHOST SIGNAL ═════════════════════════ -->
+
 <div class="panel" id="panel-signal">
-  <div class="case-hdr">
-    <div>
-      <div class="case-num">CASE #2024-0449 // SIGNALS INTELLIGENCE</div>
-      <div class="case-title" style="color:var(--accent-blue)">GHOST SIGNAL</div>
-      <div class="case-sub">Encrypted transmissions. Unknown origin. 11 intercepts over 3 months.</div>
-    </div>
-    <div class="case-tags">
-      <span class="tag">SIGNALS</span>
-      <span class="badge badge-active">ACTIVE</span>
-    </div>
+  <div class="cnum">CASE #2024-0449 // SIGNALS INTEL</div>
+  <div class="ctitle" style="color:var(--blue)">GHOST SIGNAL</div>
+  <div class="csub">11 encrypted transmissions. No traceable origin. The partial decode names a dead man and a conspiracy.</div>
+
+  <div class="srow"><div class="slbl">Intercepts</div><div class="sline"></div></div>
+
+  <div class="evcard cb" id="ev-s1" onmousedown="startPress('s1')" ontouchstart="startPress('s1')" onmouseup="endPress()" onmouseleave="endPress()" ontouchend="endPress()" ontouchcancel="endPress()">
+    <div class="evtype">Signal // Intercept 001 — Nov 13 // 03:00</div>
+    <div class="evtitle">Frequency: 147.3 MHz</div>
+    <div class="evdesc">4-minute burst. Partially decoded. Matches 10 prior intercepts across September and October.</div>
+    <div class="evreveal" id="reveal-s1">// SIGNAL METADATA — CLASSIFIED
+// Origin: 6-block radius, Harlow Hotel
+// Method: automated relay, rotates every 4 minutes
+// 147.3 is a STANDING CHANNEL — used in all 11 intercepts
+// This frequency also decrypts the Harlow room audio.
+// Same number. Two different uses. One operation.</div>
+    <div class="phint">HOLD TO REVEAL</div>
   </div>
 
-  <div class="sec-hdr"><div class="sec-title">Intercepts</div><div class="sec-line"></div></div>
-  <div class="evidence-grid">
-    <div class="ev-card blue">
-      <div class="ev-type">Signal // Intercept 001</div>
-      <div class="ev-title">Frequency: 147.3 MHz</div>
-      <div class="ev-desc">Detected Nov 13 at 03:00. 4-minute burst. Encoded. Pattern matches 10 prior intercepts across Sept and Oct.</div>
-    </div>
-    <div class="ev-card blue">
-      <div class="ev-type">Analysis // Item 002</div>
-      <div class="ev-title">Pattern — "LEDGER" Sequence</div>
-      <div class="ev-desc">The word "LEDGER" appears 7 times across all decoded fragments. Possible operation codename. Paired with another word — [REDACTED].</div>
-    </div>
-    <div class="ev-card blue">
-      <div class="ev-type">Technical // Item 003</div>
-      <div class="ev-title">Triangulated Origin</div>
-      <div class="ev-desc">Best estimate: broadcast originates within 6 blocks of the Harlow Hotel. Automated relay system — rotates transmit points every 4 minutes.</div>
-    </div>
-    <div class="ev-card blue locked">
-      <div class="ev-type">Document // Item 004</div>
-      <div class="ev-title">Full Decode — [LOCKED]</div>
-      <div class="ev-desc">Complete decode requires LEDGER access key found in the Redline case. The codename unlocks this file.</div>
-      <div class="ev-lock">🔒</div>
-    </div>
+  <div class="evcard cb">
+    <div class="evtype">Analysis // Item 002</div>
+    <div class="evtitle">Recurring Codename</div>
+    <div class="evdesc">"LEDGER" appears 7 times across all decoded fragments, always preceded by "PHANTOM." Likely an operation name — two words total.</div>
   </div>
 
-  <div class="sec-hdr"><div class="sec-title">Decoded Fragment — Intercept 001</div><div class="sec-line"></div></div>
-  <div class="terminal">
-    <span class="muted">// PARTIAL DECODE — NOV 13 // 03:00:11</span><br>
-    &gt; ...PHANTOM [REDACTED] CONFIRMED...<br>
-    &gt; ...TRANSFER WINDOW [REDACTED] HOURS REMAINING...<br>
-    &gt; ...REEVE KNOWS TOO MUCH. HE HAS THE LEDGER...<br>
-    &gt; ...[REDACTED] HARLOW. ROOM [REDACTED]...<br>
-    &gt; ...VALE WILL HANDLE IT. TONIGHT...<br>
-    &gt; ...[SIGNAL LOST]<br>
-    <span class="muted">// END FRAGMENT — FULL DECODE LOCKED</span>
+  <div class="srow"><div class="slbl">Partial Decode — Intercept 001</div><div class="sline"></div></div>
+  <div class="twrap">
+    <div class="tbar">
+      <div class="tdot"><span style="background:#ef4444"></span><span style="background:#f59e0b"></span><span style="background:#10b981"></span></div>
+      NEXUS DECODER // PARTIAL OUTPUT
+    </div>
+    <div class="tout">
+<span class="tm">// NOV 13 // 03:00:11 — 147.3 MHz
+// PARTIAL DECODE — 63% RECOVERED
+</span>
+&gt; ...PHANTOM [REDACTED] CONFIRMED...
+&gt; ...TRANSFER WINDOW — [REDACTED] HRS REMAINING...
+&gt; ...<span class="tr">REEVE KNOWS TOO MUCH. HE HAS THE LEDGER.</span>..
+&gt; ...[REDACTED] HARLOW. ROOM [REDACTED]...
+&gt; ...<span class="ta">VALE WILL HANDLE IT. TONIGHT.</span>...
+&gt; ...[SIGNAL LOST]
+
+<span class="tm">// FULL DECODE: LOCKED
+// Requires operation codename — find it in Redline.</span></div>
+
   </div>
 
-  <div class="info-block">
-    <div class="note">// ANALYST NOTE</div>
-    <p>The name "VALE" recurs in 4 of 11 intercepts. Not a registered individual in any database. The transmissions pre-date the Harlow incident — suggesting this was planned. The frequency 147.3 MHz appears to be a standing channel for this operation. Cross-reference with Harlow keycard log timestamps.</p>
+  <div class="iblock">
+    <div class="inote">// ANALYST NOTE</div>
+    <p>"VALE" appears in 4 of 11 intercepts. Not registered anywhere. The transmissions <em>pre-date</em> the Harlow incident — this was planned in advance. Cross-reference the frequency 147.3 with Harlow keycard timestamps and the recovered text messages.</p>
   </div>
 </div>
 
-<!-- ═══ THE HOLLOW ════════════════════════════════ -->
+<!-- ═══ THE HOLLOW ════════════════════════════ -->
+
 <div class="panel" id="panel-hollow">
-  <div class="case-hdr">
-    <div>
-      <div class="case-num">CASE #2024-0453 // MISSING PERSONS</div>
-      <div class="case-title" style="color:var(--accent-green)">THE HOLLOW</div>
-      <div class="case-sub">City auditor. Gone. Her report was buried. So was she.</div>
+  <div class="cnum">CASE #2024-0453 // MISSING PERSONS</div>
+  <div class="ctitle" style="color:var(--green)">THE HOLLOW</div>
+  <div class="csub">She filed the report that would have exposed everything. Eight days later, she was gone.</div>
+
+  <div class="srow"><div class="slbl">Evidence</div><div class="sline"></div></div>
+
+  <div class="evcard cg" id="ev-ho1" onmousedown="startPress('ho1')" ontouchstart="startPress('ho1')" onmouseup="endPress()" onmouseleave="endPress()" ontouchend="endPress()" ontouchcancel="endPress()">
+    <div class="evtype">Document // Item 001</div>
+    <div class="evtitle">Missing Person — Elena Marsh</div>
+    <div class="evdesc">City auditor, 34. Filed a financial discrepancy report Nov 4. Report suppressed same day. Disappeared Nov 12 — 8 days later.</div>
+    <div class="evreveal" id="reveal-ho1">// MARSH'S PERSONAL NOTES — FOUND IN VEHICLE
+// "The account ref is 0x4F2A9C1D. Routes through
+//  Crestview Capital. The signatory calls himself VALE.
+//  Nobody at the dept will listen. I'm going to Marcus
+//  Reeve — he works there. He'll know the structure."
+// She was going to Reeve. They were both onto VALE
+// at the exact same time.</div>
+    <div class="phint">HOLD TO REVEAL</div>
+  </div>
+
+  <div class="evcard cg">
+    <div class="evtype">Physical // Item 002</div>
+    <div class="evtitle">Vehicle — Kellerman Parking Garage</div>
+    <div class="evdesc">Found Nov 13 — same night Reeve was killed. Two blocks from the Harlow Hotel. Phone and personal items still inside. No signs of struggle.</div>
+  </div>
+
+  <div class="evcard cg locked" id="hollow-locked">
+    <div class="evtype">Document // Item 003</div>
+    <div class="evtitle">Suppressed Audit Report — [LOCKED]</div>
+    <div class="evdesc">Filed Nov 4. Suppressed within hours. Unlocks when VALE's identity is confirmed in the Redline case.</div>
+    <div class="evlock">🔒</div>
+  </div>
+
+  <div class="srow"><div class="slbl">Intercepted Voicemail</div><div class="sline"></div></div>
+  <div class="smsthread">
+    <div class="smshdr">
+      <div class="smsav">EM</div>
+      <div>
+        <div class="smsname">Elena Marsh</div>
+        <div class="smsnum">Voicemail transcription — Nov 11 // 19:42</div>
+      </div>
     </div>
-    <div class="case-tags">
-      <span class="tag">MISSING PERSONS</span>
-      <span class="badge badge-cold">COLD</span>
+    <div class="smsbody">
+      <div class="smsmsg">
+        <div class="smsbub">"This is Elena Marsh, city auditor, badge 4471. If anyone finds this — the account is 0x4F2A9C1D. Look at Crestview Capital. The name on every transfer is VALE. My report was buried by someone inside the department. I don't feel safe. I'm going to—"</div>
+        <div class="smstime">[RECORDING CUTS — Nov 11 / 19:42]</div>
+      </div>
     </div>
   </div>
 
-  <div class="sec-hdr"><div class="sec-title">Evidence</div><div class="sec-line"></div></div>
-  <div class="evidence-grid">
-    <div class="ev-card green">
-      <div class="ev-type">Document // Item 001</div>
-      <div class="ev-title">Missing Person — Elena Marsh</div>
-      <div class="ev-desc">City auditor, 34. Filed a financial discrepancy report internally on Nov 4. Report suppressed same day. Disappeared Nov 12 — 8 days later.</div>
-    </div>
-    <div class="ev-card green">
-      <div class="ev-type">Physical // Item 002</div>
-      <div class="ev-title">Vehicle — Abandoned, Downtown</div>
-      <div class="ev-desc">Found at Kellerman Parking Garage, Nov 13. Two blocks from the Harlow Hotel. Personal items and phone still inside. No signs of struggle.</div>
-    </div>
-    <div class="ev-card green locked">
-      <div class="ev-type">Document // Item 003</div>
-      <div class="ev-title">Suppressed Audit Report — [LOCKED]</div>
-      <div class="ev-desc">Filed Nov 4. Suppressed by department director within hours. Content classified. Tied to an account reference that appears elsewhere in these cases.</div>
-      <div class="ev-lock">🔒</div>
-    </div>
-  </div>
-
-  <div class="info-block">
-    <div class="note">// INVESTIGATOR NOTE — INTERNAL</div>
-    <p>Elena Marsh's suppressed audit targeted an account reference beginning with <strong style="color:var(--accent-amber)">0x4F2A...</strong> — the rest is truncated in our system. Full account number is restricted to department rank 6 and above through official channels.</p>
-    <br>
-    <p style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-muted)">// There may be another way to find it. The full reference appears somewhere else on this page — if you know where to look. Dev tools can see things the interface hides.</p>
-  </div>
-
-  <div class="sec-hdr"><div class="sec-title">Timeline</div><div class="sec-line"></div></div>
+  <div class="srow"><div class="slbl">Timeline</div><div class="sline"></div></div>
   <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-time">NOV 4 // 09:12</div>
-      <div class="tl-event">Elena Marsh files internal financial discrepancy report targeting account 0x4F2A... [TRUNCATED]. Report flagged for supervisor review.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 4 // 11:47</div>
-      <div class="tl-event">Report suppressed. Access restricted. No reason logged. Marsh notified her report was "under review."</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 12 // LAST KNOWN</div>
-      <div class="tl-event">Elena Marsh last seen leaving her office. Did not arrive home. No calls. No messages after 18:30.</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-time">NOV 13 // 07:44</div>
-      <div class="tl-event">Vehicle found at Kellerman Garage. Two blocks from Harlow Hotel — same night Marcus Reeve was killed.</div>
-    </div>
+    <div class="tli"><div class="tlt">NOV 4 // 09:12</div><div class="tle">Marsh files discrepancy report targeting account 0x4F2A9C1D.</div></div>
+    <div class="tli"><div class="tlt">NOV 4 // 11:47</div><div class="tle">Report suppressed. Access restricted department-wide. No reason logged.</div></div>
+    <div class="tli"><div class="tlt">NOV 11 // 19:42</div><div class="tle">Voicemail recorded. She was already afraid.</div></div>
+    <div class="tli"><div class="tlt">NOV 12 // 18:30</div><div class="tle">Last seen leaving her office. Never arrives home.</div></div>
+    <div class="tli"><div class="tlt">NOV 13 // 07:44</div><div class="tle">Vehicle found at Kellerman Garage — same night as Harlow incident, two blocks away.</div></div>
   </div>
 </div>
 
-<!-- ═══ REDLINE ════════════════════════════════════ -->
+<!-- ═══ REDLINE ════════════════════════════════ -->
+
 <div class="panel" id="panel-redline">
-  <div class="case-hdr">
-    <div>
-      <div class="case-num">CASE #2024-0461 // FINANCIAL CRIME</div>
-      <div class="case-title" style="color:var(--accent-amber)">REDLINE</div>
-      <div class="case-sub">$4.2M. 12 accounts. One name on every transfer. VALE.</div>
+  <div class="cnum">CASE #2024-0461 // FINANCIAL CRIME</div>
+  <div class="ctitle" style="color:var(--amber)">REDLINE</div>
+  <div class="csub">$4.2 million. 12 accounts. One signature on every transfer. VALE.</div>
+
+  <div class="srow"><div class="slbl">Financial Evidence</div><div class="sline"></div></div>
+
+  <div class="evcard ca">
+    <div class="evtype">Corporate // Item 001</div>
+    <div class="evtitle">Shell Entity — Crestview Capital LLC</div>
+    <div class="evdesc">Registered Delaware LLC. No physical office. Marcus Reeve listed as sole analyst — meaning he saw every transaction. Four sub-entities, all created within 12 months of each other.</div>
+  </div>
+
+  <div class="evcard ca" id="ev-r1" onmousedown="startPress('r1')" ontouchstart="startPress('r1')" onmouseup="endPress()" onmouseleave="endPress()" ontouchend="endPress()" ontouchcancel="endPress()">
+    <div class="evtype">Financial // Item 002</div>
+    <div class="evtitle">Transfer Logs — Partial</div>
+    <div class="evdesc">$4.2M moved across 12 accounts over 8 months. Terminal destination: account 0x4F2A9C1D. Signatory: VALE.</div>
+    <div class="evreveal" id="reveal-r1">// FORENSIC ACCOUNTING — CLASSIFIED
+// The LLC registration agent is a law firm on the 6th floor
+//   of City Hall — same floor as Municipal Finance Dept.
+// The LLC was registered 4 days after Elena Marsh joined
+//   the department.
+// Someone knew she'd eventually find it.
+// VALE has detailed inside knowledge of the audit schedule.</div>
+    <div class="phint">HOLD TO REVEAL</div>
+  </div>
+
+  <div class="evcard ca locked" id="vale-locked">
+    <div class="evtype">Identity // Item 003</div>
+    <div class="evtitle">VALE — True Identity — [LOCKED]</div>
+    <div class="evdesc">Enter the operation codename below. It appears in the Ghost Signal partial decode — and in the Harlow text thread.</div>
+    <div class="evlock">🔒</div>
+  </div>
+
+  <div class="srow"><div class="slbl">NEXUS Terminal</div><div class="sline"></div></div>
+  <div class="twrap">
+    <div class="tbar">
+      <div class="tdot"><span style="background:#ef4444"></span><span style="background:#f59e0b"></span><span style="background:#10b981"></span></div>
+      NEXUS SECURE TERMINAL
     </div>
-    <div class="case-tags">
-      <span class="tag">FINANCIAL</span>
-      <span class="badge badge-active">ACTIVE</span>
+    <div class="tout" id="term-output"><span class="tm">// NEXUS TERMINAL READY
+// Type 'help' for available commands.</span>
+</div>
+    <div class="tinrow">
+      <span class="tprompt">&gt;&nbsp;</span>
+      <input class="tinput" id="term-input" type="text" placeholder="enter command..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="trun" onclick="runTerminal()">RUN</button>
     </div>
   </div>
 
-  <div class="sec-hdr"><div class="sec-title">Financial Evidence</div><div class="sec-line"></div></div>
-  <div class="evidence-grid">
-    <div class="ev-card amber">
-      <div class="ev-type">Corporate // Item 001</div>
-      <div class="ev-title">Shell Entity — Crestview Capital</div>
-      <div class="ev-desc">Registered Delaware LLC. No physical office. Marcus Reeve listed as sole analyst. Four sub-entities. All registered within 12 months of each other.</div>
+  <div class="ubox">
+    <div class="ulbl">// ENTER OPERATION CODENAME — TWO WORDS</div>
+    <div class="uhint">Look at the Ghost Signal intercept decode. The codename appears at the top — two words, always together. Also referenced in the Harlow text thread.</div>
+    <div class="urow">
+      <input class="uinput" id="inp-redline" type="text" placeholder="OPERATION NAME..." autocomplete="off">
+      <button class="ubtn" onclick="checkRedline()">SUBMIT</button>
     </div>
-    <div class="ev-card amber">
-      <div class="ev-type">Financial // Item 002</div>
-      <div class="ev-title">Transfer Logs — Partial</div>
-      <div class="ev-desc">$4.2M moved across 12 accounts over 8 months. Terminal destination: account reference 0x4F2A9C1D. Signatory on every transfer: VALE.</div>
-    </div>
-    <div class="ev-card amber">
-      <div class="ev-type">Identity // Item 003</div>
-      <div class="ev-title">Alias — "VALE"</div>
-      <div class="ev-desc">Appears on 7 authorization records. Not a registered individual in any business filing. Must be an alias. Cross-reference with Ghost Signal intercepts.</div>
-    </div>
-    <div class="ev-card amber locked">
-      <div class="ev-type">Identity // Item 004</div>
-      <div class="ev-title">VALE — True Identity — [LOCKED]</div>
-      <div class="ev-desc">Requires operation codename to unlock. The codename is buried in this page. Look in the source — not in what's displayed.</div>
-      <div class="ev-lock">🔒</div>
-    </div>
-  </div>
-
-  <div class="unlock-box" style="border-color:rgba(245,158,11,0.25)">
-    <div class="unlock-lbl">// ENTER OPERATION CODENAME — FOUND IN PAGE SOURCE</div>
-    <div class="unlock-row">
-      <input class="unlock-input" id="inp-redline" type="text" placeholder="Operation codename...">
-      <button class="unlock-btn" onclick="checkRedline()">SUBMIT</button>
-    </div>
-    <div class="unlock-result" id="res-redline"></div>
+    <div class="ures" id="res-redline"></div>
   </div>
 </div>
-```
 
-  </main>
+<!-- MODAL -->
+
+<div class="moverlay" id="moverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeModal()">✕</button>
+    <div id="mcontent"></div>
+  </div>
 </div>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bnav">
+  <button class="nbtn active" id="nav-overview" onclick="showPanel('overview')">
+    <span class="nico">⬡</span><span class="nlbl">Overview</span>
+  </button>
+  <button class="nbtn" id="nav-harlow" onclick="showPanel('harlow')">
+    <span class="nico">◉</span><span class="nlbl">Harlow</span>
+    <span class="npip" style="background:var(--red)"></span>
+  </button>
+  <button class="nbtn" id="nav-signal" onclick="showPanel('signal')">
+    <span class="nico">◈</span><span class="nlbl">Signal</span>
+    <span class="npip" style="background:var(--blue)"></span>
+  </button>
+  <button class="nbtn" id="nav-hollow" onclick="showPanel('hollow')">
+    <span class="nico">◇</span><span class="nlbl">Hollow</span>
+    <span class="npip" style="background:var(--green)"></span>
+  </button>
+  <button class="nbtn" id="nav-redline" onclick="showPanel('redline')">
+    <span class="nico">▲</span><span class="nlbl">Redline</span>
+    <span class="npip" style="background:var(--amber)"></span>
+  </button>
+</nav>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// NEXUS INVESTIGATION SYSTEM — AGENT RW-7734
-// ═══════════════════════════════════════════════════════════
+let progress = 8, cluesFound = [], pressTimer = null, logoTaps = 0, logoTimer = null;
 
-const NEXUS = {
-  version: '2.1.4',
-  agent: 'RW-7734',
-  cluesFound: [],
-  progress: 8,
-
-  // ── HINT SYSTEM (callable from console) ──────────────
-  unlock: function(target) {
-    const hints = {
-      harlow: `
-╔─────────────────────────────────────────╗
-│  NEXUS HINT // THE HARLOW               │
-├─────────────────────────────────────────┤
-│  The frequency was Reeve's dead drop.   │
-│  It's hidden on the page in two places. │
-│                                         │
-│  Try in the browser console:            │
-│  document.getElementById(               │
-│    'hidden-alpha').dataset              │
-│                                         │
-│  Also check: View Source (Ctrl+U)       │
-│  Look for HTML comments at the top.     │
-╚─────────────────────────────────────────╝`,
-      signal: `
-╔─────────────────────────────────────────╗
-│  NEXUS HINT // GHOST SIGNAL             │
-├─────────────────────────────────────────┤
-│  The intercept fragment is your guide.  │
-│  147.3 MHz is referenced across         │
-│  multiple evidence items.               │
-│                                         │
-│  That frequency IS the key to unlock    │
-│  the Harlow audio recording.            │
-╚─────────────────────────────────────────╝`,
-      hollow: `
-╔─────────────────────────────────────────╗
-│  NEXUS HINT // THE HOLLOW               │
-├─────────────────────────────────────────┤
-│  Elena Marsh's audit account ref is     │
-│  partially redacted in the visible UI.  │
-│  The full reference — 0x4F2A9C1D —      │
-│  exists in THREE hidden locations.      │
-│                                         │
-│  Check localStorage:                    │
-│  JSON.parse(                            │
-│    localStorage.getItem(                │
-│      'nexus_account_ref'))              │
-│                                         │
-│  Also inspect #hidden-alpha attributes  │
-│  and #cipher-span in the DOM.           │
-╚─────────────────────────────────────────╝`,
-      redline: `
-╔─────────────────────────────────────────╗
-│  NEXUS HINT // REDLINE                  │
-├─────────────────────────────────────────┤
-│  VALE's operation has a codename.       │
-│  It appears in the HTML source          │
-│  as a comment near the top of the page. │
-│                                         │
-│  In Chrome: Ctrl+U (View Source)        │
-│  Search for: CODENAME or PHANTOM        │
-│                                         │
-│  The answer is two words.               │
-╚─────────────────────────────────────────╝`
-    };
-    const h = hints[target];
-    if (h) {
-      console.log('%c' + h, 'color:#10b981;font-family:monospace;font-size:11px;white-space:pre');
-      return '↑ Hint delivered above.';
-    }
-    return 'Unknown target. Try: NEXUS.unlock("harlow") | "signal" | "hollow" | "redline"';
-  },
-
-  status: function() {
-    console.log(`%c
-╔══════════════════════════════════════════════╗
-║   NEXUS // INVESTIGATION SYSTEM              ║
-╠══════════════════════════════════════════════╣
-║   Agent:          RW-7734                    ║
-║   Clearance:      LEVEL 3                    ║
-║   Active Cases:   4                          ║
-║   Clues Found:    ${String(NEXUS.cluesFound.length).padEnd(3)} / 8                   ║
-║   Case Progress:  ${String(NEXUS.progress).padEnd(3)}%                        ║
-╠══════════════════════════════════════════════╣
-║   AVAILABLE COMMANDS:                        ║
-║   NEXUS.unlock("harlow")                     ║
-║   NEXUS.unlock("signal")                     ║
-║   NEXUS.unlock("hollow")                     ║
-║   NEXUS.unlock("redline")                    ║
-║   NEXUS.scan()                               ║
-║   NEXUS.inspect()                            ║
-╚══════════════════════════════════════════════╝
-`, 'color:#f59e0b;font-family:monospace;font-size:11px;white-space:pre');
-  },
-
-  scan: function() {
-    console.log('%c[NEXUS SCAN] Scanning DOM for concealed elements...', 'color:#3b82f6;font-family:monospace;font-size:11px');
-    setTimeout(() => {
-      const hidden = document.querySelectorAll('#hidden-alpha, #cipher-span, [style*="display:none"], [style*="visibility:hidden"]');
-      console.log(`%c[SCAN COMPLETE] ${hidden.length} concealed elements detected.`, 'color:#10b981;font-family:monospace;font-size:11px');
-      console.log('%c[TIP] Inspect each element for embedded data-attributes and text content.', 'color:#94a3b8;font-family:monospace;font-size:10px');
-      hidden.forEach((el, i) => {
-        console.log(`%c  Element ${i+1}: #${el.id || '(no id)'} | datasets: ${JSON.stringify(el.dataset)}`, 'color:#64748b;font-family:monospace;font-size:10px');
-      });
-    }, 900);
-  },
-
-  inspect: function() {
-    console.log('%c[NEXUS] Checking localStorage for case data...', 'color:#3b82f6;font-family:monospace;font-size:11px');
-    const keys = ['nexus_session', 'nexus_intercept_001', 'nexus_account_ref'];
-    keys.forEach(k => {
-      const val = localStorage.getItem(k);
-      if (val) {
-        console.log(`%c  ${k}:`, 'color:#f59e0b;font-family:monospace;font-size:10px');
-        console.log('%c  ' + JSON.stringify(JSON.parse(val), null, 2), 'color:#94a3b8;font-family:monospace;font-size:10px');
-      }
-    });
-    return 'localStorage inspection complete.';
-  }
-};
-
-window.NEXUS = NEXUS;
-
-// ── INIT ─────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  console.clear();
-
-  // Seed localStorage
-  localStorage.setItem('nexus_session', JSON.stringify({
-    agent: 'RW-7734',
-    clearance: 3,
-    operation: 'PHANTOM_LEDGER',
-    started: new Date().toISOString(),
-    note: 'Session active. Four threads open. Begin with the Harlow.'
-  }));
-
-  localStorage.setItem('nexus_intercept_001', JSON.stringify({
-    timestamp: '2024-11-13T03:00:11Z',
-    frequency_mhz: 147.3,
-    partial_decode: 'PHANTOM LEDGER ACTIVE. REEVE COMPROMISED. VALE AUTHORIZED REMOVAL.',
-    status: 'ENCRYPTED — FULL DECODE REQUIRES REDLINE CODENAME',
-    location_estimate: 'Within 6 blocks of Harlow Hotel',
-    note: 'This is Evidence Item 004 from Ghost Signal. Cross-reference with Harlow keycard timestamps.'
-  }));
-
-  localStorage.setItem('nexus_account_ref', JSON.stringify({
-    account_ref: '0x4F2A9C1D',
-    signatory: 'VALE',
-    linked_entity: 'Crestview Capital LLC',
-    flagged_by: 'Elena Marsh, City Auditor — Nov 4, 2024',
-    status: 'ACTIVE — TRANSFERS ONGOING',
-    note: 'This is the account Elena Marsh flagged. She disappeared 8 days after filing. This account reference appears in three hidden locations on the page.'
-  }));
-
-  // Console welcome sequence
-  console.log('%cNEXUS // CLASSIFIED INVESTIGATION SYSTEM', 'color:#f59e0b;font-size:15px;font-family:monospace;font-weight:bold');
-  console.log('%cBuild 2.1.4 — Agent RW-7734 — Session Initialized', 'color:#475569;font-family:monospace;font-size:10px');
-  console.log('%c──────────────────────────────────────────────', 'color:#1b2030;font-family:monospace');
-  console.log('%c⚠  INCOMING TRANSMISSION // 03:17:42', 'color:#ef4444;font-family:monospace;font-size:11px;font-weight:bold');
-  console.log('%c   "The ledger is split into four parts. Start at the Harlow.', 'color:#e2e8f0;font-family:monospace;font-size:11px;font-style:italic');
-  console.log('%c    Check the frequency. It\'s always 147.3. Find VALE."', 'color:#e2e8f0;font-family:monospace;font-size:11px;font-style:italic');
-  console.log('%c──────────────────────────────────────────────', 'color:#1b2030;font-family:monospace');
-  console.log('%cType NEXUS.status() to see available commands.', 'color:#10b981;font-family:monospace;font-size:11px');
-  console.log('%cType NEXUS.unlock("harlow") for your first hint.', 'color:#64748b;font-family:monospace;font-size:10px');
-});
-
-// ── NAVIGATION ───────────────────────────────────────────
-function showPanel(id, navEl) {
+// NAV
+function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-  const panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.add('active');
-  if (navEl) navEl.classList.add('active');
+  document.querySelectorAll('.nbtn').forEach(b => b.classList.remove('active'));
+  const p = document.getElementById('panel-' + id);
+  if (p) { p.classList.add('active'); window.scrollTo(0,0); }
+  const b = document.getElementById('nav-' + id);
+  if (b) b.classList.add('active');
 }
 
-// ── CLUE CHECKS ──────────────────────────────────────────
-function addClue(key, amount) {
-  if (!NEXUS.cluesFound.includes(key)) {
-    NEXUS.cluesFound.push(key);
-    NEXUS.progress = Math.min(100, NEXUS.progress + amount);
-    document.getElementById('prog-fill').style.width = NEXUS.progress + '%';
-    document.getElementById('pct-label').textContent = NEXUS.progress + '%';
-    document.getElementById('clue-counter').textContent = NEXUS.cluesFound.length + 2;
+// LONG PRESS
+function startPress(id) {
+  endPress();
+  pressTimer = setTimeout(() => {
+    const el = document.getElementById('reveal-' + id);
+    if (el && !el.classList.contains('show')) {
+      el.classList.add('show');
+      showToast('✦ HIDDEN DATA REVEALED');
+      addClue('reveal-' + id, 8);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+  }, 650);
+}
+function endPress() { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } }
+
+// LOGO SECRET (tap 7 times)
+function logoTap() {
+  logoTaps++;
+  if (logoTimer) clearTimeout(logoTimer);
+  logoTimer = setTimeout(() => { logoTaps = 0; }, 2200);
+  if (logoTaps === 3) showToast('Keep tapping...');
+  if (logoTaps === 7) {
+    logoTaps = 0;
+    openModal(`
+      <div class="mtitle" style="color:var(--amber)">SECRET HINT SYSTEM</div>
+      <div class="csub" style="margin-bottom:1rem">You found the hidden tap. Seven taps unlocks this.</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--green);line-height:2.2">
+        ◉ HARLOW: The frequency is in the text messages on this page. Look at what the unknown sender referenced.<br><br>
+        ◈ SIGNAL: The partial decode shows a codename — two words. Read the top line carefully.<br><br>
+        ◇ HOLLOW: Hold the Elena Marsh evidence card. Her own notes name the account and VALE directly.<br><br>
+        ▲ REDLINE: Use the codename from Ghost Signal as your unlock key. Also — open the terminal and type 'help'.
+      </div>
+    `);
+    addClue('logo-secret', 5);
   }
 }
 
+// TOAST
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// MODAL
+function openModal(html) {
+  document.getElementById('mcontent').innerHTML = html;
+  document.getElementById('moverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('moverlay')) {
+    document.getElementById('moverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+}
+
+// PROGRESS
+function addClue(key, pts) {
+  if (!cluesFound.includes(key)) {
+    cluesFound.push(key);
+    progress = Math.min(100, progress + pts);
+    document.getElementById('prog-fill').style.width = progress + '%';
+    document.getElementById('pct-label').textContent = progress + '%';
+    document.getElementById('clue-counter').textContent = cluesFound.length + 2;
+    saveProgress();
+  }
+}
+
+// HARLOW CHECK
 function checkHarlow() {
-  const raw = document.getElementById('inp-harlow').value.trim();
-  const val = raw.replace(/\s|MHz|mhz/gi, '');
+  const raw = document.getElementById('inp-harlow').value.trim().replace(/MHz|mhz|\s/gi,'');
   const res = document.getElementById('res-harlow');
   res.style.display = 'block';
+  if (raw === '147.3') {
+    res.className = 'ures ok';
+    res.textContent =
+`✓ FREQUENCY ACCEPTED — ROOM AUDIO DECRYPTED
 
-  if (val === '147.3') {
-    res.className = 'unlock-result ok';
-    res.innerHTML =
-      '✓ FREQUENCY ACCEPTED — ITEM 004 DECRYPTED\n\n' +
-      '"...you said it was clean, you said nobody would find out... ' +
-      'Vale, I have the whole ledger — every transfer, every account... ' +
-      'I\'m going to the press in the morning, I don\'t care anymore — ' +
-      '[STRUGGLE SOUNDS] [RECORDING ENDS]"\n\n' +
-      '// Cross-reference: localStorage item "nexus_intercept_001"\n' +
-      '// The name VALE now confirmed in Harlow audio. Move to Redline.';
+"...you said it was clean, you said nobody would
+find out... Vale, I have the whole ledger — every
+transfer, every account... I'm going to the press
+in the morning, I don't care anymore—"
+[STRUGGLE SOUNDS]
+[RECORDING ENDS]
+
+// VALE was in that room.
+// Cross-reference: The Hollow voicemail.
+// Same account. Same name. Move to Redline.`;
     addClue('harlow-freq', 22);
-    console.log('%c[NEXUS] Harlow audio decrypted. VALE confirmed at scene. The murder was authorized.', 'color:#10b981;font-family:monospace;font-size:11px');
+    showToast('✦ HARLOW AUDIO DECRYPTED');
   } else {
-    res.className = 'unlock-result err';
-    res.innerHTML = '✗ INVALID KEY — The frequency is embedded in this page. Open DevTools and explore.\n// Try: NEXUS.unlock("harlow")';
+    res.className = 'ures err';
+    res.textContent = '✗ INCORRECT\nThe frequency is in the text thread on this page. The unknown sender referenced a number. What was it?';
   }
 }
 
+// REDLINE CHECK
 function checkRedline() {
-  const raw = document.getElementById('inp-redline').value.trim().toUpperCase().replace(/\s+/g, '_');
+  const raw = document.getElementById('inp-redline').value.trim().toUpperCase().replace(/\s+/g,'_');
   const res = document.getElementById('res-redline');
   res.style.display = 'block';
+  if (['PHANTOM_LEDGER','PHANTOMLEDGER'].includes(raw)) {
+    res.className = 'ures ok';
+    res.textContent =
+`✓ CODENAME VERIFIED — VALE IDENTITY FILE ACCESSED
 
-  const valid = ['PHANTOM_LEDGER', 'PHANTOMLEDGER', 'PHANTOM LEDGER'.replace(' ','_')];
-  if (valid.includes(raw)) {
-    res.className = 'unlock-result ok';
-    res.innerHTML =
-      '✓ CODENAME VERIFIED — VALE IDENTITY FILE PARTIALLY DECRYPTED\n\n' +
-      '"VALE is an alias for a director-level official in the Municipal Finance Department, 6th floor. ' +
-      'Account 0x4F2A9C1D is linked to a personal LLC formed under a spouse\'s name. ' +
-      'Elena Marsh\'s audit would have surfaced the full chain. ' +
-      'Full identity confirmation requires completion of The Hollow thread."\n\n' +
-      '// VALE is real. The office protects them. Return to The Hollow — find the suppressed audit.';
+VALE is a director-level official in the Municipal
+Finance Department — 6th floor, City Hall.
+
+Account 0x4F2A9C1D is registered to a personal LLC
+formed under a spouse's name.
+
+Elena Marsh's audit would have exposed the full chain.
+She was removed before it could reach oversight.
+Marcus Reeve was building the same case from the
+inside. He was removed too.
+
+Full identity confirmation:
+>> Go to The Hollow — Item 003 is now unlocked.`;
     addClue('redline-codename', 25);
-    console.log('%c[NEXUS] PHANTOM LEDGER confirmed. VALE identity 70% resolved. The Hollow is the final key.', 'color:#10b981;font-family:monospace;font-size:11px');
+    showToast('✦ VALE — 70% IDENTIFIED');
+    // unlock Hollow item 3
+    const el = document.getElementById('hollow-locked');
+    if (el) {
+      el.classList.remove('locked');
+      el.querySelector('.evlock').textContent = '';
+      el.querySelector('.evdesc').textContent =
+        'Filed Nov 4. Suppressed by Director Carl Voss within 3 hours of submission. Voss — alias VALE — authorized $4.2M in municipal funds redirected through Crestview Capital over 8 months. Marsh identified the full account chain. She was removed before the report reached oversight. Her whereabouts remain unknown.';
+      el.querySelector('.evtitle').textContent = 'Suppressed Audit Report — DECRYPTED';
+    }
+    // unlock vale card
+    const vale = document.getElementById('vale-locked');
+    if (vale) {
+      vale.classList.remove('locked');
+      vale.querySelector('.evlock').textContent = '';
+      vale.querySelector('.evtitle').textContent = 'VALE — Director Carl Voss';
+      vale.querySelector('.evdesc').textContent =
+        'Director of Municipal Finance, 6th floor City Hall. 14 years in the department. Created Crestview Capital LLC through a proxy 4 days after Marsh was hired — anticipating eventual audit discovery. Authorized both Marsh\'s suppression and Reeve\'s removal. Whereabouts currently unknown. Warrant pending.';
+    }
   } else {
-    res.className = 'unlock-result err';
-    res.innerHTML = '✗ INCORRECT — The codename is in the HTML source. View Source in your browser (Ctrl+U).\n// Try: NEXUS.unlock("redline")';
+    res.className = 'ures err';
+    res.textContent = '✗ INCORRECT\nThe codename is two words. It appears at the very top of the Ghost Signal partial decode — before the first [REDACTED].';
   }
 }
+
+// TERMINAL
+const cmds = {
+  help:`AVAILABLE COMMANDS:
+  status      — case progress summary
+  suspects    — known persons of interest
+  accounts    — financial references
+  vale        — what we know about VALE
+  frequency   — signal data
+  scan        — forensic cross-reference scan
+  clear       — clear terminal`,
+  status:`NEXUS STATUS
+  Agent:       RW-7734
+  Cases Open:  4
+  Primary Target: VALE (alias)
+  Operation:   PHANTOM LEDGER
+  >> All four threads active and interconnected.`,
+  suspects:`PERSONS OF INTEREST:
+  1. VALE           — alias, unidentified (primary)
+  2. Marcus Reeve   — DECEASED / victim
+  3. Elena Marsh    — MISSING / city auditor
+  4. Dana Nouri     — witness, Harlow night manager
+  5. Carl Voss      — director, Municipal Finance [UNCONFIRMED]
+  6. Unknown "V"    — Harlow Room 1106 / 02:14 entry`,
+  accounts:`FINANCIAL REFERENCES:
+  Primary acct:  0x4F2A9C1D
+  Shell entity:  Crestview Capital LLC (Delaware)
+  Total moved:   $4,200,000 over 8 months
+  Signatory:     VALE
+  Status:        TRANSFERS ONGOING`,
+  vale:`TARGET: VALE
+  Status:    Alias — identity unconfirmed
+  Appears:   4 of 11 signal intercepts
+  Cleared:   Harlow Hotel staff-level access
+  Signatory: All Crestview transfers
+  Believed:  Municipal Finance Dept, 6F
+  >> Redline codename unlock reveals identity.`,
+  frequency:`FREQUENCY — 147.3 MHz
+  Intercepts:  11 (Sept — Nov)
+  Origin:      6-block radius, Harlow Hotel
+  Method:      automated relay, 4-min rotation
+  Last active: Nov 13 // 03:00:11
+  Status:      STANDING CHANNEL — still active
+  Dual use:    Also decrypts Harlow room audio.`,
+  scan:`RUNNING FORENSIC SCAN...
+[██████████████████░░] 90%
+>> Keycard log ↔ signal timestamp: MATCH at 02:14
+>> Marsh vehicle ↔ Harlow location: MATCH — 2 blocks
+>> Reeve employer ↔ target account: MATCH — Crestview
+>> "VALE" appears: intercepts, transfers, audio, texts
+[████████████████████] 100%
+COMPLETE — All four threads converge on one actor.`,
+  clear:'__CLEAR__'
+};
+
+function runTerminal() {
+  const input = document.getElementById('term-input');
+  const output = document.getElementById('term-output');
+  const cmd = input.value.trim().toLowerCase();
+  input.value = '';
+  if (!cmd) return;
+
+  const response = cmds[cmd];
+  if (response === '__CLEAR__') {
+    output.innerHTML = '<span class="tm">// Terminal cleared.</span>\n';
+    return;
+  }
+
+  const text = response || `Command not found: "${cmd}"\nType 'help' to see available commands.`;
+  const line = document.createElement('div');
+  line.style.cssText = 'border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
+  line.innerHTML = `<span class="ta">&gt; ${cmd}</span>\n<span style="color:${response ? 'var(--green)' : 'var(--red)'}">${text}</span>`;
+  output.appendChild(line);
+  output.scrollTop = output.scrollHeight;
+
+  if (cmd === 'scan') addClue('terminal-scan', 7);
+  if (cmd === 'vale') addClue('terminal-vale', 5);
+}
+
+document.getElementById('term-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runTerminal();
+});
+
+// SAVE/LOAD
+function saveProgress() {
+  localStorage.setItem('nexus_save', JSON.stringify({ progress, cluesFound }));
+}
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('nexus_save');
+  if (saved) {
+    const s = JSON.parse(saved);
+    progress = s.progress || 8;
+    cluesFound = s.cluesFound || [];
+    document.getElementById('prog-fill').style.width = progress + '%';
+    document.getElementById('pct-label').textContent = progress + '%';
+    document.getElementById('clue-counter').textContent = Math.max(2, cluesFound.length + 2);
+  }
+});
 </script>
 
 </body>
