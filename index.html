@@ -225,6 +225,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .stamp{display:inline-block;border:2px solid var(--red);color:var(--red);font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;padding:3px 10px;letter-spacing:3px;transform:rotate(-8deg);margin-bottom:1rem}
 .stamp.a{border-color:var(--amber);color:var(--amber);transform:rotate(-5deg)}
 .stamp.g{border-color:var(--green);color:var(--green);transform:rotate(3deg)}
+/* GATE LOCKS */
+.gate-lock{position:absolute;inset:0;background:rgba(9,9,12,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:4px;transition:opacity .4s ease}
+.gate-lock.unlocking{opacity:0;pointer-events:none}
+.gate-icon{font-size:1.4rem;margin-bottom:6px}
+.gate-lbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--muted);text-align:center;line-height:1.8}
+.gate-req{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--border2);margin-top:4px;text-align:center;line-height:1.6}
+.gate-unlock-flash{animation:gateFlash .6s ease forwards}
+@keyframes gateFlash{0%{background:rgba(16,185,129,.15)}100%{background:transparent}}
+
 
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
@@ -373,7 +382,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="doc-tap">OPEN ›</div>
   </div>
 
-  <div class="doccard cr" onclick="openDoc('hotel-registry')">
+  <div class="doccard cr" id="gate-hotel-registry" onclick="openDoc('hotel-registry')" style="position:relative">
+    <div class="gate-lock" id="lock-hotel-registry"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open Reeve's call log first.<br>Find the suspicious number.</div></div>
     <div class="doc-icon">🏨</div>
     <div class="doc-label">Physical // Item 003</div>
     <div class="doc-title">Harlow Hotel — Guest Registry</div>
@@ -381,7 +391,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="doc-tap">OPEN ›</div>
   </div>
 
-  <div class="doccard cr" onclick="openDoc('dispatch-log')">
+  <div class="doccard cr" id="gate-dispatch-log" onclick="openDoc('dispatch-log')" style="position:relative">
+    <div class="gate-lock" id="lock-dispatch-log"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open the hotel registry first.<br>Find who else was in the building.</div></div>
     <div class="doc-new">NEW</div>
     <div class="doc-icon">🚨</div>
     <div class="doc-label">Police // Item 004 — 911 Records</div>
@@ -531,7 +542,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="doc-tap">OPEN ›</div>
   </div>
 
-  <div class="doccard cg" onclick="openDoc('marsh-calendar')">
+  <div class="doccard cg" id="gate-marsh-calendar" onclick="openDoc('marsh-calendar')" style="position:relative">
+    <div class="gate-lock" id="lock-marsh-calendar"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open the bank records first.<br>Find who blocked the transfer.</div></div>
     <div class="doc-icon">📅</div>
     <div class="doc-label">Personal // Item 003</div>
     <div class="doc-title">Elena Marsh — Work Calendar</div>
@@ -582,7 +594,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="evdesc">Delaware LLC. No office. Marcus Reeve was sole analyst — he saw every transfer and eventually knew what it meant. Four sub-entities. All created within 12 months of each other.</div>
   </div>
 
-  <div class="doccard ca" onclick="openDoc('crestview-contacts')">
+  <div class="doccard ca" id="gate-crestview-contacts" onclick="openDoc('crestview-contacts')" style="position:relative">
+    <div class="gate-lock" id="lock-crestview-contacts"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open Reeve's call log in The Harlow.<br>Find the 02:09 number first.</div></div>
     <div class="doc-new">TAP</div>
     <div class="doc-icon">📋</div>
     <div class="doc-label">Corporate // Item 002</div>
@@ -614,7 +627,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="ures" id="res-codename"></div>
   </div>
 
-  <div class="ubox" style="margin-top:.75rem;border-color:rgba(239,68,68,.3)">
+  <div class="ubox" id="suspect-box" style="margin-top:.75rem;border-color:rgba(239,68,68,.3);display:none">
     <div class="ulbl" style="color:var(--red)">// IDENTIFY THE SUSPECT — FULL NAME</div>
     <div class="uhint">A name surfaces in the hotel registry, the bank denial, and the Crestview contact list. One number connects three cases. Rose needs the name.</div>
     <div class="urow"><input class="uinput" id="inp-suspect" type="text" placeholder="FIRST LAST" autocomplete="off" style="border-color:rgba(239,68,68,.3)"><button class="ubtn" onclick="checkSuspect()" style="background:var(--red)">ACCUSE</button></div>
@@ -655,6 +668,7 @@ function addClue(key,pts,bannerId,noteText){
   if(bannerId){const b=document.getElementById(bannerId);if(b)b.classList.add('show');}
   if(noteText)addRoseNote(noteText);
   saveProgress();
+  checkGates();
 }
 
 function addRoseNote(text){
@@ -1106,6 +1120,38 @@ const DOCS={
   }}
 };
 
+
+// ── GATE SYSTEM ────────────────────────
+function checkGates(){
+  // Hotel registry: unlocks after phone records
+  if(cluesFound.includes('phone-opened')) unlockGate('hotel-registry');
+  // 911 dispatch: unlocks after hotel registry
+  if(cluesFound.includes('hotel-opened')) unlockGate('dispatch-log');
+  // Calendar: unlocks after bank records
+  if(cluesFound.includes('bank-opened')) unlockGate('marsh-calendar');
+  // Crestview contacts: unlocks after phone records
+  if(cluesFound.includes('phone-opened')) unlockGate('crestview-contacts');
+  // Suspect box: unlocks after codename verified
+  if(cluesFound.includes('codename')){
+    const sb=document.getElementById('suspect-box');
+    if(sb&&sb.style.display==='none'){
+      sb.style.display='block';
+      sb.style.animation='gateFlash .6s ease';
+      showToast('✦ SUSPECT ACCUSATION UNLOCKED','warn');
+    }
+  }
+}
+
+function unlockGate(id){
+  const lock=document.getElementById('lock-'+id);
+  if(lock&&!lock.classList.contains('unlocking')){
+    lock.classList.add('unlocking');
+    const card=document.getElementById('gate-'+id);
+    if(card)card.classList.add('gate-unlock-flash');
+    setTimeout(()=>{if(lock)lock.remove();},500);
+  }
+}
+
 // ── HARLOW UNLOCK ──────────────────────
 function checkHarlow(){
   const raw=document.getElementById('inp-harlow').value.trim().replace(/MHz|mhz|\s/gi,'');
@@ -1227,6 +1273,7 @@ window.addEventListener('load',()=>{
       const bm={'phone-opened':'clue-harlow-phone','hotel-opened':'clue-harlow-hotel','dispatch-opened':'clue-harlow-911','audio-siren':'clue-harlow-audio','bank-opened':'clue-hollow-bank','cal-opened':'clue-hollow-cal','email-unlocked':'clue-hollow-email','contacts-opened':'clue-redline-contact'};
       Object.entries(bm).forEach(([k,bid])=>{if(cluesFound.includes(k)){const b=document.getElementById(bid);if(b)b.classList.add('show');}});
       if(cluesFound.includes('email-unlocked')){const c=document.getElementById('marsh-email-card');if(c)c.style.display='block';}
+      checkGates();
     }catch(e){}
   }
 });
