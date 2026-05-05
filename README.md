@@ -1,106 +1,82 @@
 # NEXUS // Case Files
 
-### Interactive Detective Mystery — Browser Dev Tools Game
+### Detective Elaine Rose — Interactive Mystery Game
 
 -----
 
 ## What This Is
 
-NEXUS is a locally-hosted interactive mystery game where players investigate four open criminal cases that all connect to a single conspiracy. The twist: **clues are hidden using real browser developer tools mechanics** — players must inspect page source, check the console, examine DOM elements, read localStorage, and use the Elements inspector to uncover evidence the UI deliberately conceals.
+NEXUS is a mobile-first interactive detective mystery game. You play as **Detective Elaine Rose** of the Nexus Financial Crimes Unit, investigating four interconnected cases that all lead to a single conspiracy — and a killer hiding in plain sight.
+
+Designed for **iPhone/mobile**. Runs entirely in your browser. No app. No install.
 
 -----
 
-## How to Run
+## How to Play
 
-1. Clone this repo
-1. Open `index.html` directly in Chrome (double-click or drag into browser)
-1. No server needed — runs entirely in the browser
+Open in Safari or Chrome on your phone:
 
------
-
-## Current Cases
-
-|Case        |Status|Theme                            |
-|------------|------|---------------------------------|
-|The Harlow  |OPEN  |Staged murder at a downtown hotel|
-|Ghost Signal|ACTIVE|Encrypted radio transmissions    |
-|The Hollow  |COLD  |Missing city auditor             |
-|Redline     |ACTIVE|Shell company & financial crime  |
-
-All four cases are connected. The conspiracy centers on a single alias: **VALE**.
+**[cappsryanw-prog.github.io/Nexus/](https://cappsryanw-prog.github.io/Nexus/)**
 
 -----
 
-## Dev Tools Mechanics (Spoilers for Builders)
+## The Four Cases
 
-The game hides clues in the following locations — add more as you expand:
+|Case        |Type                |Status|
+|------------|--------------------|------|
+|The Harlow  |Homicide            |OPEN  |
+|Ghost Signal|Signals Intelligence|ACTIVE|
+|The Hollow  |Missing Persons     |COLD  |
+|Redline     |Financial Crime     |ACTIVE|
 
-- **HTML comments** — top of `<head>` and throughout body
-- **DOM data-attributes** — `#hidden-alpha` element, hidden via `display:none`
-- **CSS comments** — inside `<style>` blocks
-- **localStorage** — seeded on page load with case data
-- **Console messages** — transmission plays on load; hint system via `NEXUS.*` commands
-- **Invisible text** — `#cipher-span` with `visibility:hidden`, inspectable in Elements panel
-- **`window.NEXUS` object** — accessible from DevTools console with commands:
-  - `NEXUS.status()` — shows progress and available commands
-  - `NEXUS.unlock("harlow")` — hint for Harlow case
-  - `NEXUS.unlock("signal")` — hint for Ghost Signal
-  - `NEXUS.unlock("hollow")` — hint for The Hollow
-  - `NEXUS.unlock("redline")` — hint for Redline
-  - `NEXUS.scan()` — scans DOM for hidden elements
-  - `NEXUS.inspect()` — dumps localStorage case data
+All four cases connect. Evidence from one unlocks leads in another.
 
 -----
 
-## How to Expand
+## Investigation Flow
 
-### Adding a New Case
+Cases are gated — you earn each document in order:
 
-1. Add a new nav item in the sidebar with a color-coded dot
-1. Add a new `.panel` div with ID `panel-[casename]`
-1. Add evidence cards, suspects, timeline entries
-1. Add locked evidence that requires a clue from another case
-1. Seed new `localStorage` items in the `window.addEventListener('load')` block
-1. Add new HTML comments, data-attributes, or hidden elements as clue sources
-1. Add a new entry to `NEXUS.unlock()` hints
+- **Call Log** → always available, start here
+- **Hotel Registry** → unlocks after call log
+- **911 Dispatch Log** → unlocks after hotel registry
+- **Marsh Calendar** → unlocks after bank records
+- **Crestview Contacts** → unlocks after call log
+- **Suspect Accusation Box** → hidden until codename verified
 
-### Adding Clue Unlock Mechanics
-
-- Password input boxes (like the existing ones) tied to `checkX()` functions
-- Console-only unlocks (players must type a specific `NEXUS.*` command)
-- Hidden links that only appear when inspecting a specific element
-- CSS `:hover` reveals — content visible only by toggling element styles in inspector
-
-### Adding the Endgame
-
-When all cases are connected, reveal VALE’s true identity. Options:
-
-- A final panel that only unlocks after all clue keys are collected
-- A special `NEXUS.resolve()` console command that triggers the reveal
-- A hidden page (`/vault.html`) referenced only in decrypted evidence
+Cross-reference evidence across all four cases to name the suspect. Nothing hands you the answer.
 
 -----
 
-## File Structure
+## Hidden Mechanics
 
-```
-nexus/
-├── index.html       ← Main game (all cases, all mechanics)
-├── README.md        ← This file
-└── (future)
-    ├── vault.html   ← Endgame reveal page
-    ├── assets/      ← Images, audio files
-    └── cases/       ← Individual case pages if splitting out
-```
+- Tap document cards to open full scrollable records — call logs, hotel registries, bank statements, contact lists
+- Tap the NEXUS logo 7 times for Rose’s hint system
+- Progress saves automatically — close the browser and come back right where you left off
+- The room audio contains a background sound clue that connects two separate cases
+- Encrypted threats arrive from the suspect as the investigation deepens
+- A key witness is not who they first appear to be
+- The case ends on a cliffhanger — Phase Two is waiting
 
 -----
 
-## Roadmap Ideas
+## The Story
 
-- [ ] Add audio file clue (requires frequency key to “tune in”)
-- [ ] Add a fake login portal as a red herring
-- [ ] Create `vault.html` — the endgame page that reveals VALE
-- [ ] Add a second conspirator thread after VALE is unmasked
-- [ ] Mobile-responsive sidebar (hamburger menu)
-- [ ] Save clue progress to localStorage so game persists across sessions
-- [ ] Add a “New Game” reset button
+Marcus Reeve was found dead in Room 1106 of the Harlow Hotel on November 14. Scene staged. Two ghost keycards. No exits logged. Official ruling: suicide. Rose doesn’t buy it.
+
+City auditor Elena Marsh filed a financial discrepancy report November 4 and vanished eight days later. Her car turned up two blocks from the Harlow — same night Reeve died.
+
+Encrypted transmissions on 147.3 MHz name both victims. And $4.2M has moved through 12 untraceable accounts, signed every time by one alias: **VALE**.
+
+Four threads. One conspiracy. Rose is on it.
+
+-----
+
+## Phase Status
+
+- ✅ Phase One — Operation PHANTOM LEDGER
+- 🔒 Phase Two — The Alderman / The Fixer *(in development)*
+
+-----
+
+*Built with HTML / CSS / JavaScript — single file, no frameworks, runs in any mobile browser.*
