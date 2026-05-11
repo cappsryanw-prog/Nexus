@@ -3,1444 +3,1070 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>NEXUS // Detective Rose</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Detective Academy — Mystery Case Files</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║   🕵️ MYSTERY CONFIG — EDIT YOUR OWN STORY HERE!   ║
+     ╚══════════════════════════════════════════════════════╝
+     Change these values to create a brand new mystery!
+     You can change the names, place, and who did it.     -->
+<script>
+const STORY = {
+  title: "The Case of the Missing Golden Trophy",
+  subtitle: "Someone took it — can YOU find out who?",
+  setting: "Maplewood Elementary School",
+  date: "Friday, October 18th",
+  what_happened: "The Golden Science Fair Trophy has vanished from the display case! The awards ceremony is TOMORROW and nobody knows where it went. Principal Hughes needs YOUR help to crack the case!",
+  culprit: "alex",   // "alex" or "sam" or "coach" — must match a suspect id below
+  suspects: [
+    {
+      id: "alex",
+      name: "Alex Kim",
+      age: 11,
+      role: "Science Club President",
+      emoji: "🧪",
+      color: "purple",
+      motive: "Came in 2nd place last year and really, REALLY wanted to win.",
+      alibi: "Says they were at home all evening studying.",
+      guilty_detail: "Alex was spotted near the trophy case at 8pm and has a matching screwdriver.",
+      innocent_response: "I was HOME studying! I wanted to WIN fair and square!",
+      guilty_confession: "Okay... okay. I took it. I just wanted to hold it for one night. I was going to put it back! I PROMISE!"
+    },
+    {
+      id: "sam",
+      name: "Sam Torres",
+      emoji: "🎨",
+      age: 10,
+      role: "Art Club President",
+      color: "teal",
+      motive: "Thought the trophy would look way cooler in the art room display.",
+      alibi: "Was at Drama Club rehearsal from 4pm to 8pm.",
+      innocent_response: "I was at rehearsal! Ask Ms. Morris — she'll tell you! I wasn't anywhere near the trophy case!",
+      guilty_confession: "I just thought it would look so much better next to our art projects! I was going to borrow it... maybe forever."
+    },
+    {
+      id: "coach",
+      name: "Coach Rivera",
+      emoji: "⚽",
+      age: 38,
+      role: "PE Teacher & Gym Coach",
+      color: "amber",
+      motive: "Complained the science trophy was 'too shiny' compared to the sports trophies.",
+      alibi: "Was running soccer practice until 6pm, then went home.",
+      innocent_response: "I was at practice! I don't even care about that trophy! Check the sign-out sheet!",
+      guilty_confession: "Fine! The sports kids work just as hard as the science kids! I wanted people to notice OUR trophies for once!"
+    }
+  ],
+  clues: [
+    { id:"c1", emoji:"🔍", name:"Scratched Lock", desc:"The trophy case lock was scratched by something small and pointy." },
+    { id:"c2", emoji:"👟", name:"Muddy Footprint", desc:"A size-6 sneaker print was found near the trophy case." },
+    { id:"c3", emoji:"📷", name:"Hallway Camera", desc:"The camera shows someone with a blue backpack at 8:47pm." },
+    { id:"c4", emoji:"🔧", name:"Tiny Screwdriver", desc:"A small screwdriver was found nearby — it matches the scratches!" },
+    { id:"c5", emoji:"📝", name:"Sign-Out Sheet", desc:"The sign-out sheet shows who was in the building after 7pm." },
+  ]
+};
+</script>
+<!-- ═══════════════════════════════════════════════════════ -->
+
 <style>
-:root{--bg:#09090c;--bg2:#0e0f14;--card:#12141b;--hi:#191d28;--amber:#f59e0b;--red:#ef4444;--green:#10b981;--blue:#3b82f6;--purple:#8b5cf6;--txt:#e2e8f0;--txt2:#94a3b8;--muted:#475569;--border:#1b2030;--border2:#2d3a52}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:90px}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+:root{
+  --bg:#0c0c1e;--bg2:#13132a;--card:#1a1a35;--hi:#22224a;
+  --gold:#f5a623;--gold2:#ffd166;--gold-dim:rgba(245,166,35,.15);
+  --purple:#a855f7;--purple-dim:rgba(168,85,247,.15);
+  --teal:#06b6d4;--teal-dim:rgba(6,182,212,.15);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.15);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.15);
+  --rose:#f43f5e;--rose-dim:rgba(244,63,94,.15);
+  --txt:#f0eef8;--txt2:#a89fc8;--muted:#6b63a0;
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
+  --radius:16px;--radius-sm:10px;
+}
+html,body{min-height:100vh;overflow-x:hidden}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:'Nunito',sans-serif;
+  padding-bottom:90px;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 8%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 5%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 68% 12%,rgba(245,166,35,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 7%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 22% 25%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 22%,rgba(168,85,247,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 50% 18%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 8% 45%,rgba(6,182,212,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 92% 40%,rgba(255,255,255,.3) 0%,transparent 100%);
+}
 
-/* HEADER */
-.header{position:sticky;top:0;z-index:200;background:rgba(9,9,12,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.25rem;height:54px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:4px;color:var(--amber);cursor:pointer;user-select:none}
-.logo sub{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:2px;color:var(--muted);vertical-align:middle;margin-left:6px}
-.rose-badge{display:flex;align-items:center;gap:8px}
-.rose-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;color:#7dd3fc;flex-shrink:0}
-.rose-info{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--muted);line-height:1.4}
-.rose-name-sm{color:var(--blue);font-weight:700}
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(12,12,30,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 1rem;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-family:'Fredoka One',cursive;font-size:1.3rem;letter-spacing:1px;color:var(--gold);cursor:pointer;user-select:none}
+.logo span{font-size:.7rem;letter-spacing:2px;color:var(--muted);display:block;font-family:'Nunito',sans-serif;font-weight:700;margin-top:-2px}
+.xp-badge{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold2);background:var(--gold-dim);border:1px solid rgba(245,166,35,.3);border-radius:20px;padding:4px 12px}
 
-/* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(9,9,12,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
-.nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:transparent;gap:4px;position:relative}
-.nbtn.active{background:rgba(245,158,11,.06)}
-.nbtn.active .nico,.nbtn.active .nlbl{color:var(--amber)}
-.nico{font-size:1rem;color:var(--muted)}.nlbl{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
-.npip{position:absolute;top:8px;right:calc(50% - 18px);width:5px;height:5px;border-radius:50%}
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(12,12,30,.97);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(5,1fr);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:transparent;gap:3px;position:relative}
+.nbtn.active{background:var(--gold-dim)}
+.nbtn.active .nico,.nbtn.active .nlbl{color:var(--gold)}
+.nico{font-size:1.2rem;color:var(--muted)}.nlbl{font-family:'Nunito',sans-serif;font-size:.55rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.npip{position:absolute;top:7px;right:calc(50% - 20px);width:6px;height:6px;border-radius:50%}
 
-/* PANELS */
-.panel{display:none;padding:1.25rem;animation:fadeUp .2s ease}.panel.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ── PANELS ── */
+.panel{display:none;padding:1.1rem;animation:fadeUp .25s ease}.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* TYPOGRAPHY */
-.cnum{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--muted);margin-bottom:3px}
-.ctitle{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;line-height:1;margin-bottom:4px}
-.csub{font-size:.82rem;color:var(--txt2);margin-bottom:1.25rem;line-height:1.5}
-.srow{display:flex;align-items:center;gap:10px;margin:1.5rem 0 .85rem}
-.slbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:3px;color:var(--muted);white-space:nowrap;text-transform:uppercase}
+/* ── TYPOGRAPHY ── */
+.panel-tag{font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.panel-title{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:6px}
+.panel-sub{font-size:.85rem;color:var(--txt2);margin-bottom:1.1rem;line-height:1.6;font-weight:600}
+
+.srow{display:flex;align-items:center;gap:10px;margin:1.3rem 0 .8rem}
+.slbl{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold);white-space:nowrap}
 .sline{flex:1;height:1px;background:var(--border)}
 
-/* STATS */
-.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
-.scard{background:var(--card);border:1px solid var(--border);padding:1rem;border-radius:4px}
-.sval{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;line-height:1}
-.slb{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:1px;color:var(--muted)}
+/* ── STAT CARDS ── */
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.1rem}
+.scard{background:var(--card);border:1px solid var(--border);padding:.9rem;border-radius:var(--radius-sm);text-align:center}
+.sval{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:2px}
+.slb{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 
-/* PROGRESS */
-.pwrap{margin-bottom:1.25rem}
-.ptop{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:5px}
-.ptrack{height:3px;background:var(--border);border-radius:2px}.pfill{height:100%;background:var(--amber);border-radius:2px;transition:width .6s ease}
+/* ── PROGRESS ── */
+.pwrap{margin-bottom:1.1rem}
+.ptop{display:flex;justify-content:space-between;font-size:.7rem;font-weight:800;color:var(--muted);margin-bottom:6px}
+.ptrack{height:6px;background:var(--border);border-radius:4px}.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
 
-/* DETECTIVE ROSE CARD */
-.rose-card{background:linear-gradient(135deg,rgba(30,58,95,.4),rgba(14,15,20,.8));border:1px solid rgba(59,130,246,.25);border-radius:6px;padding:1.1rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
-.rose-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),transparent)}
-.rose-card-inner{display:flex;gap:1rem;align-items:flex-start}
-.rose-avatar-lg{width:52px;height:52px;border-radius:6px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);border:2px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#93c5fd;flex-shrink:0}
-.rose-details{flex:1}
-.rose-rank{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--blue);margin-bottom:2px}
-.rose-fullname{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;margin-bottom:2px}
-.rose-div{font-size:.72rem;color:var(--txt2);margin-bottom:6px}
-.rose-status{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--green);display:flex;align-items:center;gap:5px}
-.rose-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
+/* ── DETECTIVE CARD ── */
+.det-card{
+  background:linear-gradient(135deg,var(--purple-dim),rgba(12,12,30,.8));
+  border:1px solid rgba(168,85,247,.3);border-radius:var(--radius);
+  padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden;
+}
+.det-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),transparent)}
+.det-inner{display:flex;gap:.9rem;align-items:flex-start}
+.det-avatar{width:52px;height:52px;border-radius:var(--radius-sm);background:var(--purple-dim);border:2px solid rgba(168,85,247,.4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.det-rank{font-size:.65rem;font-weight:800;letter-spacing:1.5px;color:var(--purple);text-transform:uppercase;margin-bottom:2px}
+.det-name{font-family:'Fredoka One',cursive;font-size:1.2rem;letter-spacing:.5px;margin-bottom:2px}
+.det-role{font-size:.75rem;color:var(--txt2);font-weight:600;margin-bottom:6px}
+.det-status{font-size:.7rem;font-weight:800;color:var(--green);display:flex;align-items:center;gap:5px}
+.det-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
 
-/* ROSE NOTES */
-.rose-notes{background:rgba(30,58,95,.15);border:1px solid rgba(59,130,246,.15);border-radius:4px;padding:.85rem;margin-bottom:1.25rem}
-.rn-hdr{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--blue);margin-bottom:.6rem}
-.rn-entry{font-size:.78rem;color:var(--txt2);line-height:1.65;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.rn-entry:last-child{border-bottom:none;padding-bottom:0}
-.rn-entry.new{color:var(--txt)}
-.rn-label{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);margin-bottom:2px}
+/* ── CASE NOTEBOOK ── */
+.notebook{background:var(--purple-dim);border:1px solid rgba(168,85,247,.2);border-radius:var(--radius);padding:.9rem;margin-bottom:1.1rem}
+.nb-hdr{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--purple);margin-bottom:.6rem}
+.nb-entry{font-size:.82rem;color:var(--txt2);line-height:1.7;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.nb-entry:last-child{border-bottom:none;padding-bottom:0}
+.nb-entry.new{color:var(--txt)}
+.nb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 
-/* CARDS */
-.evcard{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:10px;position:relative;overflow:hidden;cursor:pointer;-webkit-user-select:none;user-select:none}
-.evcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.evcard.cr::before{background:var(--red)}.evcard.cb::before{background:var(--blue)}.evcard.cg::before{background:var(--green)}.evcard.ca::before{background:var(--amber)}.evcard.cp::before{background:var(--purple)}
-.evcard.locked{opacity:.45;cursor:default}
-.evtype{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
-.evtitle{font-weight:600;font-size:.88rem;margin-bottom:4px}.evdesc{font-size:.78rem;color:var(--txt2);line-height:1.55}
-.evlock{position:absolute;top:.85rem;right:.85rem;font-size:.75rem}
+/* ── CLUE FOUND BANNER ── */
+.clue-banner{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;display:none}
+.clue-banner.show{display:flex;gap:10px;align-items:flex-start;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.cb-icon{font-size:1.3rem;flex-shrink:0}
+.cb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:2px}
+.cb-text{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
 
-/* DOC CARDS */
-.doccard{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
-.doccard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.doccard.cr::before{background:var(--red)}.doccard.cb::before{background:var(--blue)}.doccard.cg::before{background:var(--green)}.doccard.ca::before{background:var(--amber)}.doccard.cp::before{background:var(--purple)}
-.doc-icon{font-size:1.4rem;margin-bottom:6px}.doc-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
-.doc-title{font-weight:600;font-size:.9rem;margin-bottom:3px}.doc-meta{font-size:.75rem;color:var(--txt2)}
-.doc-tap{position:absolute;bottom:.7rem;right:.85rem;font-family:'Space Mono',monospace;font-size:.5rem;color:var(--border2);letter-spacing:1px}
-.doc-new{position:absolute;top:.85rem;right:.85rem;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:.5rem;padding:2px 6px;border-radius:2px}
+/* ── CASE CARDS (overview) ── */
+.ccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
+.ccard:active{transform:scale(.98)}
+.ccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.ccard.cr::before{background:var(--rose)}.ccard.cb::before{background:var(--teal)}.ccard.cg::before{background:var(--green)}.ccard.ca::before{background:var(--amber)}.ccard.cp::before{background:var(--purple)}
+.ccard-tag{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.ccard-title{font-family:'Fredoka One',cursive;font-size:1.1rem;margin-bottom:4px}
+.ccard-desc{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
+.ccard-badge{float:right;font-size:.6rem;font-weight:800;padding:3px 9px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase}
+.badge-open{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.3)}
+.badge-active{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.badge-cold{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(6,182,212,.3)}
 
-/* SMS */
-.smsthread{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1.25rem}
-.smshdr{padding:.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.smsav{width:32px;height:32px;background:var(--hi);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);flex-shrink:0}
-.smsname{font-size:.82rem;font-weight:600}.smsnum{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted)}
-.smsbody{padding:.85rem 1rem}.smsmsg{margin-bottom:8px;display:flex;gap:8px;align-items:flex-end}.smsmsg.me{flex-direction:row-reverse}
-.smsbub{max-width:78%;padding:8px 12px;border-radius:14px;font-size:.8rem;line-height:1.5}
-.smsmsg:not(.me) .smsbub{background:var(--hi);color:var(--txt);border-bottom-left-radius:4px}
-.smsmsg.me .smsbub{background:rgba(59,130,246,.2);color:var(--txt);border-bottom-right-radius:4px;border:1px solid rgba(59,130,246,.25)}
-.smstime{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted);flex-shrink:0}
+/* ── DOC CARDS ── */
+.doccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
+.doccard:active{transform:scale(.98)}
+.doccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.doccard.cr::before{background:var(--rose)}.doccard.cb::before{background:var(--teal)}.doccard.cg::before{background:var(--green)}.doccard.ca::before{background:var(--amber)}.doccard.cp::before{background:var(--purple)}
+.doc-icon{font-size:1.3rem;margin-bottom:5px}
+.doc-lbl{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.doc-title{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:3px}
+.doc-meta{font-size:.76rem;color:var(--txt2);font-weight:600}
+.doc-tap{position:absolute;bottom:.7rem;right:.85rem;font-size:.62rem;font-weight:800;color:var(--gold);letter-spacing:.5px}
+.doc-new{position:absolute;top:.7rem;right:.7rem;background:var(--rose);color:#fff;font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:6px;letter-spacing:.5px}
 
-/* AUDIO PLAYER */
-.audio-player{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:4px;padding:1rem;margin-top:.75rem}
-.ap-header{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--green);margin-bottom:.75rem}
-.ap-waveform{height:40px;background:var(--bg);border-radius:3px;margin-bottom:.75rem;display:flex;align-items:center;justify-content:center;gap:2px;padding:0 8px;overflow:hidden}
-.ap-bar{width:3px;background:var(--green);border-radius:2px;transition:height .1s}
-.ap-controls{display:flex;gap:8px;align-items:center;margin-bottom:.75rem}
-.ap-play{background:var(--green);color:#000;border:none;padding:8px 16px;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;border-radius:3px;cursor:pointer;letter-spacing:1px}
-.ap-stop{background:var(--hi);color:var(--txt2);border:1px solid var(--border);padding:8px 14px;font-family:'Space Mono',monospace;font-size:.65rem;border-radius:3px;cursor:pointer}
-.ap-time{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);flex:1;text-align:right}
-.transcript{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:.75rem;max-height:180px;overflow-y:auto}
-.tr-line{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);line-height:1.9;opacity:.4;transition:opacity .3s,color .3s}
-.tr-line.active{opacity:1;color:var(--txt)}
-.tr-line.siren{color:var(--red) !important;opacity:1;font-weight:700}
-.tr-line.voice2{color:var(--amber) !important;opacity:1}
-.siren-alert{display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:3px;padding:.75rem;margin-top:.6rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--red);line-height:1.75}
-.siren-alert.show{display:block;animation:fadeUp .3s ease}
-
-/* TERMINAL */
-.twrap{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1.25rem}
-.tbar{background:var(--hi);border-bottom:1px solid var(--border);padding:8px 12px;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);display:flex;align-items:center;gap:8px}
-.tdot span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
-.tout{padding:1rem;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--green);line-height:2;min-height:80px;max-height:200px;overflow-y:auto;white-space:pre-wrap}
-.tm{color:var(--muted)}.ta{color:var(--amber)}.tr-t{color:var(--red)}
-.tinrow{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:6px}
-.tprompt{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--green)}
-.tinput{flex:1;background:transparent;border:none;outline:none;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--txt);padding:10px 0;caret-color:var(--green)}
-.trun{background:var(--green);color:#000;border:none;padding:5px 10px;font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;border-radius:3px;cursor:pointer}
-
-/* UNLOCK */
-.ubox{background:var(--card);border:1px solid rgba(245,158,11,.25);border-radius:4px;padding:1.1rem;margin-top:1.25rem}
-.ulbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--amber);margin-bottom:.75rem}
-.uhint{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:10px;line-height:1.7}
-.urow{display:flex;gap:6px}
-.uinput{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--txt);padding:.65rem .9rem;font-family:'Space Mono',monospace;font-size:.75rem;outline:none;border-radius:3px;transition:border-color .2s}
-.uinput:focus{border-color:var(--amber)}
-.ubtn{background:var(--amber);color:#000;border:none;padding:.65rem 1rem;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;cursor:pointer;border-radius:3px}
-.ures{display:none;margin-top:.75rem;font-family:'Space Mono',monospace;font-size:.7rem;line-height:1.75;white-space:pre-wrap}
-.ok{color:var(--green)}.err{color:var(--red)}
-
-/* INFO */
-.iblock{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.1rem;margin-bottom:1.25rem}
-.iblock p{font-size:.82rem;color:var(--txt2);line-height:1.75}
-.inote{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:.6rem}
-
-/* TIMELINE */
-.timeline{padding-left:1.5rem;position:relative;margin-bottom:1rem}
-.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:0;width:1px;background:var(--border)}
-.tli{position:relative;margin-bottom:1.1rem}
-.tli::before{content:'';position:absolute;left:-1.3rem;top:4px;width:8px;height:8px;border-radius:50%;background:var(--card);border:2px solid var(--border2)}
-.tli.flag::before{border-color:var(--red);background:rgba(239,68,68,.1)}
-.tlt{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:2px}
-.tle{font-size:.8rem;color:var(--txt2);line-height:1.55}
-
-/* BADGE */
-.badge{display:inline-block;font-family:'Space Mono',monospace;font-size:.55rem;padding:2px 7px;border-radius:2px;letter-spacing:1px}
-.br{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}.bb{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.2)}.bg{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2)}.ba{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
-
-/* TOAST */
-.toast{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;letter-spacing:1px;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:2000;transition:all .3s ease;white-space:nowrap;max-width:90vw;text-align:center}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast.warn{background:var(--amber)}.toast.danger{background:var(--red);color:#fff}
-
-/* THREAT NOTIFICATION */
-.threat-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:800;align-items:center;justify-content:center;padding:1.5rem}
-.threat-overlay.show{display:flex;animation:fadeUp .3s ease}
-.threat-box{background:var(--bg2);border:1px solid var(--red);border-radius:6px;padding:1.5rem;width:100%;max-width:360px;position:relative}
-.threat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
-.threat-top{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--red);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
-.threat-pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
-.threat-num{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.5rem}
-.threat-msg{font-size:.85rem;color:var(--txt);line-height:1.7;margin-bottom:1rem;padding:.85rem;background:var(--hi);border-radius:3px}
-.threat-dismiss{background:var(--red);color:#fff;border:none;padding:.65rem 1.25rem;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;border-radius:3px;cursor:pointer;width:100%}
-.threat-note{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:.6rem;text-align:center}
-
-/* DOC VIEWER */
-.doverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;flex-direction:column}
-.doverlay.show{display:flex}
-.dheader{background:var(--bg2);border-bottom:1px solid var(--border2);padding:.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.dheader-title{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:2px;color:var(--muted)}
-.dclose{background:var(--hi);border:none;color:var(--muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.8rem}
-.dbody{flex:1;overflow-y:auto;padding:1.25rem;-webkit-overflow-scrolling:touch}
-
-/* TABLE STYLES */
-.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1rem}
-.table-hdr{background:var(--hi);padding:.7rem 1rem;border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);display:grid;gap:.5rem}
-.table-row{padding:.65rem 1rem;border-bottom:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.6rem;color:var(--txt2);display:grid;gap:.5rem}
-.table-row:last-child{border-bottom:none}
-.table-row.flagged{background:rgba(239,68,68,.06);color:var(--txt)}
-.table-row.flagged2{background:rgba(245,158,11,.05);color:var(--txt)}
-.flag-num{color:var(--red);font-weight:700}
-.flag-name{color:var(--amber);font-weight:700}
-
-/* CONTACTS */
-.contact-list{background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.contact-row{padding:.85rem 1rem;border-bottom:1px solid var(--border)}
-.contact-row:last-child{border-bottom:none}
-.contact-row.flagged{background:rgba(239,68,68,.06)}
-.contact-name{font-weight:600;font-size:.82rem;margin-bottom:2px}
-.contact-name.ft{color:var(--red)}.contact-role{font-size:.72rem;color:var(--muted);margin-bottom:3px}
-.contact-num{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--txt2)}
-
-/* CALENDAR */
-.cal-entry{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:8px}
-.cal-entry.flagged{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.04)}
-.cal-time{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:3px}
-.cal-title{font-weight:600;font-size:.85rem;margin-bottom:3px}.cal-title.ft{color:var(--amber)}
-.cal-note{font-size:.75rem;color:var(--txt2);line-height:1.55}
-
-/* CLUE BANNER */
-.clue-banner{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:4px;padding:.85rem 1rem;margin-bottom:1.25rem;display:none}
-.clue-banner.show{display:block}
-.cb-lbl{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--green);margin-bottom:4px}
-.cb-text{font-size:.8rem;color:var(--txt2);line-height:1.6}
-
-/* GENERAL MODAL */
-.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;align-items:flex-end}
-.moverlay.show{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px 12px 0 0;padding:1.5rem;width:100%;max-height:80vh;overflow-y:auto;animation:slideUp .25s ease;position:relative}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.mhandle{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1.25rem}
-.mtitle{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:.5rem}
-.mclose{position:absolute;top:1.25rem;right:1.25rem;background:var(--hi);border:none;color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.8rem}
-
-.stamp{display:inline-block;border:2px solid var(--red);color:var(--red);font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;padding:3px 10px;letter-spacing:3px;transform:rotate(-8deg);margin-bottom:1rem}
-.stamp.a{border-color:var(--amber);color:var(--amber);transform:rotate(-5deg)}
-.stamp.g{border-color:var(--green);color:var(--green);transform:rotate(3deg)}
-/* GATE LOCKS */
-.gate-lock{position:absolute;inset:0;background:rgba(9,9,12,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:4px;transition:opacity .4s ease}
+/* ── LOCKED GATE ── */
+.gate-lock{
+  position:absolute;inset:0;background:rgba(12,12,30,.9);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:10;border-radius:var(--radius);transition:opacity .4s;
+}
 .gate-lock.unlocking{opacity:0;pointer-events:none}
-.gate-icon{font-size:1.4rem;margin-bottom:6px}
-.gate-lbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:2px;color:var(--muted);text-align:center;line-height:1.8}
-.gate-req{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--border2);margin-top:4px;text-align:center;line-height:1.6}
-.gate-unlock-flash{animation:gateFlash .6s ease forwards}
-@keyframes gateFlash{0%{background:rgba(16,185,129,.15)}100%{background:transparent}}
+.gate-icon{font-size:1.5rem;margin-bottom:5px}
+.gate-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--muted)}
+.gate-req{font-size:.65rem;font-weight:700;color:var(--border2);margin-top:4px;text-align:center;line-height:1.6;padding:0 1rem}
 
+/* ── SUSPECT CARDS ── */
+.susp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.susp-card:active{transform:scale(.98)}
+.susp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.susp-card.purple::before{background:var(--purple)}.susp-card.teal::before{background:var(--teal)}.susp-card.amber::before{background:var(--amber)}
+.susp-header{display:flex;align-items:center;gap:.85rem;margin-bottom:.7rem}
+.susp-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid var(--border2)}
+.susp-avatar.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.4)}
+.susp-avatar.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.4)}
+.susp-avatar.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.4)}
+.susp-name{font-family:'Fredoka One',cursive;font-size:1.1rem}
+.susp-role{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.susp-motive{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:.6rem .8rem}
+.susp-tap{font-size:.65rem;font-weight:800;color:var(--gold);margin-top:.6rem;text-align:right}
 
+/* ── INTERVIEW MODAL ── */
+.ioverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:flex-end}
+.ioverlay.show{display:flex;animation:fadeIn .2s ease}
+.imodal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius) var(--radius) 0 0;padding:1.4rem;width:100%;max-height:82vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
+.ihandle{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1.1rem}
+.im-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto .7rem;border:3px solid var(--border2)}
+.im-avatar.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.5)}
+.im-avatar.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.5)}
+.im-avatar.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.5)}
+.im-name{font-family:'Fredoka One',cursive;font-size:1.3rem;text-align:center;margin-bottom:2px}
+.im-role{font-size:.72rem;font-weight:700;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1rem}
+.chat-wrap{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.chat-msg{display:flex;gap:8px;align-items:flex-end}
+.chat-msg.me{flex-direction:row-reverse}
+.chat-bub{max-width:82%;padding:10px 14px;border-radius:16px;font-size:.82rem;line-height:1.55;font-weight:600}
+.chat-msg:not(.me) .chat-bub{background:var(--hi);border-bottom-left-radius:4px}
+.chat-msg.me .chat-bub{background:rgba(168,85,247,.2);border:1px solid rgba(168,85,247,.3);border-bottom-right-radius:4px}
+.chat-who{font-size:.6rem;font-weight:800;color:var(--muted);flex-shrink:0;padding-bottom:4px}
+.im-close{width:100%;padding:.85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--txt2);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;margin-top:.5rem}
+
+/* ── EVIDENCE BOARD ── */
+.ev-empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-weight:700;font-size:.85rem;line-height:1.8}
+.ev-card{background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:8px;display:flex;align-items:center;gap:.9rem;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.ev-emoji{font-size:1.5rem;flex-shrink:0}
+.ev-name{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--green)}
+.ev-desc{font-size:.78rem;color:var(--txt2);font-weight:600;margin-top:1px}
+
+/* ── SOLVE PANEL ── */
+.solve-intro{text-align:center;padding:.5rem 0 1rem}
+.solve-emoji{font-size:3.5rem;display:block;margin-bottom:.6rem}
+.solve-title{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--gold);margin-bottom:.5rem}
+.solve-desc{font-size:.85rem;color:var(--txt2);font-weight:600;line-height:1.6;margin-bottom:1.2rem}
+
+.answer-box{background:var(--card);border:1px solid rgba(245,166,35,.3);border-radius:var(--radius);padding:1rem;margin-bottom:.85rem}
+.ans-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--gold);margin-bottom:.5rem}
+.ans-hint{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:.7rem;line-height:1.55}
+.ans-row{display:flex;gap:8px}
+.ans-input{flex:1;background:var(--bg);border:1px solid var(--border2);color:var(--txt);padding:.65rem .9rem;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;outline:none;border-radius:var(--radius-sm);transition:border-color .2s}
+.ans-input:focus{border-color:var(--gold)}
+.ans-btn{background:var(--gold);color:var(--bg);border:none;padding:.65rem 1rem;font-family:'Fredoka One',cursive;font-size:.9rem;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s}
+.ans-btn:active{transform:scale(.96)}
+.ans-result{display:none;margin-top:.7rem;font-size:.8rem;line-height:1.75;font-weight:700;white-space:pre-wrap;border-radius:var(--radius-sm);padding:.7rem .9rem}
+.ans-result.ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.ans-result.err{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.3)}
+
+/* ── ACCUSE BOX ── */
+.accuse-box{background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:.85rem;display:none}
+.accuse-box.show{display:block;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.acc-lbl{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--rose);margin-bottom:.5rem}
+.acc-suspects{display:flex;flex-direction:column;gap:8px;margin-bottom:.7rem}
+.acc-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:.9rem;cursor:pointer;display:flex;align-items:center;gap:.8rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--txt);transition:all .2s}
+.acc-btn:hover,.acc-btn:active{border-color:var(--rose);background:var(--rose-dim)}
+.acc-emoji{font-size:1.3rem}
+
+/* ── VERDICT OVERLAY ── */
+.verdict-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:800;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center}
+.verdict-overlay.show{display:flex;animation:fadeIn .4s ease}
+.verdict-inner{width:100%;max-width:380px}
+.verdict-big{font-size:5rem;display:block;margin-bottom:.5rem;animation:bounce 1s ease infinite}
+.verdict-title{font-family:'Fredoka One',cursive;font-size:2.2rem;margin-bottom:.5rem}
+.verdict-title.win{color:var(--gold)}
+.verdict-title.fail{color:var(--rose)}
+.verdict-text{font-size:.88rem;color:var(--txt2);line-height:1.8;font-weight:600;margin-bottom:1.2rem;background:var(--card);border-radius:var(--radius);padding:1rem}
+.verdict-stats{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1.2rem;font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--green);line-height:2;text-align:left}
+.verdict-replay{width:100%;padding:.95rem;border:none;border-radius:var(--radius);font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;transition:all .2s}
+.verdict-replay:active{transform:scale(.97)}
+.verdict-replay.gold{background:var(--gold);color:var(--bg)}
+.verdict-replay.rose{background:var(--rose);color:#fff}
+
+/* ── DOC VIEWER ── */
+.doverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:500;flex-direction:column}
+.doverlay.show{display:flex}
+.dheader{background:var(--bg2);border-bottom:1px solid var(--border2);padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dheader-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--gold)}
+.dclose{background:var(--hi);border:none;color:var(--txt2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.85rem;font-weight:700}
+.dbody{flex:1;overflow-y:auto;padding:1.1rem;-webkit-overflow-scrolling:touch}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:.9rem}
+.table-hdr{background:var(--hi);padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:grid;gap:.5rem}
+.table-row{padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.75rem;color:var(--txt2);font-weight:600;display:grid;gap:.5rem}
+.table-row:last-child{border-bottom:none}
+.table-row.flagged{background:rgba(244,63,94,.06);color:var(--txt)}
+.table-row.flagged2{background:rgba(245,166,35,.05);color:var(--txt)}
+.flag-val{color:var(--rose);font-weight:800}
+.flag-val2{color:var(--gold);font-weight:800}
+
+/* ── DETECTIVE NOTEBOOK (hints) ── */
+.note-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.note-bar{background:var(--hi);border-bottom:1px solid var(--border);padding:.6rem .9rem;font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
+.note-out{padding:.9rem;font-size:.78rem;color:var(--green);line-height:1.9;min-height:70px;white-space:pre-wrap}
+.note-out .m{color:var(--muted)}.note-out .a{color:var(--gold)}.note-out .r{color:var(--rose)}
+.note-row{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 .9rem;gap:6px}
+.note-prompt{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
+.note-input{flex:1;background:transparent;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;color:var(--txt);padding:10px 0;caret-color:var(--gold)}
+.note-run{background:var(--gold);color:var(--bg);border:none;padding:5px 10px;font-family:'Fredoka One',cursive;font-size:.75rem;border-radius:var(--radius-sm);cursor:pointer}
+
+/* ── TOAST ── */
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Fredoka One',cursive;font-size:.85rem;letter-spacing:.5px;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:2000;transition:all .25s ease;white-space:nowrap;max-width:90vw;text-align:center;box-shadow:0 4px 20px rgba(34,197,94,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.warn{background:var(--gold);box-shadow:0 4px 20px rgba(245,166,35,.4)}
+.toast.danger{background:var(--rose);color:#fff;box-shadow:0 4px 20px rgba(244,63,94,.4)}
+
+/* ── ANIMATIONS ── */
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-/* SECOND THREAT */
-.threat2-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:900;align-items:center;justify-content:center;padding:1.5rem}
-.threat2-overlay.show{display:flex;animation:fadeUp .3s ease}
-.threat2-box{background:#0a0305;border:1px solid var(--red);border-radius:6px;padding:1.5rem;width:100%;max-width:360px;position:relative;box-shadow:0 0 40px rgba(239,68,68,.15)}
-.threat2-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
-.threat2-signal{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--red);letter-spacing:2px;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
-.threat2-pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink .6s infinite;flex-shrink:0}
-.threat2-from{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-bottom:.75rem}
-.threat2-body{font-size:.85rem;color:var(--txt);line-height:1.75;padding:.85rem;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:3px;margin-bottom:1rem}
-.threat2-footer{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:1rem;line-height:1.7;padding:.7rem;border:1px solid var(--border);border-radius:3px}
-.threat2-dismiss{background:transparent;color:var(--red);border:1px solid var(--red);padding:.65rem 1.25rem;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;border-radius:3px;cursor:pointer;width:100%;letter-spacing:1px}
-
-/* NOURI THREAD */
-.nouri-thread-wrap{display:none}
-.nouri-thread-wrap.show{display:block;animation:fadeUp .4s ease}
-
-/* PHASE TWO */
-.phase2-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:1000;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
-.phase2-overlay.show{display:flex;animation:fadeUp .5s ease}
-.phase2-inner{width:100%;max-width:380px}
-.phase2-case-closed{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:3px;color:var(--green);margin-bottom:1.5rem;text-align:center}
-.phase2-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:4px;color:var(--amber);text-align:center;line-height:1;margin-bottom:.5rem}
-.phase2-sub{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:2px;color:var(--muted);text-align:center;margin-bottom:2rem}
-.phase2-summary{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:4px;padding:1rem;margin-bottom:1.5rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--green);line-height:2}
-.phase2-divider{height:1px;background:var(--border);margin:1.5rem 0;position:relative}
-.phase2-divider::after{content:'INCOMING';position:absolute;left:50%;transform:translateX(-50%);top:-8px;background:var(--bg);padding:0 8px;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:2px;color:var(--red)}
-.phase2-new-case{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.25);border-radius:4px;padding:1rem;margin-bottom:1.25rem}
-.phase2-case-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:2px;color:var(--red);margin-bottom:4px}
-.phase2-case-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--red);margin-bottom:4px}
-.phase2-case-desc{font-size:.78rem;color:var(--txt2);line-height:1.6;margin-bottom:.75rem}
-.phase2-case-tag2{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:2px;color:var(--amber);margin-top:.75rem;margin-bottom:4px}
-.phase2-case-name2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--amber);margin-bottom:4px}
-.phase2-marsh-note{background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.2);border-radius:4px;padding:.85rem;margin-bottom:1.5rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--purple);line-height:1.9}
-.phase2-continue{background:var(--amber);color:#000;border:none;padding:.85rem;font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;border-radius:4px;cursor:pointer;width:100%;letter-spacing:2px}
-
-
-/* ENCRYPTED EMAIL */
-.email-box{background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.25);border-radius:4px;overflow:hidden;margin-bottom:1.25rem}
-.email-hdr{padding:.75rem 1rem;border-bottom:1px solid rgba(139,92,246,.2);background:rgba(139,92,246,.08)}
-.email-field{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);line-height:1.9}
-.email-field span{color:var(--purple)}
-.email-body{padding:1rem;font-size:.8rem;color:var(--txt2);line-height:1.75}
+@keyframes popIn{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- THREAT NOTIFICATION -->
-<div class="threat-overlay" id="threat-overlay">
-  <div class="threat-box">
-    <div class="threat-top"><div class="threat-pulse"></div>INCOMING MESSAGE — ENCRYPTED</div>
-    <div class="threat-num">FROM: +1 (312) 554-0917 // UNREGISTERED</div>
-    <div class="threat-msg" id="threat-msg">"Detective Rose. You're looking at the wrong room. Whatever you think you found in Room 812 — you didn't find it. Walk away."</div>
-    <button class="threat-dismiss" onclick="dismissThreat()">ACKNOWLEDGE & CONTINUE INVESTIGATION</button>
-    <div class="threat-note">// This number matches a contact in the Crestview Capital directory</div>
-  </div>
-</div>
-
-
-<!-- SECOND THREAT OVERLAY -->
-<div class="threat2-overlay" id="threat2-overlay">
-  <div class="threat2-box">
-    <div class="threat2-signal"><div class="threat2-pulse"></div>ENCRYPTED TRANSMISSION — PRIORITY</div>
-    <div class="threat2-from">FROM: +1 (312) 554-0917 // SAME SENDER</div>
-    <div class="threat2-body">"Detective Rose. I see you found Marsh's email. Impressive. You should know — she doesn't have the full ledger. I do. And I've already moved the accounts. Whatever you think you're building a case around doesn't exist anymore.<br><br>Walk away. This is the last time I ask nicely."</div>
-    <div class="threat2-footer">// ROSE'S NOTE: He knows I accessed the email. He's been watching every move. And if he's already moved the accounts — he's panicking. Panicking people make mistakes.<br>// He said "ask nicely." That means there's an unpleasant version.</div>
-    <button class="threat2-dismiss" onclick="dismissThreat2()">// ROSE: I DON'T WALK AWAY</button>
-  </div>
-</div>
-
-<!-- PHASE TWO OVERLAY -->
-<div class="phase2-overlay" id="phase2-overlay">
-  <div class="phase2-inner">
-    <div class="phase2-case-closed">✓ CASE #2024-0441 // CLOSED</div>
-    <div class="phase2-title">PHASE ONE<br>CLOSED.</div>
-    <div class="phase2-sub">// DET. ELAINE ROSE // NEXUS FINANCIAL CRIMES</div>
-    <div class="phase2-summary">
-      CARL VOSS — ARRESTED<br>
-      DANA NOURI — IN CUSTODY<br>
-      AMOUNT RECOVERED — $4.2M<br>
-      AMOUNT OUTSTANDING — $7.5M<br>
-      MARSH — ALIVE / CONTACT PENDING<br>
-      CO-CONSPIRATORS — 2 UNNAMED
-    </div>
-    <div class="phase2-divider"></div>
-    <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--red);letter-spacing:2px;margin-bottom:1rem;text-align:center">NEW ASSIGNMENTS — CLASSIFIED</div>
-    <div class="phase2-new-case">
-      <div class="phase2-case-tag">CASE #2025-0012 // FINANCIAL CRIME</div>
-      <div class="phase2-case-name" style="color:var(--red)">THE ALDERMAN</div>
-      <div class="phase2-case-desc">Deputy Director Raymond Holt. Municipal Procurement. Marsh's email names him as Co-Conspirator 1. $3.1M routed through a construction LLC — fake invoices, real money. His wife signed the LLC. She doesn't know what she signed.</div>
-    </div>
-    <div class="phase2-new-case" style="border-color:rgba(245,158,11,.25)">
-      <div class="phase2-case-tag2">CASE #2025-0013 // CONSPIRACY / HOMICIDE</div>
-      <div class="phase2-case-name2">THE FIXER</div>
-      <div class="phase2-case-desc">Someone hired Dana Nouri. Someone threatened her into silence. It wasn't Voss — he didn't have her number. There's a third actor. A facilitator. Nobody's found them yet.</div>
-    </div>
-    <div class="phase2-marsh-note">
-      // MARSH MESSAGE RECEIVED — NOV 22<br>
-      "I'll meet with Rose. Neutral location.<br>
-      Tell her to come alone.<br>
-      And tell her — Voss wasn't the one<br>
-      who ordered Reeve's death.<br>
-      He just made the call."<br>
-      — E.M.
-    </div>
-    <button class="phase2-continue" onclick="closePhase2()">CONTINUE TO PHASE TWO →</button>
+<!-- INTERVIEW MODAL -->
+<div class="ioverlay" id="ioverlay">
+  <div class="imodal">
+    <div class="ihandle"></div>
+    <div id="im-content"></div>
+    <button class="im-close" onclick="closeInterview()">✕ Close Interview</button>
   </div>
 </div>
 
 <!-- DOC VIEWER -->
 <div class="doverlay" id="doc-viewer">
-  <div class="dheader"><div class="dheader-title" id="doc-title">DOCUMENT</div><button class="dclose" onclick="closeDoc()">✕</button></div>
+  <div class="dheader"><div class="dheader-title" id="doc-title">📄 Document</div><button class="dclose" onclick="closeDoc()">✕</button></div>
   <div class="dbody" id="doc-body"></div>
 </div>
 
-<!-- MODAL -->
-<div class="moverlay" id="moverlay" onclick="closeModal(event)">
-  <div class="modal"><div class="mhandle"></div><button class="mclose" onclick="closeModal()">✕</button><div id="mcontent"></div></div>
+<!-- VERDICT OVERLAY -->
+<div class="verdict-overlay" id="verdict-overlay">
+  <div class="verdict-inner" id="verdict-inner"></div>
 </div>
 
+<!-- HEADER -->
 <header class="header">
-  <div class="logo" onclick="logoTap()">NEXUS <sub>// CASE FILES</sub></div>
-  <div class="rose-badge">
-    <div class="rose-avatar">ER</div>
-    <div class="rose-info"><div class="rose-name-sm">DET. ROSE</div>BADGE #7734</div>
-  </div>
+  <div class="logo" onclick="logoTap()">🔍 Detective Club<span>Mystery Case Files</span></div>
+  <div class="xp-badge" id="xpBadge">⭐ 0 XP</div>
 </header>
 
-<!-- ═══ OVERVIEW ═══════════════════════ -->
-<div class="panel active" id="panel-overview">
-  <div class="cnum">NEXUS // NEXUS FINANCIAL CRIMES UNIT</div>
-  <div class="ctitle">CASE BOARD</div>
-  <div class="csub">Four threads. One conspiracy. Rose is on it.</div>
+<!-- ══════════ PANEL: CASE BOARD ══════════ -->
+<div class="panel active" id="panel-board">
+  <div class="panel-tag">🗺️ Case Board</div>
+  <div class="panel-title" id="board-title" style="color:var(--gold)">Loading...</div>
+  <div class="panel-sub" id="board-sub">Loading...</div>
 
-  <div class="rose-card">
-    <div class="rose-card-inner">
-      <div class="rose-avatar-lg">ER</div>
-      <div class="rose-details">
-        <div class="rose-rank">DETECTIVE // NEXUS FINANCIAL CRIMES</div>
-        <div class="rose-fullname">Elaine Rose</div>
-        <div class="rose-div">Badge #7734 — Assigned: Nov 15, 2024<br>Specialty: Financial homicide, money laundering</div>
-        <div class="rose-status"><div class="rose-dot"></div>ACTIVE INVESTIGATION</div>
+  <div class="det-card">
+    <div class="det-inner">
+      <div class="det-avatar">🕵️</div>
+      <div>
+        <div class="det-rank">⭐ Junior Detective</div>
+        <div class="det-name">Your Name Goes Here</div>
+        <div class="det-role" id="det-case-title">Loading case...</div>
+        <div class="det-status"><div class="det-dot"></div>ON THE CASE!</div>
       </div>
     </div>
   </div>
 
-  <div class="rose-notes" id="rose-notes-panel">
-    <div class="rn-hdr">// ROSE'S CASE NOTES</div>
-    <div id="rose-notes-body">
-      <div class="rn-entry">
-        <div class="rn-label">INITIAL ASSESSMENT</div>
-        Something about the staging at the Harlow isn't right. The medical examiner flagged three inconsistencies with the suicide ruling. And two unregistered keycards with no exit logs? Someone walked out of that room and made sure we can't prove it.
+  <div class="notebook" id="notebook-panel">
+    <div class="nb-hdr">📓 Detective's Notes</div>
+    <div id="notebook-body">
+      <div class="nb-entry">
+        <div class="nb-lbl">Opening Note</div>
+        <span id="nb-opening">Loading...</span>
       </div>
     </div>
   </div>
 
   <div class="pwrap">
-    <div class="ptop"><span>CASE PROGRESS</span><span id="pct-label">0%</span></div>
+    <div class="ptop"><span>🔍 Case Progress</span><span id="pct-label">0%</span></div>
     <div class="ptrack"><div class="pfill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
   <div class="sgrid">
-    <div class="scard"><div class="sval" style="color:var(--red)">4</div><div class="slb">Open Cases</div></div>
-    <div class="scard"><div class="sval" style="color:var(--amber)">8</div><div class="slb">Suspects</div></div>
-    <div class="scard"><div class="sval" style="color:var(--blue)">34</div><div class="slb">Evidence Items</div></div>
+    <div class="scard"><div class="sval" style="color:var(--rose)">3</div><div class="slb">Suspects</div></div>
+    <div class="scard"><div class="sval" style="color:var(--gold)">5</div><div class="slb">Clues Hidden</div></div>
     <div class="scard"><div class="sval" style="color:var(--green)" id="clue-counter">0</div><div class="slb">Clues Found</div></div>
+    <div class="scard"><div class="sval" style="color:var(--purple)" id="xp-counter">0</div><div class="slb">XP Earned</div></div>
   </div>
 
-  <div class="srow"><div class="slbl">Active Threads</div><div class="sline"></div></div>
-  <div class="evcard cr" onclick="showPanel('harlow')">
-    <div class="evtype">CASE #2024-0441 // HOMICIDE</div>
-    <div class="evtitle">The Harlow <span class="badge br" style="float:right">OPEN</span></div>
-    <div class="evdesc">Marcus Reeve. Room 1106. Found at 6am. Two ghost keycards. A staged scene. And something on the audio that doesn't add up.</div>
+  <div class="srow"><div class="slbl">🗂️ Case Sections</div><div class="sline"></div></div>
+
+  <div class="ccard cr" onclick="showPanel('scene')">
+    <span class="ccard-badge badge-open">Active</span>
+    <div class="ccard-tag">🔍 Crime Scene</div>
+    <div class="ccard-title">The Trophy Room</div>
+    <div class="ccard-desc">Examine the scene and find the clues. Every detail matters!</div>
   </div>
-  <div class="evcard cb" onclick="showPanel('signal')">
-    <div class="evtype">CASE #2024-0449 // SIGNALS</div>
-    <div class="evtitle">Ghost Signal <span class="badge bb" style="float:right">ACTIVE</span></div>
-    <div class="evdesc">147.3 MHz. 11 transmissions. Partial decode puts VALE at the Harlow the night of the murder.</div>
+  <div class="ccard cp" onclick="showPanel('suspects')">
+    <span class="ccard-badge badge-active">3 Suspects</span>
+    <div class="ccard-tag">🗣️ Interviews</div>
+    <div class="ccard-title">Talk to Suspects</div>
+    <div class="ccard-desc">Ask questions and listen carefully. Someone is not telling the truth!</div>
   </div>
-  <div class="evcard cg" onclick="showPanel('hollow')">
-    <div class="evtype">CASE #2024-0453 // MISSING</div>
-    <div class="evtitle">The Hollow <span class="badge bg" style="float:right">COLD</span></div>
-    <div class="evdesc">City auditor Elena Marsh. Found the same thread Reeve did. Disappeared Nov 12. But Rose isn't sure she's dead.</div>
+  <div class="ccard cg" onclick="showPanel('evidence')">
+    <span class="ccard-badge badge-cold" id="ev-badge">0 Found</span>
+    <div class="ccard-tag">🧪 Evidence Lab</div>
+    <div class="ccard-title">Your Clue Collection</div>
+    <div class="ccard-desc">Every clue you find goes here. Collect them all to solve the case!</div>
   </div>
-  <div class="evcard ca" onclick="showPanel('redline')">
-    <div class="evtype">CASE #2024-0461 // FINANCIAL</div>
-    <div class="evtitle">Redline <span class="badge ba" style="float:right">ACTIVE</span></div>
-    <div class="evdesc">$4.2M through shell accounts. Signatory on every transfer: VALE. Name the person behind that alias.</div>
+  <div class="ccard ca" onclick="showPanel('solve')">
+    <span class="ccard-badge badge-open">Final Step</span>
+    <div class="ccard-tag">⚖️ Solve It</div>
+    <div class="ccard-title">Make Your Accusation!</div>
+    <div class="ccard-desc">Ready to name the culprit? You'll need at least 3 clues first!</div>
   </div>
 </div>
 
-<!-- ═══ HARLOW ═══════════════════════════ -->
-<div class="panel" id="panel-harlow">
-  <div class="cnum">CASE #2024-0441 // HOMICIDE</div>
-  <div class="ctitle" style="color:var(--red)">THE HARLOW</div>
-  <div class="csub">Room 1106. November 14. Rose worked this scene herself.</div>
+<!-- ══════════ PANEL: CRIME SCENE ══════════ -->
+<div class="panel" id="panel-scene">
+  <div class="panel-tag">🔍 Crime Scene</div>
+  <div class="panel-title" style="color:var(--rose)">The Trophy Room</div>
+  <div class="panel-sub">Examine everything carefully. Clues could be anywhere!</div>
 
-  <div class="clue-banner" id="clue-harlow-phone">
-    <div class="cb-lbl">✦ ROSE'S NOTE — PHONE RECORDS</div>
-    <div class="cb-text">Reeve called <strong style="color:var(--red)">+1 (312) 554-0917</strong> at 02:09 — five minutes before the first keycard entry at 02:14. He was calling someone. And that person walked in right after.</div>
+  <div class="clue-banner" id="cbanner-c1">
+    <div class="cb-icon">🔍</div>
+    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The trophy case lock was <strong style="color:var(--gold)">scratched and dented</strong> — like someone used a tool to open it!</div></div>
   </div>
-  <div class="clue-banner" id="clue-harlow-hotel">
-    <div class="cb-lbl">✦ ROSE'S NOTE — HOTEL REGISTRY</div>
-    <div class="cb-text"><strong style="color:var(--amber)">C. VOSS</strong> — Room 812. Same building. Checked in that afternoon. Never came forward as a witness. Why?</div>
+  <div class="clue-banner" id="cbanner-c2">
+    <div class="cb-icon">👟</div>
+    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">There's a <strong style="color:var(--gold)">muddy shoe print</strong> near the trophy case — size 6 sneakers!</div></div>
   </div>
-  <div class="clue-banner" id="clue-harlow-911">
-    <div class="cb-lbl">✦ ROSE'S NOTE — 911 LOG</div>
-    <div class="cb-text">A hang-up call from the Harlow lobby at <strong style="color:var(--red)">02:07am</strong> — seven minutes before the first keycard entry. Someone panicked and called for help. Then changed their mind. That's Dana Nouri's shift.</div>
-  </div>
-  <div class="clue-banner" id="clue-harlow-audio">
-    <div class="cb-lbl">✦ ROSE'S NOTE — ROOM AUDIO</div>
-    <div class="cb-text">Those sirens on the recording — police were already outside at 02:09. That means the 911 hang-up call at 02:07 was heard from inside Room 1106. Reeve heard the sirens arrive and knew they were leaving. That's when VALE made his move.</div>
+  <div class="clue-banner" id="cbanner-c3">
+    <div class="cb-icon">📷</div>
+    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The hallway camera shows someone with a <strong style="color:var(--gold)">blue backpack</strong> at 8:47pm — just before the trophy went missing!</div></div>
   </div>
 
-  <div class="srow"><div class="slbl">Evidence</div><div class="sline"></div></div>
+  <div class="srow"><div class="slbl">📁 Scene Evidence</div><div class="sline"></div></div>
 
-  <div class="evcard cr">
-    <div class="evtype">Physical // Item 001</div>
-    <div class="evtitle">Room 1106 — Keycard Log</div>
-    <div class="evdesc">Two unregistered entries: 02:14 and 02:51. Card serial MASTER-07 — staff override. Only the night manager's station issues MASTER overrides.</div>
+  <div class="doccard cr" onclick="openDoc('trophy-photo')">
+    <div class="doc-new">TAP!</div>
+    <div class="doc-icon">📸</div>
+    <div class="doc-lbl">Photo Evidence</div>
+    <div class="doc-title">Trophy Case — Crime Scene Photos</div>
+    <div class="doc-meta">Taken by Principal Hughes. Look for anything unusual!</div>
+    <div class="doc-tap">Open ›</div>
   </div>
 
-  <div class="doccard cr" onclick="openDoc('phone-records')">
-    <div class="doc-new">TAP</div>
-    <div class="doc-icon">📞</div>
-    <div class="doc-label">Digital // Item 002</div>
-    <div class="doc-title">Reeve's Call Log — Full Record</div>
-    <div class="doc-meta">27 entries. Nov 1–14. Forensic extraction from burner device.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="doccard cr" id="gate-hotel-registry" onclick="openDoc('hotel-registry')" style="position:relative">
-    <div class="gate-lock" id="lock-hotel-registry"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open Reeve's call log first.<br>Find the suspicious number.</div></div>
-    <div class="doc-icon">🏨</div>
-    <div class="doc-label">Physical // Item 003</div>
-    <div class="doc-title">Harlow Hotel — Guest Registry</div>
-    <div class="doc-meta">Nov 13–14. 47 registered guests. Plus staff.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="doccard cr" id="gate-dispatch-log" onclick="openDoc('dispatch-log')" style="position:relative">
-    <div class="gate-lock" id="lock-dispatch-log"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open the hotel registry first.<br>Find who else was in the building.</div></div>
-    <div class="doc-new">NEW</div>
-    <div class="doc-icon">🚨</div>
-    <div class="doc-label">Police // Item 004 — 911 Records</div>
-    <div class="doc-title">Dispatch Log — Nov 13–14</div>
-    <div class="doc-meta">Downtown precinct. All calls in a 4-block radius of the Harlow.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="evcard cr">
-    <div class="evtype">Person // Item 005</div>
-    <div class="evtitle">Dana Nouri — Night Manager</div>
-    <div class="evdesc">Working the front desk Nov 13–14. Only staff member with access to MASTER-07 override codes during that shift. Gave a statement of "nothing unusual." Rose isn't buying it.</div>
-  </div>
-
-  <div class="srow"><div class="slbl">Recovered Text Thread</div><div class="sline"></div></div>
-  <div class="smsthread">
-    <div class="smshdr"><div class="smsav">??</div><div><div class="smsname">UNKNOWN — +1 (555) 019-XXXX</div><div class="smsnum">Prepaid // Last active Nov 13</div></div></div>
-    <div class="smsbody">
-      <div class="smsmsg"><div class="smsbub">The ledger is complete. All four parts. Going to the press tomorrow if I don't hear back.</div><div class="smstime">Nov 13 / 21:04</div></div>
-      <div class="smsmsg"><div class="smsbub">Don't do anything stupid Marcus. Stay at the Harlow. We'll talk.</div><div class="smstime">Nov 13 / 21:18</div></div>
-      <div class="smsmsg"><div class="smsbub">Who is this? Who gave you this number?</div><div class="smstime">Nov 13 / 21:44</div></div>
-      <div class="smsmsg"><div class="smsbub" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2)">You know who this is. 147.3. Tonight. Don't make this harder than it needs to be.</div><div class="smstime">Nov 13 / 22:01</div></div>
-      <div class="smsmsg"><div class="smsbub" style="color:var(--muted)">[NO REPLY — LAST MESSAGE]</div><div class="smstime">Nov 13 / 22:01</div></div>
+  <div class="doccard cr" id="gate-camera" onclick="openDoc('camera-log')" style="position:relative">
+    <div class="gate-lock" id="lock-camera">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-lbl">Locked</div>
+      <div class="gate-req">Examine the trophy case first!<br>Find the first two clues.</div>
     </div>
+    <div class="doc-icon">📷</div>
+    <div class="doc-lbl">Camera Footage</div>
+    <div class="doc-title">Hallway Security Camera — 8pm Log</div>
+    <div class="doc-meta">Camera outside the trophy room. Who walked past?</div>
+    <div class="doc-tap">Open ›</div>
   </div>
 
-  <div class="srow"><div class="slbl">Timeline</div><div class="sline"></div></div>
-  <div class="timeline">
-    <div class="tli"><div class="tlt">NOV 13 // 18:42</div><div class="tle">Reeve checks in. Cash. Only a laptop bag.</div></div>
-    <div class="tli"><div class="tlt">NOV 13 // 22:01</div><div class="tle">Final text received. No reply.</div></div>
-    <div class="tli flag"><div class="tlt">NOV 14 // 02:07</div><div class="tle">911 hang-up call from Harlow lobby payphone. Officers dispatched. Canceled — no address given.</div></div>
-    <div class="tli flag"><div class="tlt">NOV 14 // 02:09</div><div class="tle">Outgoing call from Reeve's burner. 3 min 41 sec. To unregistered number.</div></div>
-    <div class="tli flag"><div class="tlt">NOV 14 // 02:14</div><div class="tle">First unregistered keycard entry. Camera obscured. Duration 22 minutes.</div></div>
-    <div class="tli"><div class="tlt">NOV 14 // 02:51</div><div class="tle">Second unregistered entry. No exit logged.</div></div>
-    <div class="tli"><div class="tlt">NOV 14 // 06:17</div><div class="tle">Body found. Scene staged as suicide. M.E. disputes ruling.</div></div>
-  </div>
-
-  <div class="ubox">
-    <div class="ulbl">// DECRYPT ROOM AUDIO — ENTER SIGNAL FREQUENCY</div>
-    <div class="uhint">The frequency is in the text thread above. What number did the unknown sender reference?</div>
-    <div class="urow"><input class="uinput" id="inp-harlow" type="text" placeholder="000.0 MHz" autocomplete="off"><button class="ubtn" onclick="checkHarlow()">DECRYPT</button></div>
-    <div class="ures" id="res-harlow"></div>
-    <div id="audio-player-wrap" style="display:none">
-      <div class="audio-player">
-        <div class="ap-header">// ROOM 1106 AUDIO INTERCEPT — 02:09:14 — DECRYPTED</div>
-        <div class="ap-waveform" id="waveform"></div>
-        <div class="ap-controls">
-          <button class="ap-play" onclick="playAudio()" id="play-btn">▶ PLAY</button>
-          <button class="ap-stop" onclick="stopAudio()">■ STOP</button>
-          <div class="ap-time" id="ap-time">00:00 / 00:42</div>
-        </div>
-        <div class="transcript" id="audio-transcript">
-          <div class="tr-line" id="tl-0">[RECORDING BEGINS — ROOM 1106 — 02:09:14]</div>
-          <div class="tr-line" id="tl-1">[BACKGROUND — STREET NOISE — LOW TRAFFIC]</div>
-          <div class="tr-line" id="tl-2">VOICE 1: "...you said it was clean. You said nobody would find out."</div>
-          <div class="tr-line" id="tl-3">VOICE 1: "...I have the whole ledger. Every transfer. Every account number."</div>
-          <div class="tr-line siren" id="tl-4">⚠ [SIRENS — EXTERNAL — APPROACHING BUILDING]</div>
-          <div class="tr-line" id="tl-5">VOICE 1: "...are those sirens? Are they — did someone call—"</div>
-          <div class="tr-line voice2" id="tl-6">VOICE 2: "...put it on the table, Marcus. Slow."</div>
-          <div class="tr-line siren" id="tl-7">⚠ [SIRENS — STILL PRESENT — THEN FADING]</div>
-          <div class="tr-line voice2" id="tl-8">VOICE 2: "...they're leaving. Nobody's coming for you."</div>
-          <div class="tr-line" id="tl-9">VOICE 1: "...going to press in the morning. I don't care anymore—"</div>
-          <div class="tr-line" id="tl-10">[STRUGGLE — RECORDING DISTORTION]</div>
-          <div class="tr-line" id="tl-11">[RECORDING ENDS — 02:51:44]</div>
-        </div>
-        <div class="siren-alert" id="siren-alert">
-          ⚠ ROSE'S NOTE: Those sirens. The 911 dispatch log shows a hang-up call from the Harlow lobby at 02:07 — two minutes before this recording begins. Someone in that hotel called for help and then hung up before police arrived. That's Dana Nouri's shift at the front desk. Cross-reference: open the 911 dispatch log.
-        </div>
-      </div>
+  <div class="doccard cr" id="gate-signin" onclick="openDoc('sign-out')" style="position:relative">
+    <div class="gate-lock" id="lock-signin">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-lbl">Locked</div>
+      <div class="gate-req">Check the camera footage first!</div>
     </div>
-  </div>
-</div>
-
-<!-- ═══ GHOST SIGNAL ═══════════════════ -->
-<div class="panel" id="panel-signal">
-  <div class="cnum">CASE #2024-0449 // SIGNALS INTEL</div>
-  <div class="ctitle" style="color:var(--blue)">GHOST SIGNAL</div>
-  <div class="csub">11 transmissions. The partial decode puts VALE at the Harlow the night Reeve died. Rose needs the codename to unlock the rest.</div>
-
-  <div class="srow"><div class="slbl">Intercepts</div><div class="sline"></div></div>
-  <div class="evcard cb">
-    <div class="evtype">Signal // All Intercepts</div>
-    <div class="evtitle">Frequency: 147.3 MHz</div>
-    <div class="evdesc">11 burst transmissions. Sept–Nov. All within 6 blocks of the Harlow. Automated relay — transmit point rotates every 4 minutes. Same frequency referenced in Reeve's last text message.</div>
-  </div>
-  <div class="evcard cb">
-    <div class="evtype">Analysis // Recurring Codename</div>
-    <div class="evtitle">"PHANTOM ___"</div>
-    <div class="evdesc">Two words always together. First word always "PHANTOM." Second word appears unredacted in Intercept 001. The partial decode is below. Read it carefully — both words are in the first line.</div>
-  </div>
-
-  <div class="srow"><div class="slbl">Partial Decode — Intercept 001</div><div class="sline"></div></div>
-  <div class="twrap">
-    <div class="tbar"><div class="tdot"><span style="background:#ef4444"></span><span style="background:#f59e0b"></span><span style="background:#10b981"></span></div>NEXUS DECODER // NOV 13 // 03:00</div>
-    <div class="tout"><span class="tm">// PARTIAL DECODE — 63% RECOVERED
-// FREQUENCY: 147.3 MHz — INTERCEPT 001
-</span>
-&gt; ...PHANTOM LEDGER CONFIRMED. STILL ACTIVE...
-&gt; ...TRANSFER WINDOW — 48 HRS REMAINING...
-&gt; ...<span class="tr-t">REEVE KNOWS TOO MUCH. HE HAS THE LEDGER.</span>..
-&gt; ...HARLOW. ROOM [REDACTED]...
-&gt; ...<span class="ta">VALE WILL HANDLE IT. TONIGHT.</span>...
-&gt; ...NOURI CONFIRMED ACCESS. MASTER OVERRIDE READY...
-&gt; ...[SIGNAL LOST]
-<span class="tm">// NOTE: "NOURI CONFIRMED ACCESS" — Harlow night manager
-// was part of this. She gave VALE the keycard.</span></div>
-  </div>
-
-  <div class="iblock">
-    <div class="inote">// ROSE'S NOTE</div>
-    <p>"NOURI CONFIRMED ACCESS." That line changes everything. Dana Nouri didn't just witness something — she facilitated it. She issued the MASTER-07 override to VALE deliberately. That 911 hang-up at 02:07 — maybe she got cold feet. Too late.</p>
-
-  <div class="nouri-thread-wrap" id="nouri-thread">
-    <div class="srow"><div class="slbl">Nouri — Coerced Messages</div><div class="sline"></div></div>
-    <div class="clue-banner show" style="margin-bottom:.85rem">
-      <div class="cb-lbl">✦ ROSE'S NOTE — NOURI THREAD RECOVERED</div>
-      <div class="cb-text">These messages were found on a second phone hidden in Nouri's locker. She wasn't a willing accomplice. She was terrified. This changes Rose's approach — Nouri is now a witness, not just a suspect.</div>
-    </div>
-    <div class="smsthread">
-      <div class="smshdr"><div class="smsav" style="background:rgba(239,68,68,.15);color:var(--red)">??</div><div><div class="smsname">UNKNOWN — +1 (312) 554-0917</div><div class="smsnum">Encrypted // First contact Oct 28</div></div></div>
-      <div class="smsbody">
-        <div class="smsmsg"><div class="smsbub">Dana. We know about the incident in 2019. The guest complaint. The one that was buried. We have the file.</div><div class="smstime">Oct 28 / 11:14</div></div>
-        <div class="smsmsg"><div class="smsbub">Who is this? How did you get this number?</div><div class="smstime">Oct 28 / 11:31</div></div>
-        <div class="smsmsg"><div class="smsbub">That doesn't matter. What matters is that file goes away — or it doesn't. Your choice. All we need is one night. Access to MASTER-07 for a few hours. That's it.</div><div class="smstime">Oct 28 / 11:44</div></div>
-        <div class="smsmsg"><div class="smsbub">I can't do that. That's my job. That's illegal.</div><div class="smstime">Oct 28 / 12:02</div></div>
-        <div class="smsmsg"><div class="smsbub" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2)">Your job. Right. Think about what happens to your job when that file surfaces. Think about your daughter. November 13. Just leave the override active after your shift starts. You won't see anything. You won't know anything.</div><div class="smstime">Oct 28 / 12:09</div></div>
-        <div class="smsmsg"><div class="smsbub" style="color:var(--muted)">[NO REPLY FOR 6 DAYS]</div><div class="smstime">Oct 28 — Nov 3</div></div>
-        <div class="smsmsg"><div class="smsbub">Fine. But I want that file destroyed. And I want proof.</div><div class="smstime">Nov 3 / 09:44</div></div>
-        <div class="smsmsg"><div class="smsbub" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2)">Smart girl. You'll have it by Nov 14. Nobody gets hurt. It's just business.</div><div class="smstime">Nov 3 / 09:51</div></div>
-        <div class="smsmsg"><div class="smsbub" style="color:var(--muted)">[NOURI — NOV 14 // 02:07 — CALLED 911. HUNG UP.]</div><div class="smstime">Nov 14 / 02:07</div></div>
-      </div>
-    </div>
-    <div class="iblock">
-      <div class="inote">// ROSE'S ANALYSIS</div>
-      <p>Nouri was blackmailed. The "2019 incident" is unrelated — something from her past they used as leverage. She agreed, then got cold feet at 02:07 and called 911. Then hung up because she was scared what would happen to her daughter. She's not a criminal. She's a victim who made a terrible choice. Rose needs her as a witness — not an enemy.</p>
-    </div>
-  </div>
-
-  </div>
-</div>
-
-<!-- ═══ THE HOLLOW ═══════════════════════ -->
-<div class="panel" id="panel-hollow">
-  <div class="cnum">CASE #2024-0453 // MISSING PERSONS</div>
-  <div class="ctitle" style="color:var(--green)">THE HOLLOW</div>
-  <div class="csub">Elena Marsh filed the report that would have exposed everything. Rose thinks she's still alive.</div>
-
-  <div class="clue-banner" id="clue-hollow-bank">
-    <div class="cb-lbl">✦ ROSE'S NOTE — BANK RECORDS</div>
-    <div class="cb-text">Nov 10: Marsh tried to send evidence to the Oversight Committee. Transfer <strong style="color:var(--red)">BLOCKED</strong> by: <strong style="color:var(--amber)">C. VOSS, Dept. Director</strong>. He knew exactly what she was doing.</div>
-  </div>
-  <div class="clue-banner" id="clue-hollow-cal">
-    <div class="cb-lbl">✦ ROSE'S NOTE — CALENDAR</div>
-    <div class="cb-text">Nov 14, 9:00am: scheduled meeting with <strong style="color:var(--amber)">M. Reeve — Crestview Capital</strong>. She was going to him for help. Reeve was killed the night before. She walked into nothing.</div>
-  </div>
-  <div class="clue-banner" id="clue-hollow-email">
-    <div class="cb-lbl">✦ TWIST — ENCRYPTED EMAIL FOUND</div>
-    <div class="cb-text">Rose intercepted an encrypted email sent <strong>after Marsh disappeared</strong>. She's alive. She's hiding. And she has more evidence than anyone knew.</div>
-  </div>
-
-  <div class="srow"><div class="slbl">Evidence</div><div class="sline"></div></div>
-  <div class="evcard cg">
-    <div class="evtype">Document // Item 001</div>
-    <div class="evtitle">Missing Person — Elena Marsh</div>
-    <div class="evdesc">City auditor, 34. Filed discrepancy report Nov 4. Gone Nov 12. Rose's instinct: she isn't dead. She ran. The question is — where, and does she know Rose is looking?</div>
-  </div>
-
-  <div class="doccard cg" onclick="openDoc('bank-records')">
-    <div class="doc-new">TAP</div>
-    <div class="doc-icon">🏦</div>
-    <div class="doc-label">Financial // Item 002</div>
-    <div class="doc-title">Marsh — Dept. Transaction Log</div>
-    <div class="doc-meta">Nov 1–14. One entry on Nov 10 is critical.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="doccard cg" id="gate-marsh-calendar" onclick="openDoc('marsh-calendar')" style="position:relative">
-    <div class="gate-lock" id="lock-marsh-calendar"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open the bank records first.<br>Find who blocked the transfer.</div></div>
-    <div class="doc-icon">📅</div>
-    <div class="doc-label">Personal // Item 003</div>
-    <div class="doc-title">Elena Marsh — Work Calendar</div>
-    <div class="doc-meta">Recovered from office workstation. Nov 1–14.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="doccard cp" onclick="openDoc('marsh-email')" id="marsh-email-card" style="display:none">
-    <div class="doc-new">NEW</div>
-    <div class="doc-icon">📧</div>
-    <div class="doc-label">Encrypted // Item 004 — INTERCEPTED</div>
-    <div class="doc-title">Marsh — Encrypted Email</div>
-    <div class="doc-meta">Sent Nov 18 — SIX DAYS after she disappeared. Traced via VPN relay.</div>
-    <div class="doc-tap">OPEN ›</div>
-  </div>
-
-  <div class="evcard cg locked" id="hollow-locked">
-    <div class="evtype">Document // Item 005</div>
-    <div class="evtitle">Suppressed Audit Report — [LOCKED]</div>
-    <div class="evdesc">Filed Nov 4. Suppressed within 3 hours. Unlocks when VALE is identified.</div>
-    <div class="evlock">🔒</div>
-  </div>
-
-  <div class="srow"><div class="slbl">Intercepted Voicemail — Nov 11</div><div class="sline"></div></div>
-  <div class="smsthread">
-    <div class="smshdr"><div class="smsav">EM</div><div><div class="smsname">Elena Marsh</div><div class="smsnum">Voicemail — Nov 11 // 19:42</div></div></div>
-    <div class="smsbody">
-      <div class="smsmsg"><div class="smsbub">"Elena Marsh, badge 4471. The account is 0x4F2A9C1D. Look at Crestview Capital. VALE signs every transfer. My report was buried by someone with authority to block transfers inside the department. I have copies. I'm going to—" [CUTS]</div><div class="smstime">Nov 11 / 19:42</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ REDLINE ═══════════════════════════ -->
-<div class="panel" id="panel-redline">
-  <div class="cnum">CASE #2024-0461 // FINANCIAL CRIME</div>
-  <div class="ctitle" style="color:var(--amber)">REDLINE</div>
-  <div class="csub">$4.2M. 12 accounts. One person behind the alias VALE. Rose needs a name.</div>
-
-  <div class="clue-banner" id="clue-redline-contact">
-    <div class="cb-lbl">✦ ROSE'S NOTE — CRESTVIEW CONTACTS</div>
-    <div class="cb-text">Number <strong style="color:var(--red)">+1 (312) 554-0917</strong> in the Crestview contact list is listed as <strong>"Director Liaison — Municipal Finance Dept."</strong> That's the same number Reeve called at 02:09. And the same number that just texted Rose a threat.</div>
-  </div>
-
-  <div class="srow"><div class="slbl">Financial Evidence</div><div class="sline"></div></div>
-  <div class="evcard ca">
-    <div class="evtype">Corporate // Item 001</div>
-    <div class="evtitle">Shell Entity — Crestview Capital LLC</div>
-    <div class="evdesc">Delaware LLC. No office. Marcus Reeve was sole analyst — he saw every transfer and eventually knew what it meant. Four sub-entities. All created within 12 months of each other.</div>
-  </div>
-
-  <div class="doccard ca" id="gate-crestview-contacts" onclick="openDoc('crestview-contacts')" style="position:relative">
-    <div class="gate-lock" id="lock-crestview-contacts"><div class="gate-icon">🔒</div><div class="gate-lbl">LOCKED</div><div class="gate-req">Open Reeve's call log in The Harlow.<br>Find the 02:09 number first.</div></div>
-    <div class="doc-new">TAP</div>
     <div class="doc-icon">📋</div>
-    <div class="doc-label">Corporate // Item 002</div>
-    <div class="doc-title">Crestview Capital — Contact List</div>
-    <div class="doc-meta">Subpoenaed. 14 contacts. Cross-reference phone numbers.</div>
-    <div class="doc-tap">OPEN ›</div>
+    <div class="doc-lbl">Official Record</div>
+    <div class="doc-title">School Sign-Out Sheet — Friday Evening</div>
+    <div class="doc-meta">Who was still in the building after 7pm?</div>
+    <div class="doc-tap">Open ›</div>
   </div>
 
-  <div class="evcard ca locked" id="vale-locked">
-    <div class="evtype">Identity // Item 003</div>
-    <div class="evtitle">VALE — True Identity — [LOCKED]</div>
-    <div class="evdesc">Identify the suspect below. Evidence exists across all four cases. Name the person.</div>
-    <div class="evlock">🔒</div>
-  </div>
-
-  <div class="srow"><div class="slbl">NEXUS Terminal</div><div class="sline"></div></div>
-  <div class="twrap">
-    <div class="tbar"><div class="tdot"><span style="background:#ef4444"></span><span style="background:#f59e0b"></span><span style="background:#10b981"></span></div>NEXUS SECURE TERMINAL // DET. ROSE</div>
-    <div class="tout" id="term-output"><span class="tm">// NEXUS TERMINAL — DETECTIVE ROSE
-// Type 'help' to see available commands.</span>
-</div>
-    <div class="tinrow"><span class="tprompt">&gt;&nbsp;</span><input class="tinput" id="term-input" type="text" placeholder="enter command..." autocomplete="off" autocorrect="off" spellcheck="false"><button class="trun" onclick="runTerminal()">RUN</button></div>
-  </div>
-
-  <div class="ubox">
-    <div class="ulbl">// OPERATION CODENAME — TWO WORDS</div>
-    <div class="uhint">First line of the Ghost Signal partial decode. Both words, unredacted, right there.</div>
-    <div class="urow"><input class="uinput" id="inp-codename" type="text" placeholder="PHANTOM ___" autocomplete="off"><button class="ubtn" onclick="checkCodename()">SUBMIT</button></div>
-    <div class="ures" id="res-codename"></div>
-  </div>
-
-  <div class="ubox" id="suspect-box" style="margin-top:.75rem;border-color:rgba(239,68,68,.3);display:none">
-    <div class="ulbl" style="color:var(--red)">// IDENTIFY THE SUSPECT — FULL NAME</div>
-    <div class="uhint">A name surfaces in the hotel registry, the bank denial, and the Crestview contact list. One number connects three cases. Rose needs the name.</div>
-    <div class="urow"><input class="uinput" id="inp-suspect" type="text" placeholder="FIRST LAST" autocomplete="off" style="border-color:rgba(239,68,68,.3)"><button class="ubtn" onclick="checkSuspect()" style="background:var(--red)">ACCUSE</button></div>
-    <div class="ures" id="res-suspect"></div>
+  <div class="srow"><div class="slbl">📝 Witness Report</div><div class="sline"></div></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
+    <div style="font-size:.65rem;font-weight:800;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:.5rem">👧 Witness: Maya (5th grade)</div>
+    <div style="background:var(--hi);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic">
+      "I forgot my water bottle and came back to school around 8:45. I saw someone running down the hallway near the trophy room. They had a blue backpack. I didn't see their face but they were wearing the Science Club hoodie!"
+    </div>
   </div>
 </div>
 
+<!-- ══════════ PANEL: SUSPECTS ══════════ -->
+<div class="panel" id="panel-suspects">
+  <div class="panel-tag">🗣️ Interviews</div>
+  <div class="panel-title" style="color:var(--purple)">Talk to Suspects</div>
+  <div class="panel-sub">Tap a suspect to interview them! Listen carefully — someone is lying!</div>
+
+  <div class="clue-banner" id="cbanner-c4">
+    <div class="cb-icon">🔧</div>
+    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">A <strong style="color:var(--gold)">small screwdriver</strong> matching the trophy case scratches was found in a Science Club locker!</div></div>
+  </div>
+  <div class="clue-banner" id="cbanner-c5">
+    <div class="cb-icon">📝</div>
+    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The <strong style="color:var(--gold)">sign-out sheet</strong> shows who was in the building — and who was NOT where they claimed to be!</div></div>
+  </div>
+
+  <div id="suspects-list"></div>
+</div>
+
+<!-- ══════════ PANEL: EVIDENCE ══════════ -->
+<div class="panel" id="panel-evidence">
+  <div class="panel-tag">🧪 Evidence Lab</div>
+  <div class="panel-title" style="color:var(--green)">Your Clue Collection</div>
+  <div class="panel-sub">Every clue you find shows up here. Collect them all!</div>
+
+  <div class="pwrap">
+    <div class="ptop"><span>🔍 Clues Found</span><span id="ev-count-label">0 of 5</span></div>
+    <div class="ptrack"><div class="pfill" id="ev-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="evidence-list">
+    <div class="ev-empty">🔍 No clues found yet!<br>Go explore the crime scene<br>and interview the suspects!</div>
+  </div>
+
+  <div class="note-wrap" style="margin-top:1rem">
+    <div class="note-bar">📓 Detective's Notebook — Ask Me Anything!</div>
+    <div class="note-out" id="note-out"><span class="m">// Welcome, Detective!
+// Type 'help' to see what I can do.
+// I'm here to help you think through the case!</span>
+</div>
+    <div class="note-row">
+      <span class="note-prompt">🔍</span>
+      <input class="note-input" id="note-input" type="text" placeholder="ask a question or type a command..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="note-run" onclick="runNotebook()">Ask!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PANEL: SOLVE IT ══════════ -->
+<div class="panel" id="panel-solve">
+  <div class="panel-tag">⚖️ Solve It</div>
+  <div class="panel-title" style="color:var(--gold)">Make Your Move!</div>
+  <div class="panel-sub">Put the clues together and name the culprit!</div>
+
+  <div class="solve-intro">
+    <span class="solve-emoji">⚖️</span>
+    <div class="solve-title">Are You Ready?</div>
+    <div class="solve-desc" id="solve-desc">Collect at least 3 clues before you can make your accusation! The more clues you find, the better your case!</div>
+  </div>
+
+  <div class="answer-box">
+    <div class="ans-lbl">🔍 Step 1: What color was the backpack?</div>
+    <div class="ans-hint">The witness saw a backpack. The camera confirms it. What color was it?</div>
+    <div class="ans-row">
+      <input class="ans-input" id="inp-q1" type="text" placeholder="Type the color..." autocomplete="off">
+      <button class="ans-btn" onclick="checkQ1()">Check!</button>
+    </div>
+    <div class="ans-result" id="res-q1"></div>
+  </div>
+
+  <div class="answer-box" id="q2-box" style="display:none">
+    <div class="ans-lbl">🕐 Step 2: What time was the suspect seen?</div>
+    <div class="ans-hint">The camera caught them in the hallway. What time? (hint: it's in the camera log)</div>
+    <div class="ans-row">
+      <input class="ans-input" id="inp-q2" type="text" placeholder="Type the time... (e.g. 8:47pm)" autocomplete="off">
+      <button class="ans-btn" onclick="checkQ2()">Check!</button>
+    </div>
+    <div class="ans-result" id="res-q2"></div>
+  </div>
+
+  <div class="accuse-box" id="accuse-box">
+    <div class="acc-lbl">⚖️ Step 3: Who did it?!</div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--txt2);margin-bottom:.85rem;line-height:1.55">You've gathered the evidence. Now make your accusation! Choose carefully — who do YOU think stole the trophy?</div>
+    <div class="acc-suspects" id="accuse-suspects"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
 <nav class="bnav">
-  <button class="nbtn active" id="nav-overview" onclick="showPanel('overview')"><span class="nico">⬡</span><span class="nlbl">Board</span></button>
-  <button class="nbtn" id="nav-harlow" onclick="showPanel('harlow')"><span class="nico">◉</span><span class="nlbl">Harlow</span><span class="npip" style="background:var(--red)"></span></button>
-  <button class="nbtn" id="nav-signal" onclick="showPanel('signal')"><span class="nico">◈</span><span class="nlbl">Signal</span><span class="npip" style="background:var(--blue)"></span></button>
-  <button class="nbtn" id="nav-hollow" onclick="showPanel('hollow')"><span class="nico">◇</span><span class="nlbl">Hollow</span><span class="npip" style="background:var(--green)"></span></button>
-  <button class="nbtn" id="nav-redline" onclick="showPanel('redline')"><span class="nico">▲</span><span class="nlbl">Redline</span><span class="npip" style="background:var(--amber)"></span></button>
+  <button class="nbtn active" id="nav-board" onclick="showPanel('board')"><span class="nico">🗺️</span><span class="nlbl">Board</span></button>
+  <button class="nbtn" id="nav-scene" onclick="showPanel('scene')"><span class="nico">🔍</span><span class="nlbl">Scene</span><span class="npip" style="background:var(--rose)"></span></button>
+  <button class="nbtn" id="nav-suspects" onclick="showPanel('suspects')"><span class="nico">🗣️</span><span class="nlbl">Suspects</span><span class="npip" style="background:var(--purple)"></span></button>
+  <button class="nbtn" id="nav-evidence" onclick="showPanel('evidence')"><span class="nico">🧪</span><span class="nlbl">Evidence</span><span class="npip" style="background:var(--green)"></span></button>
+  <button class="nbtn" id="nav-solve" onclick="showPanel('solve')"><span class="nico">⚖️</span><span class="nlbl">Solve!</span><span class="npip" style="background:var(--gold)"></span></button>
 </nav>
 
 <script>
-let progress=0,cluesFound=[],logoTaps=0,logoTimer=null;
-let audioCtx=null,audioNodes=[],audioTimer=null,audioPlaying=false,audioStartTime=0,waveAnimId=null;
+// ── STATE ──────────────────────────────
+let xp=0, cluesFound=[], progress=0, q1Solved=false, q2Solved=false, logoTaps=0, logoTimer=null;
+const MAX_CLUES = STORY.clues.length;
 
-// ── NAV ────────────────────────────────
-function showPanel(id){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
-  const p=document.getElementById('panel-'+id);
-  if(p){p.classList.add('active');window.scrollTo(0,0);}
-  const b=document.getElementById('nav-'+id);
-  if(b)b.classList.add('active');
+// ── INIT ──────────────────────────────
+window.addEventListener('load', () => {
+  // Apply story config to DOM
+  document.getElementById('board-title').textContent = STORY.title;
+  document.getElementById('board-sub').textContent = '📍 ' + STORY.setting + ' — ' + STORY.date;
+  document.getElementById('det-case-title').textContent = STORY.title;
+  document.getElementById('nb-opening').textContent = STORY.what_happened;
+
+  // Render suspects
+  renderSuspects();
+  renderAccuseSuspects();
+
+  // Load saved progress
+  const saved = localStorage.getItem('kidmystery_v3');
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      xp = s.xp || 0;
+      cluesFound = s.cluesFound || [];
+      progress = s.progress || 0;
+      q1Solved = s.q1Solved || false;
+      q2Solved = s.q2Solved || false;
+      updateUI();
+      // Restore banners
+      cluesFound.forEach(id => {
+        const b = document.getElementById('cbanner-' + id);
+        if (b) b.classList.add('show');
+      });
+      if (q1Solved) { document.getElementById('q2-box').style.display = 'block'; }
+      if (q2Solved) { document.getElementById('accuse-box').classList.add('show'); }
+      checkGates();
+    } catch(e) {}
+  }
+});
+
+// ── NAV ──────────────────────────────
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b => b.classList.remove('active'));
+  const p = document.getElementById('panel-' + id);
+  if (p) { p.classList.add('active'); window.scrollTo(0,0); }
+  const b = document.getElementById('nav-' + id);
+  if (b) b.classList.add('active');
+  if (id === 'evidence') renderEvidence();
+  if (id === 'solve') updateSolvePanel();
 }
 
-// ── PROGRESS ───────────────────────────
-function addClue(key,pts,bannerId,noteText){
-  if(cluesFound.includes(key))return;
-  cluesFound.push(key);
-  progress=Math.min(100,progress+pts);
-  document.getElementById('prog-fill').style.width=progress+'%';
-  document.getElementById('pct-label').textContent=progress+'%';
-  document.getElementById('clue-counter').textContent=cluesFound.length;
-  if(bannerId){const b=document.getElementById(bannerId);if(b)b.classList.add('show');}
-  if(noteText)addRoseNote(noteText);
-  saveProgress();
+// ── ADD CLUE ──────────────────────────
+function addClue(id, pts, bannerId, noteText) {
+  if (cluesFound.includes(id)) return;
+  cluesFound.push(id);
+  xp += pts;
+  progress = Math.round((cluesFound.length / MAX_CLUES) * 100);
+  if (bannerId) {
+    const b = document.getElementById(bannerId);
+    if (b) b.classList.add('show');
+  }
+  if (noteText) addNotebookEntry(noteText);
+  updateUI();
+  save();
   checkGates();
+  showToast('🔍 Clue Found! +' + pts + ' XP!', 'warn');
 }
 
-function addRoseNote(text){
-  const body=document.getElementById('rose-notes-body');
-  const div=document.createElement('div');
-  div.className='rn-entry new';
-  div.innerHTML='<div class="rn-label">NEW OBSERVATION</div>'+text;
+function updateUI() {
+  document.getElementById('prog-fill').style.width = progress + '%';
+  document.getElementById('pct-label').textContent = progress + '%';
+  document.getElementById('clue-counter').textContent = cluesFound.length;
+  document.getElementById('xp-counter').textContent = xp;
+  document.getElementById('xpBadge').textContent = '⭐ ' + xp + ' XP';
+  const evBadge = document.getElementById('ev-badge');
+  if (evBadge) evBadge.textContent = cluesFound.length + ' Found';
+  const evLabel = document.getElementById('ev-count-label');
+  if (evLabel) evLabel.textContent = cluesFound.length + ' of ' + MAX_CLUES;
+  const evFill = document.getElementById('ev-fill');
+  if (evFill) evFill.style.width = Math.round((cluesFound.length / MAX_CLUES) * 100) + '%';
+}
+
+function addNotebookEntry(text) {
+  const body = document.getElementById('notebook-body');
+  const div = document.createElement('div');
+  div.className = 'nb-entry new';
+  div.innerHTML = '<div class="nb-lbl">🔍 New Clue!</div>' + text;
   body.appendChild(div);
 }
 
-// ── TOAST ──────────────────────────────
-function showToast(msg,type){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show'+(type?' '+type:'');
-  setTimeout(()=>t.className='toast',2600);
+// ── GATE SYSTEM ──────────────────────
+function checkGates() {
+  // Camera unlocks after trophy photo (clues c1 + c2)
+  if (cluesFound.includes('c1') && cluesFound.includes('c2')) unlockGate('camera');
+  // Sign-out unlocks after camera (clue c3)
+  if (cluesFound.includes('c3')) unlockGate('signin');
 }
 
-// ── THREAT MESSAGE ─────────────────────
-let threatShown=false;
-function showThreat(){
-  if(threatShown)return;
-  threatShown=true;
-  setTimeout(()=>{
-    document.getElementById('threat-overlay').classList.add('show');
-    if(navigator.vibrate)navigator.vibrate([100,50,100,50,200]);
-  },1200);
-}
-function dismissThreat(){
-  document.getElementById('threat-overlay').classList.remove('show');
-  addClue('threat-received',8,null,'That message came from +1 (312) 554-0917 — the same number Reeve called 5 minutes before he was killed. VALE knows Rose found Room 812. That means VALE is watching this investigation.');
-  showToast('✦ THREAT LOGGED — NUMBER NOTED','danger');
-}
-
-// ── LOGO TAP ───────────────────────────
-function logoTap(){
-  logoTaps++;
-  if(logoTimer)clearTimeout(logoTimer);
-  logoTimer=setTimeout(()=>logoTaps=0,2200);
-  if(logoTaps===3)showToast('Keep going...','warn');
-  if(logoTaps===7){
-    logoTaps=0;
-    openModal('<div class="mtitle" style="color:var(--amber)">ROSE\'S HINT SYSTEM</div><div style="font-family:\'Space Mono\',monospace;font-size:.7rem;color:var(--green);line-height:2.3;margin-top:1rem">◉ HARLOW: Open the call log. Find the 02:09 call. Note the number.<br><br>◉ HARLOW: Open hotel registry. Scroll all 47 names. Someone familiar is in Room 812.<br><br>◉ HARLOW: Open the 911 dispatch log. A hang-up call at 02:07 — who made it?<br><br>◉ HARLOW: Enter 147.3 to decrypt audio. Listen for the sirens — and what Reeve says when he hears them.<br><br>◈ SIGNAL: Read the first decode line. Both codename words are there.<br><br>◇ HOLLOW: Open bank records. Who blocked Marsh\'s wire transfer?<br><br>▲ REDLINE: Open Crestview contacts. Match the phone number from the Harlow call log.<br><br>▲ FINAL: Same name — hotel registry, bank denial, contact list. That\'s your suspect.</div>');
-  }
-}
-
-// ── MODAL ──────────────────────────────
-function openModal(html){document.getElementById('mcontent').innerHTML=html;document.getElementById('moverlay').classList.add('show');}
-function closeModal(e){if(!e||e.target===document.getElementById('moverlay'))document.getElementById('moverlay').classList.remove('show');}
-
-// ── AUDIO ENGINE ───────────────────────
-const transcriptTimes=[0,2000,4500,8000,11500,14000,18000,23000,26000,31000,36000,41000];
-
-function playAudio(){
-  if(audioPlaying){stopAudio();return;}
-  const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){showToast('Audio not supported on this device','warn');return;}
-  audioCtx=new AC();
-  audioNodes=[];audioPlaying=true;
-  const btn=document.getElementById('play-btn');
-  btn.textContent='■ STOP';
-  audioStartTime=audioCtx.currentTime;
-  const dur=42;
-
-  // helper
-  function osc(type,freq,gainVal,start,end,dst){
-    const o=audioCtx.createOscillator();
-    const g=audioCtx.createGain();
-    o.type=type;o.frequency.value=freq;
-    g.gain.setValueAtTime(0,start);
-    g.gain.linearRampToValueAtTime(gainVal,start+0.1);
-    g.gain.setValueAtTime(gainVal,end-0.1);
-    g.gain.linearRampToValueAtTime(0,end);
-    o.connect(g);g.connect(dst||audioCtx.destination);
-    o.start(start);o.stop(end);
-    audioNodes.push(o,g);
-    return {osc:o,gain:g};
-  }
-
-  // Room hum
-  osc('sine',60,0.015,audioCtx.currentTime,audioCtx.currentTime+dur);
-
-  // Police sirens (appear at ~11.5s - the key clue)
-  for(let i=0;i<12;i++){
-    const t=audioCtx.currentTime+11+i*1.3;
-    const so=audioCtx.createOscillator();
-    const sg=audioCtx.createGain();
-    const sf=audioCtx.createBiquadFilter();
-    sf.type='bandpass';sf.frequency.value=900;sf.Q.value=1.5;
-    so.type='sawtooth';
-    sg.gain.setValueAtTime(0,t);
-    sg.gain.linearRampToValueAtTime(0.055,t+0.2);
-    sg.gain.setValueAtTime(0.055,t+1.0);
-    sg.gain.linearRampToValueAtTime(0,t+1.3);
-    so.frequency.setValueAtTime(700,t);
-    so.frequency.linearRampToValueAtTime(1100,t+0.65);
-    so.frequency.linearRampToValueAtTime(700,t+1.3);
-    so.connect(sf);sf.connect(sg);sg.connect(audioCtx.destination);
-    so.start(t);so.stop(t+1.4);
-    audioNodes.push(so,sg,sf);
-  }
-
-  // Siren fading (24s+)
-  for(let i=0;i<5;i++){
-    const t=audioCtx.currentTime+24+i*1.3;
-    const so=audioCtx.createOscillator();
-    const sg=audioCtx.createGain();
-    so.type='sawtooth';
-    const fadeVol=0.04-i*0.008;
-    sg.gain.setValueAtTime(0,t);
-    sg.gain.linearRampToValueAtTime(Math.max(0.005,fadeVol),t+0.2);
-    sg.gain.linearRampToValueAtTime(0,t+1.3);
-    so.frequency.setValueAtTime(700,t);
-    so.frequency.linearRampToValueAtTime(1050,t+0.65);
-    so.frequency.linearRampToValueAtTime(700,t+1.3);
-    so.connect(sg);sg.connect(audioCtx.destination);
-    so.start(t);so.stop(t+1.4);
-    audioNodes.push(so,sg);
-  }
-
-  // Voice 1 - Reeve (higher, stressed)
-  const v1Filter=audioCtx.createBiquadFilter();
-  v1Filter.type='bandpass';v1Filter.frequency.value=1800;v1Filter.Q.value=4;
-  v1Filter.connect(audioCtx.destination);
-  const voiceSegs1=[[4.5,8.5],[9,11.2],[15,17.5],[19,22],[31,35]];
-  voiceSegs1.forEach(([s,e])=>{
-    const o=audioCtx.createOscillator();const g=audioCtx.createGain();
-    o.type='sawtooth';o.frequency.value=155;
-    g.gain.setValueAtTime(0,audioCtx.currentTime+s);
-    g.gain.linearRampToValueAtTime(0.12,audioCtx.currentTime+s+0.15);
-    g.gain.setValueAtTime(0.12,audioCtx.currentTime+e-0.15);
-    g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+e);
-    o.connect(v1Filter);o.start(audioCtx.currentTime+s);o.stop(audioCtx.currentTime+e);
-    audioNodes.push(o,g);
-  });
-
-  // Voice 2 - VALE (lower, calm)
-  const v2Filter=audioCtx.createBiquadFilter();
-  v2Filter.type='bandpass';v2Filter.frequency.value=1100;v2Filter.Q.value=4;
-  v2Filter.connect(audioCtx.destination);
-  const voiceSegs2=[[18,21.5],[26,29],[32,35]];
-  voiceSegs2.forEach(([s,e])=>{
-    const o=audioCtx.createOscillator();const g=audioCtx.createGain();
-    o.type='sawtooth';o.frequency.value=105;
-    g.gain.setValueAtTime(0,audioCtx.currentTime+s);
-    g.gain.linearRampToValueAtTime(0.1,audioCtx.currentTime+s+0.2);
-    g.gain.setValueAtTime(0.1,audioCtx.currentTime+e-0.2);
-    g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+e);
-    o.connect(v2Filter);o.start(audioCtx.currentTime+s);o.stop(audioCtx.currentTime+e);
-    audioNodes.push(o,g);
-  });
-
-  // Struggle noise at ~36s
-  try{
-    const bufSz=Math.floor(audioCtx.sampleRate*4);
-    const buf=audioCtx.createBuffer(1,bufSz,audioCtx.sampleRate);
-    const data=buf.getChannelData(0);
-    for(let i=0;i<bufSz;i++)data[i]=(Math.random()*2-1)*0.5;
-    const ns=audioCtx.createBufferSource();
-    const ng=audioCtx.createGain();
-    ns.buffer=buf;
-    ng.gain.setValueAtTime(0,audioCtx.currentTime+35);
-    ng.gain.linearRampToValueAtTime(0.25,audioCtx.currentTime+36);
-    ng.gain.linearRampToValueAtTime(0,audioCtx.currentTime+40);
-    ns.connect(ng);ng.connect(audioCtx.destination);
-    ns.start(audioCtx.currentTime+35);ns.stop(audioCtx.currentTime+41);
-    audioNodes.push(ns,ng);
-  }catch(e){}
-
-  // Transcript sync
-  document.querySelectorAll('.tr-line').forEach(l=>l.classList.remove('active'));
-  transcriptTimes.forEach((t,i)=>{
-    const timer=setTimeout(()=>{
-      document.querySelectorAll('.tr-line').forEach(l=>l.classList.remove('active'));
-      const el=document.getElementById('tl-'+i);
-      if(el){el.classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
-      if(i===4){
-        // SIREN LINE - big moment
-        showToast('⚠ SIRENS DETECTED ON AUDIO','danger');
-        if(navigator.vibrate)navigator.vibrate([30,20,30]);
-      }
-      if(i===7){
-        setTimeout(()=>{
-          document.getElementById('siren-alert').classList.add('show');
-          addClue('audio-siren',18,'clue-harlow-audio','Those sirens on the room recording — police were already responding to a 911 hang-up from the Harlow lobby at 02:07. Reeve heard them and thought help was coming. VALE knew the officers were leaving. That\'s when the balance of power shifted.');
-        },500);
-      }
-    },t);
-    audioNodes.push({stop:()=>clearTimeout(timer)});
-  });
-
-  // Time counter
-  const startMs=Date.now();
-  function tick(){
-    if(!audioPlaying)return;
-    const el=document.getElementById('ap-time');
-    if(el){const s=Math.floor((Date.now()-startMs)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')+' / 00:42';}
-    if((Date.now()-startMs)<42000)requestAnimationFrame(tick);
-    else stopAudio();
-  }
-  requestAnimationFrame(tick);
-
-  // Waveform animation
-  buildWaveform();
-  animateWaveform();
-
-  // Auto stop
-  setTimeout(stopAudio,42500);
-}
-
-function stopAudio(){
-  audioPlaying=false;
-  audioNodes.forEach(n=>{try{if(n.stop)n.stop();if(n.disconnect)n.disconnect();}catch(e){}});
-  audioNodes=[];
-  if(audioCtx){try{audioCtx.close();}catch(e){}}
-  audioCtx=null;
-  if(waveAnimId){cancelAnimationFrame(waveAnimId);waveAnimId=null;}
-  const btn=document.getElementById('play-btn');
-  if(btn)btn.textContent='▶ PLAY';
-}
-
-function buildWaveform(){
-  const w=document.getElementById('waveform');
-  if(!w)return;w.innerHTML='';
-  for(let i=0;i<40;i++){
-    const b=document.createElement('div');
-    b.className='ap-bar';b.style.height='4px';
-    w.appendChild(b);
-  }
-}
-
-function animateWaveform(){
-  if(!audioPlaying)return;
-  const bars=document.querySelectorAll('.ap-bar');
-  bars.forEach(b=>{
-    const h=Math.random()*28+4;
-    b.style.height=h+'px';
-  });
-  waveAnimId=requestAnimationFrame(()=>setTimeout(animateWaveform,80));
-}
-
-// ── DOCS ───────────────────────────────
-function openDoc(id){
-  const doc=DOCS[id];if(!doc)return;
-  document.getElementById('doc-title').textContent=doc.title;
-  document.getElementById('doc-body').innerHTML=doc.render();
-  document.getElementById('doc-viewer').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeDoc(){document.getElementById('doc-viewer').classList.remove('show');document.body.style.overflow='';}
-
-const DOCS={
-  'phone-records':{title:'REEVE — BURNER PHONE CALL LOG',render:()=>{
-    const calls=[
-      ['Nov 1','09:14','+1 (773) 220-4481','4m 12s','OUT'],['Nov 1','14:02','+1 (773) 220-4481','1m 08s','IN'],
-      ['Nov 3','11:30','+1 (312) 889-7734','7m 44s','OUT'],['Nov 4','08:55','+1 (773) 220-4481','2m 31s','OUT'],
-      ['Nov 4','16:17','+1 (708) 441-2290','0m 48s','IN'],['Nov 5','10:22','+1 (312) 889-7734','5m 05s','OUT'],
-      ['Nov 6','13:09','+1 (773) 220-4481','8m 17s','IN'],['Nov 7','09:44','+1 (708) 441-2290','3m 22s','OUT'],
-      ['Nov 7','15:33','+1 (312) 889-7734','11m 48s','OUT'],['Nov 8','11:02','+1 (773) 220-4481','2m 04s','OUT'],
-      ['Nov 9','10:15','+1 (708) 441-2290','0m 31s','IN'],['Nov 9','14:40','+1 (312) 889-7734','6m 12s','OUT'],
-      ['Nov 10','09:28','+1 (773) 220-4481','4m 55s','OUT'],['Nov 10','13:17','+1 (708) 441-2290','2m 09s','IN'],
-      ['Nov 11','10:44','+1 (312) 889-7734','3m 30s','OUT'],['Nov 11','16:02','+1 (773) 220-4481','1m 52s','IN'],
-      ['Nov 12','09:11','+1 (708) 441-2290','5m 18s','OUT'],['Nov 12','14:30','+1 (312) 889-7734','2m 44s','OUT'],
-      ['Nov 12','18:55','+1 (773) 220-4481','7m 02s','IN'],['Nov 13','09:04','+1 (312) 889-7734','3m 11s','OUT'],
-      ['Nov 13','12:17','+1 (708) 441-2290','1m 40s','IN'],['Nov 13','15:33','+1 (773) 220-4481','4m 28s','OUT'],
-      ['Nov 13','18:59','+1 (312) 889-7734','2m 05s','OUT'],['Nov 13','22:14','+1 (708) 441-2290','0m 22s','IN'],
-      ['Nov 14','02:09','+1 (312) 554-0917','3m 41s','OUT'],
-      ['Nov 14','02:44','+1 (773) 220-4481','0m 00s','MISS'],['Nov 14','02:50','+1 (773) 220-4481','0m 00s','MISS'],
-    ];
-    let h=`<div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">DEVICE: Prepaid burner — TracFone<br>PERIOD: Nov 1–14 // ENTRIES: 27<br>RETRIEVED: Forensic extraction</div>
-    <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:3px">ROSE: Scroll all entries. One call stands out by time and recipient. Cross-reference with other case records.</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:2fr 2fr 1fr .8fr"><span>DATE/TIME</span><span>NUMBER</span><span>DURATION</span><span>TYPE</span></div>`;
-    calls.forEach(([date,time,num,dur,type])=>{
-      const f=num==='+1 (312) 554-0917';
-      h+=`<div class="table-row${f?' flagged':''}" style="grid-template-columns:2fr 2fr 1fr .8fr"><span style="color:var(--muted)">${date} ${time}</span><span class="${f?'flag-num':''}">${num}</span><span>${dur}</span><span>${type}${f?' ⚑':''}</span></div>`;
-    });
-    h+='</div>';
-    setTimeout(()=>{addClue('phone-opened',12,'clue-harlow-phone','The 02:09 call from Reeve\'s burner — made 5 minutes before whoever was on the other end walked through his door with a MASTER-07 keycard. He called his killer.');showToast('✦ CALL LOG ACCESSED');},1500);
-    return h;
-  }},
-  'hotel-registry':{title:'HARLOW HOTEL — GUEST REGISTRY NOV 13–14',render:()=>{
-    const guests=[
-      ['ABRAMOWITZ, D.','412','Nov 12','Nov 15'],['BECKFORD, T.','209','Nov 13','Nov 14'],
-      ['BELLAMY, C.','318','Nov 11','Nov 14'],['BIRCH, S.','521','Nov 13','Nov 14'],
-      ['CARUSO, M.','704','Nov 10','Nov 13'],['CHEN, L.','233','Nov 13','Nov 15'],
-      ['CONNOLLY, P.','108','Nov 12','Nov 14'],['DABROWSKI, R.','417','Nov 13','Nov 14'],
-      ['DELUCA, F.','622','Nov 12','Nov 14'],['DRUMMOND, A.','310','Nov 13','Nov 16'],
-      ['DUNBAR, W.','517','Nov 11','Nov 14'],['EAVES, C.','205','Nov 13','Nov 14'],
-      ['FERRARO, G.','715','Nov 12','Nov 15'],['FLANAGAN, J.','803','Nov 13','Nov 14'],
-      ['GARCIA, R.','119','Nov 10','Nov 13'],['HAYES, N.','402','Nov 13','Nov 14'],
-      ['INGRAM, D.','611','Nov 12','Nov 14'],['JACKSON, T.','228','Nov 13','Nov 15'],
-      ['KOWALSKI, B.','906','Nov 13','Nov 14'],['LANDERS, M.','323','Nov 11','Nov 14'],
-      ['LARKIN, P.','509','Nov 12','Nov 14'],['LAWSON, H.','718','Nov 13','Nov 14'],
-      ['MCALLISTER, J.','214','Nov 10','Nov 14'],['MEDINA, C.','433','Nov 13','Nov 14'],
-      ['MONROE, S.','601','Nov 12','Nov 15'],['NAKAMURA, Y.','824','Nov 13','Nov 14'],
-      ['NOURI, D.','STAFF','—','—'],['OKAFOR, E.','316','Nov 13','Nov 14'],
-      ['OLSEN, P.','502','Nov 12','Nov 14'],['PATEL, A.','711','Nov 11','Nov 15'],
-      ['QUINN, B.','208','Nov 13','Nov 14'],['REEVE, M.','1106','Nov 13','Nov 14'],
-      ['RIORDAN, C.','414','Nov 12','Nov 14'],['ROBERTS, F.','523','Nov 13','Nov 15'],
-      ['ROMANO, T.','817','Nov 11','Nov 14'],['RUSSO, A.','305','Nov 12','Nov 14'],
-      ['SANTOS, D.','612','Nov 13','Nov 14'],['SHAW, K.','701','Nov 12','Nov 15'],
-      ['SINGH, R.','419','Nov 13','Nov 14'],['TAKAHASHI, N.','233','Nov 12','Nov 14'],
-      ['TAYLOR, B.','508','Nov 13','Nov 14'],['THOMAS, G.','622','Nov 13','Nov 14'],
-      ['TURNER, S.','310','Nov 12','Nov 14'],['VOSS, C.','812','Nov 13','Nov 14'],
-      ['WAGNER, P.','417','Nov 12','Nov 15'],['WALKER, J.','219','Nov 13','Nov 14'],['WRIGHT, E.','604','Nov 12','Nov 14'],
-    ];
-    let h=`<div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">HARLOW HOTEL — DOWNTOWN // 47 GUESTS<br>REGISTRY: Nov 13–14, 2024</div>
-    <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:3px">ROSE: Scroll the full list. Room 1106 is the crime scene. Someone else in this building that night never came forward.</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:2fr .8fr 1.2fr 1.2fr"><span>GUEST</span><span>RM</span><span>CHECK-IN</span><span>CHECK-OUT</span></div>`;
-    guests.forEach(([name,room,cin,cout])=>{
-      const f=name==='VOSS, C.';const v=name==='REEVE, M.';const n=name==='NOURI, D.';
-      h+=`<div class="table-row${f||v?f?' flagged2':' flagged':''}" style="grid-template-columns:2fr .8fr 1.2fr 1.2fr">
-        <span class="${f?'flag-name':''}" style="${v?'color:var(--red)':''}">${name}${v?' ✝':''}</span>
-        <span>${room}</span><span>${cin}</span><span>${cout}</span></div>`;
-    });
-    h+='</div>';
-    setTimeout(()=>{
-      addClue('hotel-opened',12,'clue-harlow-hotel','VOSS, C. — Room 812 — checked in the same afternoon as Reeve. Same hotel. Stayed the same night. Never mentioned it to anyone. Never offered a statement. Why was he there?');
-      showToast('✦ HOTEL REGISTRY ACCESSED');
-      showThreat();
-    },1500);
-    return h;
-  }},
-  'dispatch-log':{title:'911 DISPATCH LOG — DOWNTOWN PRECINCT',render:()=>{
-    const calls=[
-      ['Nov 13','21:04','Noise complaint — 200 block W. Harmon Ave','CLOSED — NO CONTACT'],
-      ['Nov 13','21:47','Fender bender — Michigan & 5th','RESOLVED'],
-      ['Nov 13','22:33','Domestic disturbance — 44 Kelsey Blvd','DISPATCHED / RESOLVED'],
-      ['Nov 13','23:15','Suspicious person — Kellerman Parking Garage','CLOSED — CALLER LOCATED'],
-      ['Nov 14','00:41','Medical — chest pains — 119 W. Monroe','EMS DISPATCHED'],
-      ['Nov 14','01:22','Noise complaint — The Harlow Hotel, lobby report','CLOSED — MANAGEMENT HANDLED'],
-      ['Nov 14','02:07','HANG-UP CALL — HARLOW HOTEL LOBBY PAYPHONE — 444 W. MICHIGAN AVE','DISPATCHED / CANCELED — HANG-UP, NO ADDRESS GIVEN'],
-      ['Nov 14','02:11','[DISPATCH CANCELED — OFFICERS RETURNED TO PATROL]','—'],
-      ['Nov 14','02:58','Vehicle break-in — Kellerman Parking Garage, level 2','REPORT FILED'],
-      ['Nov 14','04:14','Noise complaint — 812 W. Monroe','CLOSED — NO CONTACT'],
-      ['Nov 14','06:22','DECEASED INDIVIDUAL — THE HARLOW HOTEL, ROOM 1106','HOMICIDE RESPONDED'],
-    ];
-    let h=`<div class="stamp">OFFICIAL RECORD</div>
-    <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">DOWNTOWN PRECINCT — DISPATCH LOG<br>PERIOD: Nov 13–14, 2024<br>4-BLOCK RADIUS: HARLOW HOTEL AREA</div>
-    <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:3px">ROSE: Look at the 02:07 entry. Then look at the audio transcript timing. Someone in that hotel called 911 at exactly the moment Reeve was making his own call.</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1fr 1fr 2fr"><span>DATE</span><span>TIME</span><span>INCIDENT</span></div>`;
-    calls.forEach(([date,time,incident,status])=>{
-      const f=time==='02:07';
-      h+=`<div class="table-row${f?' flagged':''}" style="grid-template-columns:1fr 1fr 2fr"><span style="color:var(--muted)">${date}</span><span class="${f?'flag-num':''}">${time}</span><span>${incident}${status&&status!=='—'?'<br><span style="color:var(--muted);font-size:.56rem">'+status+'</span>':''}</span></div>`;
-    });
-    h+=`</div><div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--green);margin-top:1rem;padding:.75rem;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:3px">ROSE'S ANALYSIS: The 02:07 hang-up came from the Harlow hotel lobby payphone. Dana Nouri was the only staff member on duty. She called 911 — then hung up. Reeve's last outgoing call from his burner was 02:09. He was calling VALE. The sirens you can hear on the room audio are from the officers dispatched at 02:07 — who left at 02:11. That's when VALE entered.</div>`;
-    setTimeout(()=>{revealNouriThread();
-    addClue('dispatch-opened',14,'clue-harlow-911','The 02:07 hang-up from the hotel lobby — Dana Nouri called for help and then changed her mind. Maybe she was threatened. Maybe she was paid. Either way, she withheld a material fact from police and let Reeve die.');showToast('✦ 911 LOG ACCESSED');},1500);
-    return h;
-  }},
-  'bank-records':{title:'MARSH — DEPT. TRANSACTION LOG',render:()=>{
-    const rows=[
-      ['Nov 1','Routine audit disbursement — $1,200','APPROVED'],
-      ['Nov 2','Office supply procurement — $340','APPROVED'],
-      ['Nov 3','Contractor invoice IT — $8,750','APPROVED'],
-      ['Nov 4','Evidence preservation — $220','APPROVED'],
-      ['Nov 5','Staff training compliance — $2,100','APPROVED'],
-      ['Nov 6','Equipment lease renewal — $4,400','APPROVED'],
-      ['Nov 7','Courier services documents — $95','APPROVED'],
-      ['Nov 8','Software licensing — $1,800','APPROVED'],
-      ['Nov 9','Background check processing — $75','APPROVED'],
-      ['Nov 10','Routine audit disbursement — $1,200','APPROVED'],
-      ['Nov 10','WIRE: Oversight Committee — Evidence re: acct 0x4F2A9C1D','BLOCKED — AUTH DENIED: C. VOSS, DEPT. DIRECTOR'],
-      ['Nov 11','Document scanning — $430','APPROVED'],
-      ['Nov 12','Contractor invoice legal — $6,200','APPROVED'],
-      ['Nov 13','Routine audit disbursement — $1,200','APPROVED'],
-      ['Nov 14','[NO ACTIVITY — MARSH ABSENT]','—'],
-    ];
-    let h=`<div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">ACCOUNT: Municipal Finance Dept / E. Marsh<br>PERIOD: Nov 1–14, 2024</div>
-    <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:3px">ROSE: One entry on Nov 10 changes everything. Who had authority to block this transfer?</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1fr 2fr 2fr"><span>DATE</span><span>DESCRIPTION</span><span>STATUS</span></div>`;
-    rows.forEach(([date,desc,status])=>{
-      const b=status.startsWith('BLOCKED');
-      h+=`<div class="table-row${b?' flagged':''}" style="grid-template-columns:1fr 2fr 2fr"><span style="color:var(--muted)">${date}</span><span>${desc}</span><span class="${b?'flag-num':''}">${status}</span></div>`;
-    });
-    h+=`</div>`;
-    setTimeout(()=>{
-      addClue('bank-opened',14,'clue-hollow-bank','C. VOSS, Dept. Director — he blocked Marsh\'s wire transfer to the Oversight Committee on Nov 10. She was trying to get evidence OUT. He stopped it. Four days later, Reeve was dead. Two days after that, Marsh was gone.');
-      showToast('✦ BANK RECORDS ACCESSED');
-      // Unlock Marsh email card after bank records found
-      setTimeout(()=>{
-        const card=document.getElementById('marsh-email-card');
-        if(card){card.style.display='block';showToast('✦ NEW DOCUMENT UNLOCKED — HOLLOW','warn');}
-        addClue('email-unlocked',5,'clue-hollow-email','An encrypted email sent by Elena Marsh — six days after she disappeared. She\'s alive. And she has more than anyone knew.');
-      },3000);
-    },1500);
-    return h;
-  }},
-  'marsh-calendar':{title:'ELENA MARSH — WORK CALENDAR NOV 2024',render:()=>{
-    const entries=[
-      {date:'Nov 1, Fri',time:'9:00am',title:'Dept. budget review',note:'Conference room B.',flag:false},
-      {date:'Nov 4, Mon',time:'9:15am',title:'File discrepancy report — URGENT',note:'Account 0x4F2A9C1D. Crestview Capital.',flag:false},
-      {date:'Nov 4, Mon',time:'2:00pm',title:'Meeting: Director Voss re: audit report',note:'Rescheduled by his office. No reason given.',flag:false},
-      {date:'Nov 6, Wed',time:'3:30pm',title:'Call with legal — document retention',note:'Re: flagged account materials.',flag:false},
-      {date:'Nov 10, Sun',time:'2:00pm',title:'Wire transfer — Oversight Committee',note:'Transfer blocked. See bank log. Voss blocked it.',flag:false},
-      {date:'Nov 12, Tue',time:'9:00am',title:'Dept. staff meeting',note:'Last meeting attended before disappearance.',flag:false},
-      {date:'Nov 14, Thu',time:'9:00am',title:'M. Reeve — Crestview Capital',note:'Re: account 0x4F2A9C1D structure. He agreed to meet off-site. Rose: she was going to him for help. He was killed the night before.',flag:true},
-      {date:'Nov 14, Thu',time:'2:00pm',title:'Oversight Committee — phone briefing',note:'[NOT ATTENDED — MARSH MISSING]',flag:false},
-    ];
-    let h='<div class="stamp a">RECOVERED</div><div style="font-family:\'Space Mono\',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">SOURCE: Office workstation<br>NOTE: Entries after Nov 12 not attended.</div>';
-    entries.forEach(e=>{h+=`<div class="cal-entry${e.flag?' flagged':''}"><div class="cal-time">${e.date} // ${e.time}</div><div class="cal-title${e.flag?' ft':''}">${e.title}</div><div class="cal-note">${e.note}</div></div>`;});
-    setTimeout(()=>{addClue('cal-opened',12,'clue-hollow-cal','Marsh had a meeting scheduled with Reeve for Nov 14 at 9am. She was reaching out to someone inside Crestview Capital to corroborate her audit findings. Voss found out — and moved the night before her meeting.');showToast('✦ CALENDAR ACCESSED');},1500);
-    return h;
-  }},
-  'marsh-email':{title:'INTERCEPTED EMAIL — ELENA MARSH — NOV 18',render:()=>{
-    let h=`<div class="stamp g">CLASSIFIED</div>
-    <div class="email-box">
-      <div class="email-hdr">
-        <div class="email-field">FROM: <span>em_4471@prtnx.onion</span> [VPN RELAY — UNTRACEABLE]</div>
-        <div class="email-field">TO: <span>nexus-tip@[REDACTED]</span></div>
-        <div class="email-field">DATE: <span>Nov 18, 2024 // 03:22 UTC</span></div>
-        <div class="email-field">SUBJECT: <span>PHANTOM LEDGER — FULL DOCUMENTATION</span></div>
-        <div class="email-field">ENCRYPT: <span>PGP — KEY: 0xF4A7...</span></div>
-      </div>
-      <div class="email-body">
-        <p>If you're reading this, the tip line worked. I'm alive. I've been in a secure location since Nov 12.</p><br>
-        <p>Carl Voss is VALE. Director of Municipal Finance, 6th floor, City Hall. He has been routing municipal funds through Crestview Capital LLC for eight months. The total is not $4.2M. That's what they found. The actual figure is closer to <strong style="color:var(--amber)">$11.7M</strong> across three fiscal accounts. I have the full ledger.</p><br>
-        <p>Marcus Reeve was the only other person who had access to the complete transaction history. He reached out to me after I filed my report. He knew what the transfers meant because he processed them. He was building a case from the inside. I don't know what happened to him and I'm afraid to find out.</p><br>
-        <p>Voss is not working alone. The PHANTOM LEDGER operation involves at least <strong style="color:var(--red)">two additional city officials</strong> at department director level. I have names. I'm not putting them in writing until I know this channel is secure.</p><br>
-        <p>Dana Nouri at the Harlow — she knows something. She called me three days before I disappeared. She was scared. I told her to come forward. I don't know if she did.</p><br>
-        <p>Find Detective Rose. I'll only speak to her directly.</p><br>
-        <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted)">— E. Marsh // Badge 4471</p>
-      </div>
-    </div>
-    <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--green);margin-top:1rem;padding:.75rem;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:3px">ROSE'S NOTE: She's alive. $11.7M — not $4.2M. Two more officials involved. And she's asking for ME specifically. This case just got bigger. Find Voss first. Then find Marsh.</div>`;
-    showThreat2();
-    setTimeout(()=>{addClue('email-opened',20,null,'Elena Marsh is alive and in hiding. The actual embezzlement is $11.7M — nearly triple what the financial records showed. Two additional city officials are implicated. And Marsh wants to speak to Rose directly. This isn\'t just a murder case.');showToast('✦ MARSH EMAIL DECRYPTED');},1500);
-    return h;
-  }},
-  'crestview-contacts':{title:'CRESTVIEW CAPITAL — CONTACT LIST',render:()=>{
-    const contacts=[
-      {name:'Marcus Reeve',role:'Senior Analyst (DECEASED)',num:'+1 (312) 889-7734',flag:false},
-      {name:'A. Delacroix',role:'Legal Counsel',num:'+1 (312) 774-0092',flag:false},
-      {name:'R. Whitmore',role:'Accounting — Offshore',num:'+1 (888) 340-1177',flag:false},
-      {name:'B. Callahan',role:'Entity Registration Agent',num:'+1 (302) 554-8821',flag:false},
-      {name:'T. Okoro',role:'Banking Liaison — Cayman',num:'+1 (345) 225-4490',flag:false},
-      {name:'[REDACTED]',role:'Principal / Signatory — VALE',num:'[NUMBER WITHHELD]',flag:false},
-      {name:'Director Liaison — Municipal Finance Dept.',role:'Government Contact / Account Oversight',num:'+1 (312) 554-0917',flag:true},
-      {name:'F. Mancini',role:'Transfer Authorization — EUR',num:'+1 (312) 441-8830',flag:false},
-      {name:'S. Bernstein',role:'Corporate Secretary',num:'+1 (312) 662-0041',flag:false},
-      {name:'P. Nguyen',role:'Accounting — Domestic',num:'+1 (773) 220-4481',flag:false},
-      {name:'W. Drummond',role:'Sub-entity Manager',num:'+1 (708) 441-2290',flag:false},
-      {name:'C. Hargrove',role:'IT / Communications',num:'+1 (312) 550-7733',flag:false},
-      {name:'L. Ashford',role:'Compliance (inactive)',num:'+1 (312) 884-2200',flag:false},
-      {name:'[POSITION VACANT]',role:'Risk Officer',num:'—',flag:false},
-    ];
-    let h='<div class="stamp">SUBPOENAED</div><div style="font-family:\'Space Mono\',monospace;font-size:.62rem;color:var(--muted);margin-bottom:1rem;line-height:1.7">ENTITY: Crestview Capital LLC<br>RETRIEVED: Court order — Nov 20, 2024</div><div style="font-family:\'Space Mono\',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.75rem;padding:.5rem;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:3px">ROSE: Cross-reference every phone number against the Harlow call log and the threat message I received.</div><div class="contact-list">';
-    contacts.forEach(c=>{h+=`<div class="contact-row${c.flag?' flagged':''}"><div class="contact-name${c.flag?' ft':''}">${c.name}</div><div class="contact-role">${c.role}</div><div class="contact-num">${c.num}${c.flag?' ⚑':''}</div></div>`;});
-    h+='</div>';
-    setTimeout(()=>{addClue('contacts-opened',14,'clue-redline-contact','Number +1 (312) 554-0917 in the Crestview contact list is the same number Reeve called at 02:09. And the same number that texted Rose a threat after she accessed the hotel registry. That\'s VALE\'s direct line — and VALE has been watching.');showToast('✦ CONTACT LIST ACCESSED');},1500);
-    return h;
-  }}
-};
-
-
-
-// ── SECOND THREAT ──────────────────────
-let threat2Shown=false;
-function showThreat2(){
-  if(threat2Shown)return;
-  threat2Shown=true;
-  setTimeout(()=>{
-    document.getElementById('threat2-overlay').classList.add('show');
-    if(navigator.vibrate)navigator.vibrate([200,100,200,100,400]);
-  },2000);
-}
-function dismissThreat2(){
-  document.getElementById('threat2-overlay').classList.remove('show');
-  addClue('threat2-received',8,null,'Second threat from Voss — he referenced the Marsh email specifically. He's monitoring Rose's investigation in real time. And his claim that he's already moved the accounts is either true or a bluff to make Rose doubt herself. Either way, he's scared.');
-  showToast('✦ ROSE: I DON'T WALK AWAY','danger');
-}
-
-// ── NOURI THREAD REVEAL ────────────────
-function revealNouriThread(){
-  const wrap=document.getElementById('nouri-thread');
-  if(wrap&&!wrap.classList.contains('show')){
-    wrap.classList.add('show');
-    addClue('nouri-thread',12,null,'The Nouri text thread changes the picture completely. She was blackmailed — threatened with a 2019 incident involving her daughter. She agreed, panicked, called 911 at 02:07, then hung up. She's a victim. Rose shifts approach: Nouri is now the key witness, not a co-conspirator.');
-    showToast('✦ NOURI THREAD UNLOCKED — SIGNAL CASE');
-  }
-}
-
-// ── PHASE TWO ──────────────────────────
-function showPhase2(){
-  setTimeout(()=>{
-    document.getElementById('phase2-overlay').classList.add('show');
-  },1800);
-}
-function closePhase2(){
-  document.getElementById('phase2-overlay').classList.remove('show');
-  // Show phase 2 teaser on overview
-  const board=document.getElementById('rose-notes-body');
-  if(board){
-    const div=document.createElement('div');
-    div.className='rn-entry new';
-    div.style.cssText='border-color:rgba(239,68,68,.15);background:rgba(239,68,68,.04);padding:.75rem;border-radius:3px;margin-top:.5rem';
-    div.innerHTML='<div class="rn-label" style="color:var(--red)">PHASE TWO — ACTIVE</div>Two new cases assigned. The Alderman: Deputy Director Raymond Holt — $3.1M in fake invoices. The Fixer: whoever hired Nouri and threatened her into compliance. And Marsh says Voss didn't ORDER the hit — he just made the call. Someone above him gave the order. Rose needs to find out who.';
-    board.appendChild(div);
-  }
-  showToast('✦ PHASE TWO BEGINS');
-}
-
-// ── GATE SYSTEM ────────────────────────
-function checkGates(){
-  // Hotel registry: unlocks after phone records
-  if(cluesFound.includes('phone-opened')) unlockGate('hotel-registry');
-  // 911 dispatch: unlocks after hotel registry
-  if(cluesFound.includes('hotel-opened')) unlockGate('dispatch-log');
-  // Calendar: unlocks after bank records
-  if(cluesFound.includes('bank-opened')) unlockGate('marsh-calendar');
-  // Crestview contacts: unlocks after phone records
-  if(cluesFound.includes('phone-opened')) unlockGate('crestview-contacts');
-  // Suspect box: unlocks after codename verified
-  if(cluesFound.includes('codename')){
-    const sb=document.getElementById('suspect-box');
-    if(sb&&sb.style.display==='none'){
-      sb.style.display='block';
-      sb.style.animation='gateFlash .6s ease';
-      showToast('✦ SUSPECT ACCUSATION UNLOCKED','warn');
-    }
-  }
-}
-
-function unlockGate(id){
-  const lock=document.getElementById('lock-'+id);
-  if(lock&&!lock.classList.contains('unlocking')){
+function unlockGate(id) {
+  const lock = document.getElementById('lock-' + id);
+  if (lock && !lock.classList.contains('unlocking')) {
     lock.classList.add('unlocking');
-    const card=document.getElementById('gate-'+id);
-    if(card)card.classList.add('gate-unlock-flash');
-    setTimeout(()=>{if(lock)lock.remove();},500);
+    setTimeout(() => { if (lock) lock.remove(); }, 500);
+    showToast('🔓 New document unlocked!');
   }
 }
 
-// ── HARLOW UNLOCK ──────────────────────
-function checkHarlow(){
-  const raw=document.getElementById('inp-harlow').value.trim().replace(/MHz|mhz|\s/gi,'');
-  const res=document.getElementById('res-harlow');res.style.display='block';
-  if(raw==='147.3'){
-    res.className='ures ok';
-    res.textContent='✓ FREQUENCY ACCEPTED — AUDIO DECRYPTED\n\nPress PLAY to listen to Room 1106.\nListen carefully for what Rose hears in the background.';
-    document.getElementById('audio-player-wrap').style.display='block';
-    addClue('harlow-freq',15);
-    showToast('✦ AUDIO UNLOCKED — PRESS PLAY');
-    buildWaveform();
-  }else{
-    res.className='ures err';
-    res.textContent='✗ INCORRECT\nThe frequency is in the text thread above. The unknown sender mentioned a specific number at 22:01. Read it again.';
+// ── SUSPECTS ──────────────────────────
+function renderSuspects() {
+  const list = document.getElementById('suspects-list');
+  list.innerHTML = '';
+  STORY.suspects.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'susp-card ' + s.color;
+    div.innerHTML = `
+      <div class="susp-header">
+        <div class="susp-avatar ${s.color}">${s.emoji}</div>
+        <div>
+          <div class="susp-name">${s.name}</div>
+          <div class="susp-role">${s.role} · Age ${s.age}</div>
+        </div>
+      </div>
+      <div class="susp-motive">🤔 <strong>Possible Motive:</strong> ${s.motive}</div>
+      <div class="susp-tap">Tap to Interview →</div>
+    `;
+    div.onclick = () => openInterview(s.id);
+    list.appendChild(div);
+  });
+}
+
+function renderAccuseSuspects() {
+  const list = document.getElementById('accuse-suspects');
+  list.innerHTML = '';
+  STORY.suspects.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'acc-btn';
+    btn.innerHTML = `<span class="acc-emoji">${s.emoji}</span><div><div style="font-size:.9rem">${s.name}</div><div style="font-size:.7rem;color:var(--muted);font-weight:600;margin-top:1px">${s.role}</div></div><span style="margin-left:auto;font-size:1rem">→</span>`;
+    btn.onclick = () => makeAccusation(s.id);
+    list.appendChild(btn);
+  });
+}
+
+function openInterview(id) {
+  const s = STORY.suspects.find(s => s.id === id);
+  const isGuilty = s.id === STORY.culprit;
+  const doc = document.getElementById('im-content');
+
+  // Grant clue for interviewing the culprit
+  if (isGuilty && !cluesFound.includes('c4')) {
+    setTimeout(() => {
+      addClue('c4', 15, 'cbanner-c4', 'After interviewing ' + s.name + ', something seemed off! Found a small screwdriver matching the trophy case scratches.');
+    }, 2000);
+  }
+  if (!isGuilty && !cluesFound.includes('c5_' + id)) {
+    setTimeout(() => {
+      addClue('c5_' + id, 10, null, s.name + ' gave a solid alibi. ' + s.alibi + ' — this checks out!');
+    }, 2000);
+  }
+
+  doc.innerHTML = `
+    <div class="im-avatar ${s.color}">${s.emoji}</div>
+    <div class="im-name">${s.name}</div>
+    <div class="im-role">${s.role}</div>
+    <div class="chat-wrap">
+      <div class="chat-msg me"><div class="chat-bub">Hi ${s.name.split(' ')[0]}! I'm investigating the missing trophy. Can I ask you some questions?</div><div class="chat-who">You</div></div>
+      <div class="chat-msg"><div class="chat-bub">Sure, go ahead. I want to help find it too!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+      <div class="chat-msg me"><div class="chat-bub">Where were you last Friday evening around 8:45pm?</div><div class="chat-who">You</div></div>
+      <div class="chat-msg"><div class="chat-bub">${s.alibi}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+      <div class="chat-msg me"><div class="chat-bub">Someone was seen near the trophy room with a blue backpack. Do you own a blue backpack?</div><div class="chat-who">You</div></div>
+      <div class="chat-msg"><div class="chat-bub">${isGuilty ? '...I... uh... lots of people have blue backpacks! That doesn\'t mean anything!' : s.innocent_response}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+      ${isGuilty ? `<div class="chat-msg me"><div class="chat-bub">We also found a small screwdriver near the trophy case. Do you have one?</div><div class="chat-who">You</div></div>
+      <div class="chat-msg"><div class="chat-bub" style="background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3)">😰 I... I can explain... I just wanted to hold it for one night! I was going to put it back!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>` : `<div class="chat-msg me"><div class="chat-bub">Thanks for your help! I'll be in touch if I need more information.</div><div class="chat-who">You</div></div>
+      <div class="chat-msg"><div class="chat-bub">Good luck finding it! I hope you catch whoever did this!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`}
+    </div>
+  `;
+  document.getElementById('ioverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInterview() {
+  document.getElementById('ioverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ── EVIDENCE BOARD ────────────────────
+function renderEvidence() {
+  const list = document.getElementById('evidence-list');
+  const found = STORY.clues.filter(c => cluesFound.includes(c.id));
+  if (found.length === 0) {
+    list.innerHTML = '<div class="ev-empty">🔍 No clues found yet!<br>Go explore the crime scene<br>and interview the suspects!</div>';
+    return;
+  }
+  list.innerHTML = '';
+  found.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'ev-card';
+    div.innerHTML = `<div class="ev-emoji">${c.emoji}</div><div><div class="ev-name">${c.name}</div><div class="ev-desc">${c.desc}</div></div>`;
+    list.appendChild(div);
+  });
+}
+
+// ── SOLVE PANEL ──────────────────────
+function updateSolvePanel() {
+  const desc = document.getElementById('solve-desc');
+  const n = cluesFound.length;
+  if (n < 3) {
+    desc.textContent = `You've found ${n} clue${n !== 1 ? 's' : ''} so far. Find at least ${3 - n} more before making your accusation! The more clues, the stronger your case!`;
+    desc.style.color = 'var(--rose)';
+  } else {
+    desc.textContent = `Great work! You've found ${n} clues. You have enough evidence — but can you find ALL ${MAX_CLUES}? Answer the questions below to make your accusation!`;
+    desc.style.color = 'var(--green)';
   }
 }
 
-// ── CODENAME ───────────────────────────
-function checkCodename(){
-  const raw=document.getElementById('inp-codename').value.trim().toUpperCase().replace(/\s+/g,'_');
-  const res=document.getElementById('res-codename');res.style.display='block';
-  if(['PHANTOM_LEDGER','PHANTOMLEDGER'].includes(raw)){
-    res.className='ures ok';
-    res.textContent='✓ CODENAME VERIFIED — PHANTOM LEDGER\n\nOperation active 8+ months. Larger than the financial records show.\nCross-reference: Marsh email. True figure: $11.7M.\n\n// Identify the suspect to close this case.';
-    addClue('codename',10);showToast('✦ CODENAME CONFIRMED');
-  }else{
-    res.className='ures err';
-    res.textContent='✗ INCORRECT\nRead the first line of the Ghost Signal partial decode. Both words are there, unredacted, right at the top.';
+// ── SOLVE QUESTIONS ──────────────────
+function checkQ1() {
+  if (cluesFound.length < 3) { showToast('🔍 Find more clues first!', 'danger'); return; }
+  const val = document.getElementById('inp-q1').value.trim().toUpperCase();
+  const res = document.getElementById('res-q1');
+  res.style.display = 'block';
+  if (val.includes('BLUE') || val === 'BLU') {
+    res.className = 'ans-result ok';
+    res.textContent = '✅ Correct! The witness AND the camera both confirm a BLUE backpack! Great detective work!';
+    q1Solved = true;
+    xp += 20;
+    updateUI();
+    save();
+    setTimeout(() => {
+      document.getElementById('q2-box').style.display = 'block';
+      document.getElementById('q2-box').scrollIntoView({behavior:'smooth'});
+    }, 800);
+    showToast('🌟 Correct! +20 XP!', 'warn');
+  } else {
+    res.className = 'ans-result err';
+    res.textContent = '❌ Not quite! Check the witness report and camera footage. What color did they mention?';
   }
 }
 
-// ── SUSPECT ACCUSATION ─────────────────
-function checkSuspect(){
-  const raw=document.getElementById('inp-suspect').value.trim().toUpperCase().replace(/\s+/g,' ').replace(/[^A-Z\s]/g,'');
-  const res=document.getElementById('res-suspect');res.style.display='block';
-  if(['CARL VOSS','C VOSS','VOSS'].includes(raw)){
-    res.className='ures ok';
-    res.textContent=`✓ SUSPECT CONFIRMED — DETECTIVE ROSE CLOSES THE CASE
-
-CARL VOSS — Director, Municipal Finance, City Hall.
-14 years in public office. Trusted with oversight.
-Used that trust to steal $11.7M from the city.
-
-THE EVIDENCE ROSE ASSEMBLED:
->> Hotel registry: VOSS, C. — Room 812, Nov 13
-   Same building as Reeve. Same night. Never disclosed.
->> Call log: Reeve called +1 (312) 554-0917 at 02:09
-   That number is Voss's "Director Liaison" contact
-   at Crestview Capital. He called his own killer.
->> Bank records: Marsh's wire BLOCKED Nov 10
-   Authorization denied by: C. VOSS, Dept. Director.
->> Signal intercept: "NOURI CONFIRMED ACCESS"
-   Dana Nouri gave Voss the MASTER-07 keycard.
->> Room audio: Reeve heard the sirens and thought
-   help was coming. Voss told him they were leaving.
->> Threat message to Rose: from +1 (312) 554-0917
-   Voss was watching this investigation in real time.
-
-Elena Marsh is alive. $11.7M total. Two more
-officials involved. PHANTOM LEDGER goes deeper.
-
-Warrant issued for Carl Voss.
-Dana Nouri detained for questioning.
-Elena Marsh — contact pending.
-
-CASE STATUS: PHASE ONE CLOSED.`;
-    addClue('solved',30);
-    if(navigator.vibrate)navigator.vibrate([50,30,50,30,100]);
-    showToast('✦ CASE CLOSED — PHASE ONE');
-    showPhase2();
-    const vale=document.getElementById('vale-locked');
-    if(vale){vale.classList.remove('locked');vale.querySelector('.evlock').textContent='✓';vale.querySelector('.evtitle').textContent='VALE — Carl Voss, Dept. Director';vale.querySelector('.evdesc').textContent='Director of Municipal Finance. 14 years. Alias VALE. Architect of PHANTOM LEDGER. Murdered Marcus Reeve in Room 1106 with Dana Nouri\'s assistance. Two additional co-conspirators unnamed. Warrant issued.';}
-    const hl=document.getElementById('hollow-locked');
-    if(hl){hl.classList.remove('locked');hl.querySelector('.evlock').textContent='✓';hl.querySelector('.evtitle').textContent='Suppressed Audit Report — DECLASSIFIED';hl.querySelector('.evdesc').textContent='Filed Nov 4 by Marsh. Identified account 0x4F2A9C1D, traced to Crestview Capital LLC. Suppressed by Voss within 3 hours. Would have exposed the full $11.7M chain and named him directly. Copy held by Marsh in undisclosed location.';}
-    addRoseNote('Voss is identified. Warrant issued. But Marsh says two more officials are involved and the real total is $11.7M. This case isn\'t over — it\'s just Phase One.');
-  }else{
-    res.className='ures err';
-    res.textContent='✗ WRONG SUSPECT'+(raw?' — '+raw:'')+'\nOne name appears in the hotel registry, signed the bank denial, and has a phone number that ties to both the murder and a threat against Rose. Connect all three. Who keeps coming up?';
+function checkQ2() {
+  const val = document.getElementById('inp-q2').value.trim().toUpperCase().replace(/\s/g,'');
+  const res = document.getElementById('res-q2');
+  res.style.display = 'block';
+  if (val.includes('847') || val.includes('8:47') || val.includes('20:47') || val.includes('2047')) {
+    res.className = 'ans-result ok';
+    res.textContent = '✅ Yes! 8:47pm! The camera caught someone in the hallway right at that time! You\'re closing in on the culprit!';
+    q2Solved = true;
+    xp += 20;
+    updateUI();
+    save();
+    setTimeout(() => {
+      document.getElementById('accuse-box').classList.add('show');
+      document.getElementById('accuse-box').scrollIntoView({behavior:'smooth'});
+    }, 800);
+    showToast('🌟 Correct! +20 XP!', 'warn');
+  } else {
+    res.className = 'ans-result err';
+    res.textContent = '❌ Check the camera log again! What time is shown on the footage?';
   }
 }
 
-// ── TERMINAL ───────────────────────────
-const cmds={
-  help:'ROSE\'S COMMANDS:\n  status     — investigation summary\n  suspects   — all persons of interest\n  accounts   — financial references\n  nouri      — Dana Nouri profile\n  trace      — cross-case link analysis\n  marsh      — Marsh status\n  clear      — clear terminal',
-  status:'NEXUS // DET. ROSE // PHANTOM LEDGER\n  Cases: 4 open\n  Primary target: VALE (alias)\n  Confirmed: $4.2M visible / $11.7M actual\n  Marsh: ALIVE — location secure\n  Threat received from +1 (312) 554-0917\n  >> Work all four threads. Time matters.',
-  suspects:'PERSONS OF INTEREST:\n  1. VALE / C. Voss    — alias, primary target\n  2. Marcus Reeve      — DECEASED / victim\n  3. Elena Marsh       — ALIVE / in hiding\n  4. Dana Nouri        — Harlow night manager\n                         [MATERIAL WITNESS / POSSIBLE ACCOMPLICE]\n  5. Unknown Official 2 — Marsh email implies more\n  6. Unknown Official 3 — same source',
-  accounts:'FINANCIAL REFS:\n  Primary account:  0x4F2A9C1D\n  Entity:           Crestview Capital LLC\n  Visible total:    $4,200,000 / 8 months\n  Actual total:     ~$11,700,000 (Marsh)\n  Signatory:        VALE\n  Status:           ONGOING',
-  nouri:'DANA NOURI — PROFILE:\n  Role:    Night manager, Harlow Hotel\n  Shift:   Nov 13 20:00 — Nov 14 08:00\n  Access:  MASTER-07 keycard override\n  Signal intercept: "NOURI CONFIRMED ACCESS"\n  911 record: hang-up call at 02:07 from lobby\n  Statement: "Nothing unusual that night"\n  Rose: She\'s lying. She gave VALE the key\n        and called 911 when she got scared.\n        Then she hung up and let it happen.',
-  trace:'CROSS-CASE ANALYSIS:\n>> Harlow 02:07 — 911 hang-up (Nouri?)\n>> Harlow 02:09 — Reeve calls +1 312-554-0917\n>> Registry — VOSS, C. in building that night\n>> Crestview contacts — same number = Voss\n>> Bank denial — signed C. VOSS Nov 10\n>> Marsh calendar — Reeve meeting Nov 14\n   [Reeve killed night before]\n>> Marsh email — alive, $11.7M, more officials\n>> Threat to Rose — from Voss\'s number\n\nAll roads: CARL VOSS. Make the call.',
-  marsh:'ELENA MARSH STATUS:\n  Status:    ALIVE — secure location\n  Last comm: Nov 18 encrypted email\n  Evidence:  Full ledger (location undisclosed)\n  Intel:     Two additional officials involved\n             Total: ~$11.7M\n  Request:   Speak to Det. Rose directly\n  Note:      Mentioned Dana Nouri called her\n             3 days before disappearance',
-  clear:'__CLEAR__'
+// ── ACCUSATION ──────────────────────
+function makeAccusation(id) {
+  const correct = id === STORY.culprit;
+  const suspect = STORY.suspects.find(s => s.id === id);
+  const culprit = STORY.suspects.find(s => s.id === STORY.culprit);
+  const overlay = document.getElementById('verdict-overlay');
+  const inner = document.getElementById('verdict-inner');
+
+  if (correct) {
+    xp += 50;
+    updateUI();
+    save();
+    inner.innerHTML = `
+      <span class="verdict-big">🏆</span>
+      <div class="verdict-title win">CASE SOLVED!</div>
+      <div class="verdict-text">
+        <strong style="color:var(--gold)">${culprit.name}</strong> took the trophy!<br><br>
+        "${culprit.guilty_confession}"<br><br>
+        <strong style="color:var(--green)">Principal Hughes is SO relieved!</strong> The trophy has been returned and the awards ceremony will go ahead as planned! You're an amazing detective! 🎉
+      </div>
+      <div class="verdict-stats">
+        ⭐ Total XP Earned: ${xp}<br>
+        🔍 Clues Found: ${cluesFound.length} of ${MAX_CLUES}<br>
+        ✅ Accusation: CORRECT!<br>
+        🏆 Status: CASE CLOSED!
+      </div>
+      <button class="verdict-replay gold" onclick="playAgain()">🔄 Play Again!</button>
+    `;
+    overlay.classList.add('show');
+    if (navigator.vibrate) navigator.vibrate([50,30,100,30,50,30,200]);
+    showConfetti();
+  } else {
+    inner.innerHTML = `
+      <span class="verdict-big">😬</span>
+      <div class="verdict-title fail">Not Quite!</div>
+      <div class="verdict-text">
+        <strong style="color:var(--rose)">${suspect.name}</strong> didn't do it!<br><br>
+        "${suspect.innocent_response}"<br><br>
+        <strong style="color:var(--gold)">Keep investigating!</strong> You're missing some important clues. Go back and look more carefully — the real culprit is still out there!
+      </div>
+      <div style="background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
+        💡 Hint: Look for clues about who owned the matching equipment. The sign-out sheet and camera footage together point to one person!
+      </div>
+      <button class="verdict-replay rose" onclick="closeVerdict()">🔍 Keep Investigating!</button>
+    `;
+    overlay.classList.add('show');
+  }
+}
+
+function closeVerdict() { document.getElementById('verdict-overlay').classList.remove('show'); }
+function playAgain() { localStorage.removeItem('kidmystery_v3'); location.reload(); }
+
+// ── CONFETTI ─────────────────────────
+function showConfetti() {
+  const colors = ['#f5a623','#ffd166','#a855f7','#06b6d4','#22c55e','#f43f5e'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.style.cssText = `position:fixed;top:-20px;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${1.5+Math.random()*2}s ${Math.random()*1.5}s linear forwards;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+const confStyle = document.createElement('style');
+confStyle.textContent = '@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+document.head.appendChild(confStyle);
+
+// ── DOCS ─────────────────────────────
+const DOCS = {
+  'trophy-photo': { title: '📸 Trophy Case — Crime Scene', render: () => {
+    setTimeout(() => {
+      addClue('c1', 15, 'cbanner-c1', 'The trophy case lock was scratched with a small tool — someone broke in!');
+      setTimeout(() => addClue('c2', 15, 'cbanner-c2', 'A muddy size-6 shoe print was found on the floor near the trophy case!'), 2000);
+    }, 1200);
+    return `<div style="background:var(--card);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
+      <div style="font-size:.7rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem">🚨 CRIME SCENE PHOTOS — TROPHY ROOM</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.7;margin-bottom:.8rem">Location: Main hallway display case, Maplewood Elementary. Discovered by Principal Hughes at 7am Saturday.</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-hdr" style="grid-template-columns:1fr 2fr">Photo #&nbsp;&nbsp;Details</div>
+      <div class="table-row flagged" style="grid-template-columns:1fr 2fr"><span>Photo 1</span><span>🔍 Trophy case door is <span class="flag-val">OPEN</span>. Lock is visibly damaged — scratched with something sharp and small.</span></div>
+      <div class="table-row flagged" style="grid-template-columns:1fr 2fr"><span>Photo 2</span><span>👟 <span class="flag-val">MUDDY SHOE PRINT</span> on the floor tile. Size 6. Pointing toward the trophy case.</span></div>
+      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 3</span><span>🏆 Empty display stand where the Golden Science Trophy was kept since 2022.</span></div>
+      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 4</span><span>🔎 Close-up of lock scratches. Pattern suggests a small flathead screwdriver was used.</span></div>
+      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 5</span><span>💡 Hallway light nearest the case has been unscrewed — someone didn't want to be seen!</span></div>
+    </div>
+    <div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">
+      🔍 Detective's Tip: Two big clues right here! The scratched lock (needs a small tool!) and the muddy shoe print (what size shoe does each suspect wear?). Write these down in your notebook!
+    </div>`;
+  }},
+  'camera-log': { title: '📷 Hallway Camera — 8pm Log', render: () => {
+    setTimeout(() => {
+      addClue('c3', 20, 'cbanner-c3', 'The hallway camera shows someone with a BLUE backpack at 8:47pm — just before the trophy disappeared!');
+    }, 1200);
+    const entries = [
+      ['8:02pm','Staff member','Mr. Pete the janitor leaving for the night. Waving goodbye!'],
+      ['8:15pm','Student','Unknown student picking up forgotten jacket. Too dark to see face clearly.'],
+      ['8:31pm','Coach Rivera','Coach Rivera walking to parking lot. Carrying a sports bag.'],
+      ['8:47pm','Unknown figure','FIGURE IN DARK HOODIE with BLUE BACKPACK walking fast toward trophy room! Head down!','flagged'],
+      ['8:52pm','Unknown figure','Same person — NOW RUNNING back down hallway. Backpack looks fuller!','flagged'],
+      ['9:10pm','Security light','Hallway light near trophy case goes dark — bulb unscrewed.'],
+      ['9:15pm','Camera','No more movement detected until morning.'],
+    ];
+    let html = `<div style="font-size:.7rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📷 SECURITY CAMERA — TROPHY ROOM HALLWAY</div>
+    <div style="background:var(--teal-dim);border:1px solid rgba(6,182,212,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Look at who appears near the trophy room around 8:47pm — and notice what they're carrying!</div>
+    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.2fr .8fr 2fr"><span>Time</span><span>Who?</span><span>What Happened?</span></div>`;
+    entries.forEach(([time,who,desc,flag]) => {
+      html += `<div class="table-row${flag?' flagged':''}" style="grid-template-columns:1.2fr .8fr 2fr"><span class="${flag?'flag-val':''}">${time}</span><span>${who}</span><span>${desc}</span></div>`;
+    });
+    html += `</div><div style="background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--rose);line-height:1.65">⚠️ Key Finding: Someone with a BLUE backpack was seen at 8:47pm walking toward the trophy room — and at 8:52pm they were RUNNING away with a fuller bag! This is your main lead!</div>`;
+    return html;
+  }},
+  'sign-out': { title: '📋 School Sign-Out Sheet', render: () => {
+    setTimeout(() => {
+      addClue('c5', 20, 'cbanner-c5', 'The sign-out sheet shows who was really in the building Friday evening!');
+    }, 1200);
+    const rows = [
+      ['Sam Torres','Art Club Pres.','Drama Club Rehearsal','4:00pm','8:30pm','Room 104 (Drama)','Ms. Morris confirmed ✓'],
+      ['Coach Rivera','PE Teacher','Soccer Practice + Grading','3:30pm','6:15pm','Gym / Parking Lot','Signed out 6:15pm ✓'],
+      ['Alex Kim','Science Club Pres.','Science Lab (said: home studying)','4:00pm','9:30pm','Science Lab / Hallways','Signed out 9:30pm — LATE!'],
+      ['Mr. Pete','Janitor','Evening cleaning rounds','6:00pm','8:05pm','Various','Camera confirms left 8:02pm ✓'],
+    ];
+    let html = `<div style="font-size:.7rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📋 OFFICIAL SIGN-OUT SHEET — FRIDAY EVENING</div>
+    <div style="background:var(--amber-dim);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Compare this to what each suspect TOLD you in their interview! Someone's alibi doesn't add up...</div>
+    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span>Name</span><span>In</span><span>Out</span><span>Location</span><span>Notes</span></div>`;
+    rows.forEach(([name,role,activity,in_,out_,loc,note]) => {
+      const flag = name === 'Alex Kim';
+      html += `<div class="table-row${flag?' flagged2':''}" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr">
+        <span class="${flag?'flag-val2':''}">${name}<br><span style="font-size:.65rem;color:var(--muted)">${role}</span></span>
+        <span>${in_}</span><span class="${flag?'flag-val2':''}">${out_}</span>
+        <span>${loc}</span><span>${note}</span></div>`;
+    });
+    html += `</div><div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">✅ Big Discovery! One person said they were home but was actually signed in until 9:30pm! And the camera caught someone at 8:47pm... that time fits PERFECTLY! Who could it be?!</div>`;
+    return html;
+  }},
 };
-function runTerminal(){
-  const input=document.getElementById('term-input');const output=document.getElementById('term-output');
-  const cmd=input.value.trim().toLowerCase();input.value='';if(!cmd)return;
-  const response=cmds[cmd];
-  if(response==='__CLEAR__'){output.innerHTML='<span class="tm">// Terminal cleared.</span>\n';return;}
-  const text=response||'Unknown command: "'+cmd+'"\nType \'help\' for commands.';
-  const line=document.createElement('div');
-  line.style.cssText='border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
-  line.innerHTML='<span class="ta">&gt; '+cmd+'</span>\n<span style="color:'+(response?'var(--green)':'var(--red)')+'">'+text+'</span>';
-  output.appendChild(line);output.scrollTop=output.scrollHeight;
-  if(cmd==='trace')addClue('terminal-trace',5);
-  if(cmd==='nouri')addClue('terminal-nouri',5);
-  if(cmd==='marsh')addClue('terminal-marsh',5);
-}
-document.getElementById('term-input').addEventListener('keydown',e=>{if(e.key==='Enter')runTerminal();});
 
-// ── SAVE/LOAD ──────────────────────────
-function saveProgress(){localStorage.setItem('nexus_rose_v1',JSON.stringify({progress,cluesFound,threatShown,threat2Shown}));}
-window.addEventListener('load',()=>{
-  const saved=localStorage.getItem('nexus_rose_v1');
-  if(saved){
-    try{
-      const s=JSON.parse(saved);
-      progress=s.progress||0;cluesFound=s.cluesFound||[];threatShown=s.threatShown||false;threat2Shown=s.threat2Shown||false;
-      document.getElementById('prog-fill').style.width=progress+'%';
-      document.getElementById('pct-label').textContent=progress+'%';
-      document.getElementById('clue-counter').textContent=cluesFound.length;
-      const bm={'phone-opened':'clue-harlow-phone','hotel-opened':'clue-harlow-hotel','dispatch-opened':'clue-harlow-911','audio-siren':'clue-harlow-audio','bank-opened':'clue-hollow-bank','cal-opened':'clue-hollow-cal','email-unlocked':'clue-hollow-email','contacts-opened':'clue-redline-contact'};
-      Object.entries(bm).forEach(([k,bid])=>{if(cluesFound.includes(k)){const b=document.getElementById(bid);if(b)b.classList.add('show');}});
-      if(cluesFound.includes('email-unlocked')){const c=document.getElementById('marsh-email-card');if(c)c.style.display='block';}
-      if(cluesFound.includes('nouri-thread')){const n=document.getElementById('nouri-thread');if(n)n.classList.add('show');}
-      checkGates();
-    }catch(e){}
+function openDoc(id) {
+  const doc = DOCS[id];
+  if (!doc) return;
+  document.getElementById('doc-title').textContent = doc.title;
+  document.getElementById('doc-body').innerHTML = doc.render();
+  document.getElementById('doc-viewer').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeDoc() { document.getElementById('doc-viewer').classList.remove('show'); document.body.style.overflow = ''; }
+
+// ── NOTEBOOK (hints terminal) ─────────
+const NOTEBOOK_CMDS = {
+  'help': `Available commands:\n  suspects   — info on all 3 suspects\n  clues      — list your clues so far\n  status     — how far along are you?\n  hint       — get a clue hint!\n  alibi      — check the alibis\n  clear      — clear the notebook`,
+  'suspects': () => STORY.suspects.map(s => `${s.emoji} ${s.name} (${s.role})\n  Motive: ${s.motive}`).join('\n\n'),
+  'clues': () => cluesFound.length === 0
+    ? '🔍 No clues found yet! Go examine\nthe crime scene and interview suspects!'
+    : '✅ Clues found so far:\n' + STORY.clues.filter(c => cluesFound.includes(c.id)).map(c => `  ${c.emoji} ${c.name}`).join('\n') +
+      (cluesFound.length < MAX_CLUES ? `\n\n🔍 Still ${MAX_CLUES - cluesFound.length} more to find!` : '\n\n🏆 All clues found! Time to accuse!'),
+  'status': () => `🔍 Case Progress: ${progress}%\n⭐ XP Earned: ${xp}\n🧩 Clues: ${cluesFound.length} of ${MAX_CLUES}\n${cluesFound.length >= 3 ? '✅ Ready to make an accusation!' : '🔍 Need at least 3 clues first!'}`,
+  'hint': () => {
+    if (!cluesFound.includes('c1')) return '💡 Start at the Crime Scene!\nExamine the trophy case photos first.';
+    if (!cluesFound.includes('c3')) return '💡 Check the camera footage!\nIt unlocks after you find 2 scene clues.';
+    if (!cluesFound.includes('c5')) return '💡 Read the sign-out sheet!\nSomeone\'s alibi doesn\'t match!';
+    if (!cluesFound.includes('c4')) return '💡 Interview the suspects!\nOne of them will slip up...';
+    return '💡 You have enough clues!\nGo to the Solve panel and\nmake your accusation! You\'ve got this!';
+  },
+  'alibi': () => STORY.suspects.map(s => `${s.emoji} ${s.name}:\n  "${s.alibi}"\n  Verified? ${s.id === STORY.culprit ? '❌ Actually... maybe not.' : '✅ Seems solid.'}`).join('\n\n'),
+  'clear': '__CLEAR__',
+};
+function runNotebook() {
+  const input = document.getElementById('note-input');
+  const output = document.getElementById('note-out');
+  const cmd = input.value.trim().toLowerCase();
+  input.value = '';
+  if (!cmd) return;
+  let response = NOTEBOOK_CMDS[cmd];
+  if (typeof response === 'function') response = response();
+  if (!response) response = `I don't know that command!\nType 'help' to see what I can do!`;
+  if (response === '__CLEAR__') { output.innerHTML = '<span class="m">// Notebook cleared!</span>\n'; return; }
+  const line = document.createElement('div');
+  line.style.cssText = 'border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
+  line.innerHTML = `<span class="a">You: ${cmd}</span>\n<span>${response}</span>`;
+  output.appendChild(line);
+  output.scrollTop = output.scrollHeight;
+}
+document.getElementById('note-input').addEventListener('keydown', e => { if (e.key === 'Enter') runNotebook(); });
+
+// ── TOAST ────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => t.className = 'toast', 2800);
+}
+
+// ── LOGO TAP (secret hint) ────────────
+function logoTap() {
+  logoTaps++;
+  if (logoTimer) clearTimeout(logoTimer);
+  logoTimer = setTimeout(() => logoTaps = 0, 2000);
+  if (logoTaps === 5) {
+    showToast('🌟 Secret hint: Check the sign-out sheet!', 'warn');
+    logoTaps = 0;
   }
-});
+}
+
+// ── SAVE ─────────────────────────────
+function save() { localStorage.setItem('kidmystery_v3', JSON.stringify({ xp, cluesFound, progress, q1Solved, q2Solved })); }
 </script>
 </body>
 </html>
