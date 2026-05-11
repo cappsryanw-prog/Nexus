@@ -3,348 +3,373 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Detective Capps — Mystery Case Files</title>
+<title>Detective Capps — Season 2</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<!-- ╔══════════════════════════════════════════════════════╗
-     ║   🕵️ MYSTERY CONFIG — EDIT YOUR OWN STORY HERE!   ║
-     ╚══════════════════════════════════════════════════════╝ -->
 <script>
+// ╔══════════════════════════════════════════════╗
+// ║  STORY CONFIG — edit to make your own case  ║
+// ╚══════════════════════════════════════════════╝
 const STORY = {
-  title: "The Case of the Missing Golden Trophy",
-  subtitle: "Someone took it — can YOU find out who?",
+  title: "The Science Fair Sabotage",
   setting: "Maplewood Elementary School",
-  date: "Friday, October 18th",
-  what_happened: "The Golden Science Fair Trophy has vanished from the display case! The awards ceremony is TOMORROW and nobody knows where it went. Your sister Elizabeth called you in a panic — she says she walked past and noticed it was gone. Detective Capps, YOU are on the case!",
-  culprit_id: "elizabeth",
+  date: "Saturday, March 22nd",
+  what_happened: "DOUBLE CRIME! The Golden Science Trophy is GONE — and someone hacked the lab computer and DELETED all the Science Fair project files! Without the files, tomorrow's awards are CANCELLED. Elizabeth called Detective Capps in a panic. But this time... five suspects, a secret code, and nothing is what it seems.",
+  culprit_id: "tyler",
+
   suspects: [
-    {
-      id: "alex",
-      name: "Alex Kim",
-      age: 11,
-      role: "Science Club President",
-      emoji: "🧪",
-      color: "purple",
-      motive: "Came in 2nd place last year and REALLY wanted to win this year.",
-      alibi: "Says they were at home all evening studying.",
-      innocent_response: "I was HOME studying! I wanted to WIN fair and square! Why does everyone always suspect me?!",
-    },
-    {
-      id: "sam",
-      name: "Sam Torres",
-      emoji: "🎨",
-      age: 10,
-      role: "Art Club President",
-      color: "teal",
-      motive: "Thought the trophy would look way cooler in the art room display.",
-      alibi: "Was at Drama Club rehearsal from 4pm to 8pm.",
-      innocent_response: "I was at rehearsal ALL night! Ask Ms. Morris — she took attendance! I wasn't anywhere near the trophy case!",
-    },
-    {
-      id: "coach",
-      name: "Coach Rivera",
-      emoji: "⚽",
-      age: 38,
-      role: "PE Teacher & Gym Coach",
-      color: "amber",
-      motive: "Complained the science trophy was 'too shiny' compared to the sports trophies.",
-      alibi: "Was running soccer practice until 6pm, then went straight home.",
-      innocent_response: "I was at practice and then I went HOME! I have three kids to feed! I don't even care about that trophy!",
-    }
+    { id:"alex",  name:"Alex Kim",     emoji:"🧪", age:11, color:"purple", role:"Science Club President",
+      motive:"Determined to win at ANY cost — was heard saying the trophy 'belongs to them.'",
+      alibi:"Claims to have been at home all evening.",
+      shoe_size:"7", hoodie:"blue",
+      innocent_response:"I was HOME! Check my mom's phone — she called me at 8pm! I didn't take anything!",
+      red_herring:"Alex's blue hoodie fiber was found on the trophy case — AND their fingerprints are on record from cleaning the case last week. Very suspicious." },
+    { id:"sam",   name:"Sam Torres",   emoji:"🎨", age:10, color:"teal",   role:"Art Club President",
+      motive:"Wanted the trophy for the Art room display — said science gets 'all the glory.'",
+      alibi:"Was at Drama Club rehearsal 4pm–8:30pm.",
+      shoe_size:"6", hoodie:"yellow",
+      innocent_response:"I was at rehearsal the WHOLE time! Ms. Morris took attendance! I wasn't even near the lab!",
+      red_herring:"Sam was overheard arguing with Principal Hughes about trophy display space earlier that week." },
+    { id:"coach", name:"Coach Rivera", emoji:"⚽", age:38, color:"amber",  role:"PE Teacher",
+      motive:"Publicly complained science trophies get 'nicer cases' than sports trophies.",
+      alibi:"Soccer practice until 6pm, then picked up kids from daycare.",
+      shoe_size:"11", hoodie:"red",
+      innocent_response:"I was at practice and then picking up my kids! I have a receipt from the pizza place at 6:45! Call them!",
+      red_herring:"Coach Rivera has a master key to the building — but so does every teacher." },
+    { id:"chen",  name:"Ms. Chen",     emoji:"🔬", age:34, color:"green",  role:"Science Teacher",
+      motive:"Rumored to be upset about budget cuts to the Science program.",
+      alibi:"Says she was grading papers in her office all evening.",
+      shoe_size:"6.5", hoodie:"grey",
+      innocent_response:"I was IN my office grading! You can see my light was on all night on the building camera! And yes, my master key went missing — I REPORTED that!",
+      red_herring:"Ms. Chen's master key was stolen 2 days before the crime. She reported it to Principal Hughes — but did anyone believe her?" },
+    { id:"tyler", name:"Tyler Nash",   emoji:"📓", age:11, color:"blue",   role:"New Student (Transfer)",
+      motive:"His older sibling's Science Fair project was disqualified 3 years ago due to a false cheating accusation — from a judge who is on THIS year's panel. Tyler wanted justice.",
+      alibi:"Claims to have been in the library studying — alone.",
+      shoe_size:"4.5", hoodie:"dark blue",
+      innocent_response:"I... I was in the library. I didn't do anything wrong.",
+      guilty_confession:"Yes. I took it. But you don't understand — they CHEATED my brother out of his trophy three years ago! Judge Pearson lied! I have the original project files that prove it! I just wanted everyone to know the truth!",
+      red_herring:"Tyler is quiet, new, and barely mentioned — easy to overlook." }
   ],
+
   elizabeth: {
-    name: "Elizabeth Capps",
-    emoji: "😇",
-    age: 9,
-    role: "Your Little Sister / Key Witness",
-    confession: "Okay... OKAY. I took it. It was SO shiny and pretty and I just wanted to keep it in my room for a little while! I was going to put it back before the ceremony I PROMISE! Please don't tell Mom!!",
-    motive: "She thought the trophy was the most beautiful thing she'd ever seen and wanted it for her bedroom shelf.",
-    twist_clue: "A sticky note was found behind the trophy stand — it says 'EB was here 💖' in purple gel pen. Elizabeth always writes in purple gel pen...",
-  }
+    name:"Elizabeth Capps", emoji:"😇", age:9, role:"Your Sister",
+    innocent_this_time: true,
+    quote:"Detective Capps! The trophy is GONE and the computer is hacked! I came by to return Tyler's notebook — he forgot it in the library yesterday. I thought I'd drop it off. That's the ONLY reason I was here! I didn't do ANYTHING this time, I PROMISE!",
+    what_she_knows:"She saw Tyler in the library Thursday evening. He had his old project notebook and seemed upset. He was reading about science fair rules.",
+    twist: "Elizabeth unknowingly carried Tyler's old project notebook back to the school — which contained the secret plan and his brother's original project files. She had no idea."
+  },
+
+  // Caesar cipher: each letter encoded by shifting +3
+  // "TYLER NASH" encoded = "WBOHU QDVK"
+  cipher_encoded: "WBOHU QDVK ZDV KHUH",
+  cipher_decoded: "TYLER NASH WAS HERE",
+  cipher_shift: 3,
 };
 </script>
-<!-- ═══════════════════════════════════════════════════════ -->
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0c0c1e;--bg2:#13132a;--card:#1a1a35;--hi:#22224a;
-  --gold:#f5a623;--gold2:#ffd166;--gold-dim:rgba(245,166,35,.15);
-  --purple:#a855f7;--purple-dim:rgba(168,85,247,.15);
-  --teal:#06b6d4;--teal-dim:rgba(6,182,212,.15);
-  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.15);
-  --green:#22c55e;--green-dim:rgba(34,197,94,.15);
-  --rose:#f43f5e;--rose-dim:rgba(244,63,94,.15);
-  --pink:#ec4899;--pink-dim:rgba(236,72,153,.15);
-  --txt:#f0eef8;--txt2:#a89fc8;--muted:#6b63a0;
-  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
-  --radius:16px;--radius-sm:10px;
+  --bg:#090914;--bg2:#10101f;--card:#161628;--hi:#1e1e38;
+  --gold:#f5a623;--gold2:#ffd166;--gold-dim:rgba(245,166,35,.12);
+  --purple:#a855f7;--purple-dim:rgba(168,85,247,.12);
+  --teal:#06b6d4;--teal-dim:rgba(6,182,212,.12);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.12);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.12);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);
+  --rose:#f43f5e;--rose-dim:rgba(244,63,94,.12);
+  --pink:#ec4899;--pink-dim:rgba(236,72,153,.12);
+  --txt:#f0eef8;--txt2:#9b93c4;--muted:#5a527a;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --r:16px;--rs:10px;
 }
 html,body{min-height:100vh;overflow-x:hidden}
-body{
-  background:var(--bg);color:var(--txt);font-family:'Nunito',sans-serif;
-  padding-bottom:90px;
+body{background:var(--bg);color:var(--txt);font-family:'Nunito',sans-serif;padding-bottom:90px;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 8%,rgba(255,255,255,.5) 0%,transparent 100%),
-    radial-gradient(1px 1px at 35% 5%,rgba(255,255,255,.4) 0%,transparent 100%),
-    radial-gradient(2px 2px at 68% 12%,rgba(245,166,35,.5) 0%,transparent 100%),
-    radial-gradient(1px 1px at 85% 7%,rgba(255,255,255,.6) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 78% 22%,rgba(168,85,247,.4) 0%,transparent 100%),
-    radial-gradient(2px 2px at 8% 45%,rgba(6,182,212,.3) 0%,transparent 100%);
-}
+    radial-gradient(1.5px 1.5px at 8% 6%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 30% 4%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 65% 10%,rgba(245,166,35,.45) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 6%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 20%,rgba(168,85,247,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 5% 42%,rgba(6,182,212,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 50% 15%,rgba(255,255,255,.35) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 35%,rgba(236,72,153,.3) 0%,transparent 100%);}
 
-/* ── HEADER ── */
-.header{position:sticky;top:0;z-index:200;background:rgba(12,12,30,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1rem;height:58px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Fredoka One',cursive;font-size:1.3rem;letter-spacing:1px;color:var(--gold);cursor:pointer;user-select:none}
-.logo span{font-size:.65rem;letter-spacing:2px;color:var(--muted);display:block;font-family:'Nunito',sans-serif;font-weight:700;margin-top:-2px}
-.xp-badge{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold2);background:var(--gold-dim);border:1px solid rgba(245,166,35,.3);border-radius:20px;padding:4px 12px}
+/* HEADER */
+.header{position:sticky;top:0;z-index:200;background:rgba(9,9,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Fredoka One',cursive;font-size:1.25rem;color:var(--gold);cursor:pointer;user-select:none}
+.logo span{font-size:.6rem;letter-spacing:1.5px;color:var(--muted);display:block;font-family:'Nunito',sans-serif;font-weight:700;margin-top:-2px}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.xp-badge{font-family:'Fredoka One',cursive;font-size:.8rem;color:var(--gold2);background:var(--gold-dim);border:1px solid rgba(245,166,35,.25);border-radius:20px;padding:4px 10px}
+.wrong-badge{font-size:.75rem;font-weight:800;color:var(--rose);background:var(--rose-dim);border:1px solid rgba(244,63,94,.25);border-radius:20px;padding:4px 10px;display:none}
+.wrong-badge.show{display:block}
 
-/* ── BOTTOM NAV ── */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(12,12,30,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
-.nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:transparent;gap:3px;position:relative}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(9,9,20,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px 7px;cursor:pointer;border:none;background:transparent;gap:3px;position:relative}
 .nbtn.active{background:var(--gold-dim)}
 .nbtn.active .nico,.nbtn.active .nlbl{color:var(--gold)}
-.nico{font-size:1.2rem;color:var(--muted)}.nlbl{font-family:'Nunito',sans-serif;font-size:.55rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.npip{position:absolute;top:7px;right:calc(50% - 20px);width:6px;height:6px;border-radius:50%}
+.nico{font-size:1.1rem;color:var(--muted)}.nlbl{font-size:.5rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.npip{position:absolute;top:6px;right:calc(50% - 20px);width:5px;height:5px;border-radius:50%}
 
-/* ── PANELS ── */
-.panel{display:none;padding:1.1rem;animation:fadeUp .25s ease}.panel.active{display:block}
+/* PANELS */
+.panel{display:none;padding:1rem;animation:fadeUp .25s ease}.panel.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── TYPOGRAPHY ── */
-.panel-tag{font-size:.65rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
-.panel-title{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:6px}
-.panel-sub{font-size:.85rem;color:var(--txt2);margin-bottom:1.1rem;line-height:1.6;font-weight:600}
-.srow{display:flex;align-items:center;gap:10px;margin:1.3rem 0 .8rem}
-.slbl{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold);white-space:nowrap}
+/* TYPE */
+.ptag{font-size:.6rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.ptitle{font-family:'Fredoka One',cursive;font-size:1.9rem;letter-spacing:.5px;line-height:1;margin-bottom:5px}
+.psub{font-size:.82rem;color:var(--txt2);margin-bottom:1rem;line-height:1.6;font-weight:600}
+.srow{display:flex;align-items:center;gap:8px;margin:1.1rem 0 .7rem}
+.slbl{font-family:'Fredoka One',cursive;font-size:.8rem;color:var(--gold);white-space:nowrap}
 .sline{flex:1;height:1px;background:var(--border)}
 
-/* ── STAT CARDS ── */
-.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.1rem}
-.scard{background:var(--card);border:1px solid var(--border);padding:.9rem;border-radius:var(--radius-sm);text-align:center}
-.sval{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;margin-bottom:2px}
-.slb{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+/* CARDS — case board */
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem}
+.scard{background:var(--card);border:1px solid var(--border);padding:.8rem;border-radius:var(--rs);text-align:center}
+.sval{font-family:'Fredoka One',cursive;font-size:1.8rem;line-height:1;margin-bottom:2px}
+.slb{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 
-/* ── PROGRESS ── */
-.pwrap{margin-bottom:1.1rem}
-.ptop{display:flex;justify-content:space-between;font-size:.7rem;font-weight:800;color:var(--muted);margin-bottom:6px}
-.ptrack{height:6px;background:var(--border);border-radius:4px}
-.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+/* PROGRESS */
+.pwrap{margin-bottom:1rem}
+.ptop{display:flex;justify-content:space-between;font-size:.65rem;font-weight:800;color:var(--muted);margin-bottom:5px}
+.ptrack{height:5px;background:var(--border);border-radius:3px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
 
-/* ── DETECTIVE CARD ── */
-.det-card{background:linear-gradient(135deg,var(--purple-dim),rgba(12,12,30,.8));border:1px solid rgba(168,85,247,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
-.det-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),transparent)}
-.det-inner{display:flex;gap:.9rem;align-items:flex-start}
-.det-avatar{width:52px;height:52px;border-radius:var(--radius-sm);background:var(--purple-dim);border:2px solid rgba(168,85,247,.4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
-.det-rank{font-size:.65rem;font-weight:800;letter-spacing:1.5px;color:var(--purple);text-transform:uppercase;margin-bottom:2px}
-.det-name{font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:2px}
-.det-role{font-size:.75rem;color:var(--txt2);font-weight:600;margin-bottom:6px}
-.det-status{font-size:.7rem;font-weight:800;color:var(--green);display:flex;align-items:center;gap:5px}
-.det-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
+/* DET CARD */
+.det-card{background:linear-gradient(135deg,var(--purple-dim),rgba(9,9,20,.8));border:1px solid rgba(168,85,247,.25);border-radius:var(--r);padding:.9rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.det-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),transparent)}
+.det-inner{display:flex;gap:.8rem;align-items:flex-start}
+.det-av{width:48px;height:48px;border-radius:var(--rs);background:var(--purple-dim);border:2px solid rgba(168,85,247,.35);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.det-rank{font-size:.6rem;font-weight:800;letter-spacing:1.5px;color:var(--purple);text-transform:uppercase;margin-bottom:2px}
+.det-name{font-family:'Fredoka One',cursive;font-size:1.15rem;margin-bottom:2px}
+.det-role{font-size:.72rem;color:var(--txt2);font-weight:600;margin-bottom:5px}
+.det-status{font-size:.65rem;font-weight:800;color:var(--green);display:flex;align-items:center;gap:4px}
+.det-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
 
-/* ── ELIZABETH WITNESS CARD ── */
-.eliz-card{background:linear-gradient(135deg,var(--pink-dim),rgba(12,12,30,.8));border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
-.eliz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),transparent)}
-.eliz-header{display:flex;gap:.85rem;align-items:center;margin-bottom:.7rem}
-.eliz-avatar{width:46px;height:46px;border-radius:50%;background:var(--pink-dim);border:2px solid rgba(236,72,153,.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.eliz-name{font-family:'Fredoka One',cursive;font-size:1.1rem}
-.eliz-role{font-size:.7rem;font-weight:700;color:rgba(236,72,153,.8);text-transform:uppercase;letter-spacing:.5px}
-.eliz-quote{font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic;background:rgba(236,72,153,.06);border-left:3px solid rgba(236,72,153,.4);padding:.6rem .8rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+/* SUSPICION BOARD */
+.susp-board{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;margin-bottom:1rem}
+.sb-hdr{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--rose);margin-bottom:.75rem}
+.sb-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem}
+.sb-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.sb-name{font-size:.75rem;font-weight:800;flex:1;white-space:nowrap}
+.sb-track{flex:2;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.sb-fill{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.34,1.56,.64,1);width:5%}
+.sb-pct{font-size:.6rem;font-weight:800;color:var(--muted);min-width:28px;text-align:right}
 
-/* ── NOTEBOOK ── */
-.notebook{background:var(--purple-dim);border:1px solid rgba(168,85,247,.2);border-radius:var(--radius);padding:.9rem;margin-bottom:1.1rem}
-.nb-hdr{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--purple);margin-bottom:.6rem}
-.nb-entry{font-size:.82rem;color:var(--txt2);line-height:1.7;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+/* NOTEBOOK */
+.notebook{background:var(--purple-dim);border:1px solid rgba(168,85,247,.18);border-radius:var(--r);padding:.8rem;margin-bottom:1rem}
+.nb-hdr{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--purple);margin-bottom:.5rem}
+.nb-entry{font-size:.78rem;color:var(--txt2);line-height:1.65;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-weight:600}
 .nb-entry:last-child{border-bottom:none;padding-bottom:0}
 .nb-entry.new{color:var(--txt)}
-.nb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.nb-lbl{font-size:.58rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 
-/* ── CLUE BANNERS ── */
-.clue-banner{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;display:none}
-.clue-banner.show{display:flex;gap:10px;align-items:flex-start;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-.clue-banner.twist{background:var(--pink-dim);border-color:rgba(236,72,153,.4)}
-.cb-icon{font-size:1.3rem;flex-shrink:0}
-.cb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:2px}
-.cb-lbl.twist{color:var(--pink)}
-.cb-text{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
+/* CLUE BANNERS */
+.clue-banner{border-radius:var(--rs);padding:.75rem;margin-bottom:.85rem;display:none}
+.clue-banner.show{display:flex;gap:8px;align-items:flex-start;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.clue-banner.std{background:var(--green-dim);border:1px solid rgba(34,197,94,.25)}
+.clue-banner.warn{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.25)}
+.clue-banner.twist{background:var(--pink-dim);border:1px solid rgba(236,72,153,.3)}
+.cb-ico{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.cb-lbl{font-size:.58rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.std .cb-lbl{color:var(--green)}.warn .cb-lbl{color:var(--gold)}.twist .cb-lbl{color:var(--pink)}
+.cb-txt{font-size:.78rem;color:var(--txt2);line-height:1.5;font-weight:600}
 
-/* ── CASE CARDS ── */
-.ccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
+/* CASE CARDS */
+.ccard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;margin-bottom:8px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
 .ccard:active{transform:scale(.98)}
-.ccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.ccard.cr::before{background:var(--rose)}.ccard.cp::before{background:var(--purple)}.ccard.cg::before{background:var(--green)}.ccard.ca::before{background:var(--amber)}
-.ccard-tag{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
-.ccard-title{font-family:'Fredoka One',cursive;font-size:1.1rem;margin-bottom:4px}
-.ccard-desc{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
-.ccard-badge{float:right;font-size:.6rem;font-weight:800;padding:3px 9px;border-radius:10px;letter-spacing:.5px;text-transform:uppercase}
-.badge-open{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.3)}
-.badge-active{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
-.badge-cold{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(6,182,212,.3)}
+.ccard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.ccard.cr::before{background:var(--rose)}.ccard.cp::before{background:var(--purple)}.ccard.cg::before{background:var(--green)}.ccard.ca::before{background:var(--amber)}.ccard.cb::before{background:var(--blue)}
+.cctag{font-size:.58rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.cctitle{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:3px}
+.ccdesc{font-size:.76rem;color:var(--txt2);line-height:1.5;font-weight:600}
+.ccbadge{float:right;font-size:.55rem;font-weight:800;padding:2px 8px;border-radius:8px;letter-spacing:.5px;text-transform:uppercase}
+.b-open{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.25)}
+.b-active{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+.b-ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.25)}
 
-/* ── DOC CARDS ── */
-.doccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
+/* DOC CARDS */
+.doccard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;margin-bottom:8px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
 .doccard:active{transform:scale(.98)}
-.doccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.doccard.cr::before{background:var(--rose)}.doccard.ca::before{background:var(--amber)}.doccard.cp::before{background:var(--pink)}
-.doc-icon{font-size:1.3rem;margin-bottom:5px}
-.doc-lbl{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
-.doc-title{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:3px}
-.doc-meta{font-size:.76rem;color:var(--txt2);font-weight:600}
-.doc-tap{position:absolute;bottom:.7rem;right:.85rem;font-size:.62rem;font-weight:800;color:var(--gold)}
-.doc-new{position:absolute;top:.7rem;right:.7rem;background:var(--rose);color:#fff;font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:6px}
-.doc-twist{background:var(--pink);animation:pulse-pink 1.5s ease infinite}
-@keyframes pulse-pink{0%,100%{background:var(--pink)}50%{background:#f472b6}}
+.doccard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.doccard.cr::before{background:var(--rose)}.doccard.ca::before{background:var(--amber)}.doccard.cg::before{background:var(--green)}.doccard.cb::before{background:var(--blue)}.doccard.cp::before{background:var(--pink)}
+.doc-ico{font-size:1.2rem;margin-bottom:4px}
+.doc-lbl{font-size:.58rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.doc-title{font-family:'Fredoka One',cursive;font-size:.95rem;margin-bottom:2px}
+.doc-meta{font-size:.72rem;color:var(--txt2);font-weight:600}
+.doc-tap{position:absolute;bottom:.6rem;right:.8rem;font-size:.6rem;font-weight:800;color:var(--gold)}
+.doc-new{position:absolute;top:.65rem;right:.65rem;background:var(--rose);color:#fff;font-size:.5rem;font-weight:800;padding:2px 6px;border-radius:5px}
+.doc-req{position:absolute;top:.65rem;right:.65rem;font-size:.5rem;font-weight:800;padding:2px 6px;border-radius:5px;background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
 
-/* ── GATE ── */
-.gate-lock{position:absolute;inset:0;background:rgba(12,12,30,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);transition:opacity .4s}
+/* GATE */
+.gate-lock{position:absolute;inset:0;background:rgba(9,9,20,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--r);transition:opacity .4s}
 .gate-lock.unlocking{opacity:0;pointer-events:none}
-.gate-icon{font-size:1.5rem;margin-bottom:5px}
-.gate-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--muted)}
-.gate-req{font-size:.65rem;font-weight:700;color:var(--border2);margin-top:4px;text-align:center;line-height:1.6;padding:0 1rem}
+.gate-ico{font-size:1.3rem;margin-bottom:4px}
+.gate-lbl{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--muted)}
+.gate-req{font-size:.6rem;font-weight:700;color:var(--border2);margin-top:3px;text-align:center;line-height:1.6;padding:0 .8rem}
 
-/* ── SUSPECTS ── */
-.susp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+/* SUSPECTS */
+.susp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;margin-bottom:8px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
 .susp-card:active{transform:scale(.98)}
-.susp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.susp-card.purple::before{background:var(--purple)}.susp-card.teal::before{background:var(--teal)}.susp-card.amber::before{background:var(--amber)}
-.susp-header{display:flex;align-items:center;gap:.85rem;margin-bottom:.7rem}
-.susp-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid var(--border2)}
-.susp-avatar.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.4)}
-.susp-avatar.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.4)}
-.susp-avatar.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.4)}
-.susp-name{font-family:'Fredoka One',cursive;font-size:1.1rem}
-.susp-role{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.susp-motive{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:.6rem .8rem}
-.susp-tap{font-size:.65rem;font-weight:800;color:var(--gold);margin-top:.6rem;text-align:right}
+.susp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.susp-card.purple::before{background:var(--purple)}.susp-card.teal::before{background:var(--teal)}.susp-card.amber::before{background:var(--amber)}.susp-card.green::before{background:var(--green)}.susp-card.blue::before{background:var(--blue)}
+.sh{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem}
+.sav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:2px solid var(--border2)}
+.sav.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.35)}.sav.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.35)}.sav.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.35)}.sav.green{background:var(--green-dim);border-color:rgba(34,197,94,.35)}.sav.blue{background:var(--blue-dim);border-color:rgba(59,130,246,.35)}
+.sn{font-family:'Fredoka One',cursive;font-size:1rem}
+.sr{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.smot{font-size:.76rem;color:var(--txt2);line-height:1.5;font-weight:600;background:rgba(255,255,255,.03);border-radius:var(--rs);padding:.5rem .7rem}
+.stap{font-size:.6rem;font-weight:800;color:var(--gold);margin-top:.5rem;text-align:right}
 
-/* ── INTERVIEW MODAL ── */
+/* INTERVIEW */
 .ioverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:flex-end}
 .ioverlay.show{display:flex;animation:fadeIn .2s ease}
-.imodal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius) var(--radius) 0 0;padding:1.4rem;width:100%;max-height:82vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
-.ihandle{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1.1rem}
-.im-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto .7rem;border:3px solid var(--border2)}
-.im-avatar.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.5)}
-.im-avatar.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.5)}
-.im-avatar.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.5)}
-.im-name{font-family:'Fredoka One',cursive;font-size:1.3rem;text-align:center;margin-bottom:2px}
-.im-role{font-size:.72rem;font-weight:700;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1rem}
-.chat-wrap{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
-.chat-msg{display:flex;gap:8px;align-items:flex-end}
+.imodal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r) var(--r) 0 0;padding:1.2rem;width:100%;max-height:84vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
+.ihandle{width:34px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 1rem}
+.im-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto .6rem;border:3px solid var(--border2)}
+.im-av.purple{background:var(--purple-dim);border-color:rgba(168,85,247,.45)}
+.im-av.teal{background:var(--teal-dim);border-color:rgba(6,182,212,.45)}
+.im-av.amber{background:var(--amber-dim);border-color:rgba(245,158,11,.45)}
+.im-av.green{background:var(--green-dim);border-color:rgba(34,197,94,.45)}
+.im-av.blue{background:var(--blue-dim);border-color:rgba(59,130,246,.45)}
+.im-name{font-family:'Fredoka One',cursive;font-size:1.2rem;text-align:center;margin-bottom:1px}
+.im-role{font-size:.65rem;font-weight:700;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.85rem}
+.chat-wrap{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.85rem}
+.chat-msg{display:flex;gap:7px;align-items:flex-end}
 .chat-msg.me{flex-direction:row-reverse}
-.chat-bub{max-width:82%;padding:10px 14px;border-radius:16px;font-size:.82rem;line-height:1.55;font-weight:600}
-.chat-msg:not(.me) .chat-bub{background:var(--hi);border-bottom-left-radius:4px}
-.chat-msg.me .chat-bub{background:rgba(168,85,247,.2);border:1px solid rgba(168,85,247,.3);border-bottom-right-radius:4px}
-.chat-who{font-size:.6rem;font-weight:800;color:var(--muted);flex-shrink:0;padding-bottom:4px}
-.im-close{width:100%;padding:.85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--txt2);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;margin-top:.5rem}
+.bub{max-width:84%;padding:9px 13px;border-radius:14px;font-size:.78rem;line-height:1.5;font-weight:600}
+.chat-msg:not(.me) .bub{background:var(--hi);border-bottom-left-radius:4px}
+.chat-msg.me .bub{background:rgba(168,85,247,.18);border:1px solid rgba(168,85,247,.25);border-bottom-right-radius:4px}
+.chat-who{font-size:.55rem;font-weight:800;color:var(--muted);flex-shrink:0;padding-bottom:3px}
+.im-close{width:100%;padding:.8rem;border:1px solid var(--border);border-radius:var(--rs);background:transparent;color:var(--txt2);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;margin-top:.4rem}
 
-/* ── EVIDENCE ── */
-.ev-empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-weight:700;font-size:.85rem;line-height:1.8}
-.ev-card{background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:8px;display:flex;align-items:center;gap:.9rem;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-.ev-card.twist{border-color:rgba(236,72,153,.5);background:var(--pink-dim)}
-.ev-emoji{font-size:1.5rem;flex-shrink:0}
-.ev-name{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--green)}
-.ev-name.twist{color:var(--pink)}
-.ev-desc{font-size:.78rem;color:var(--txt2);font-weight:600;margin-top:1px}
+/* ELIZABETH card */
+.eliz-card{background:linear-gradient(135deg,var(--pink-dim),rgba(9,9,20,.8));border:1px solid rgba(236,72,153,.22);border-radius:var(--r);padding:.9rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.eliz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pink),transparent)}
 
-/* ── SOLVE ── */
-.solve-intro{text-align:center;padding:.5rem 0 1rem}
-.solve-emoji{font-size:3.5rem;display:block;margin-bottom:.6rem}
-.solve-title{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--gold);margin-bottom:.5rem}
-.solve-desc{font-size:.85rem;color:var(--txt2);font-weight:600;line-height:1.6;margin-bottom:1.2rem}
+/* EVIDENCE */
+.ev-empty{text-align:center;padding:1.5rem 1rem;color:var(--muted);font-weight:700;font-size:.82rem;line-height:1.8}
+.ev-card{background:var(--card);border-radius:var(--r);padding:.8rem .9rem;margin-bottom:7px;display:flex;align-items:center;gap:.8rem;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.ev-card.std{border:1px solid rgba(34,197,94,.25)}
+.ev-card.rh{border:1px solid rgba(244,63,94,.2);background:rgba(244,63,94,.04)}
+.ev-card.twist{border:1px solid rgba(236,72,153,.35);background:var(--pink-dim)}
+.ev-ico{font-size:1.3rem;flex-shrink:0}
+.ev-name{font-size:.85rem;font-weight:800}
+.ev-name.std{color:var(--green)}.ev-name.rh{color:var(--rose)}.ev-name.twist{color:var(--pink)}
+.ev-tag{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.ev-tag.std{color:rgba(34,197,94,.6)}.ev-tag.rh{color:rgba(244,63,94,.6)}.ev-tag.twist{color:rgba(236,72,153,.6)}
+.ev-desc{font-size:.72rem;color:var(--txt2);font-weight:600;margin-top:1px;line-height:1.45}
 
-.answer-box{background:var(--card);border:1px solid rgba(245,166,35,.3);border-radius:var(--radius);padding:1rem;margin-bottom:.85rem}
-.ans-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--gold);margin-bottom:.5rem}
-.ans-hint{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:.7rem;line-height:1.55}
-.ans-row{display:flex;gap:8px}
-.ans-input{flex:1;background:var(--bg);border:1px solid var(--border2);color:var(--txt);padding:.65rem .9rem;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;outline:none;border-radius:var(--radius-sm);transition:border-color .2s}
-.ans-input:focus{border-color:var(--gold)}
-.ans-btn{background:var(--gold);color:var(--bg);border:none;padding:.65rem 1rem;font-family:'Fredoka One',cursive;font-size:.9rem;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s}
-.ans-btn:active{transform:scale(.96)}
-.ans-result{display:none;margin-top:.7rem;font-size:.8rem;line-height:1.75;font-weight:700;white-space:pre-wrap;border-radius:var(--radius-sm);padding:.7rem .9rem}
-.ans-result.ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.3)}
-.ans-result.err{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.3)}
+/* CIPHER DECODER */
+.cipher-box{background:var(--card);border:1px solid rgba(59,130,246,.3);border-radius:var(--r);padding:1rem;margin-top:.85rem}
+.cipher-hdr{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--blue);margin-bottom:.3rem}
+.cipher-sub{font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.85rem;line-height:1.55}
+.cipher-code{font-family:'Fredoka One',cursive;font-size:1.3rem;letter-spacing:4px;color:var(--gold2);text-align:center;background:var(--hi);border-radius:var(--rs);padding:.7rem;margin-bottom:.85rem;word-break:break-all}
+.alpha-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:.85rem}
+.alpha-cell{background:var(--hi);border-radius:6px;padding:4px 2px;text-align:center}
+.alpha-plain{font-size:.6rem;font-weight:800;color:var(--muted)}
+.alpha-coded{font-size:.72rem;font-weight:800;color:var(--gold);font-family:'Fredoka One',cursive}
+.cipher-row{display:flex;gap:7px}
+.cipher-input{flex:1;background:var(--bg);border:1px solid var(--border2);color:var(--txt);padding:.6rem .8rem;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;outline:none;border-radius:var(--rs);transition:border-color .2s}
+.cipher-input:focus{border-color:var(--blue)}
+.cipher-btn{background:var(--blue);color:#fff;border:none;padding:.6rem .9rem;font-family:'Fredoka One',cursive;font-size:.85rem;cursor:pointer;border-radius:var(--rs);transition:all .2s}
+.cipher-btn:active{transform:scale(.96)}
+.cipher-res{display:none;margin-top:.7rem;font-size:.78rem;line-height:1.7;font-weight:700;border-radius:var(--rs);padding:.65rem .8rem}
+.cipher-res.ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.cipher-res.err{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.25)}
 
-/* ── ACCUSE BOX ── */
-.accuse-box{background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:.85rem;display:none}
+/* TIMELINE */
+.timeline-box{background:var(--card);border:1px solid rgba(245,166,35,.25);border-radius:var(--r);padding:1rem;margin-bottom:.85rem}
+.tl-hdr{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--gold);margin-bottom:.3rem}
+.tl-sub{font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.85rem;line-height:1.55}
+.tl-events{display:flex;flex-direction:column;gap:6px;margin-bottom:.85rem}
+.tl-event{background:var(--hi);border:2px solid var(--border);border-radius:var(--rs);padding:.65rem .8rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;transition:all .2s;font-size:.78rem;font-weight:700}
+.tl-event:active{transform:scale(.98)}
+.tl-event.selected{border-color:var(--gold);background:var(--gold-dim)}
+.tl-event.correct{border-color:var(--green);background:var(--green-dim);pointer-events:none}
+.tl-event.wrong{border-color:var(--rose);background:var(--rose-dim);pointer-events:none}
+.tl-num{width:22px;height:22px;border-radius:50%;background:var(--muted);color:var(--bg);font-family:'Fredoka One',cursive;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.selected .tl-num{background:var(--gold);color:var(--bg)}
+.correct .tl-num{background:var(--green);color:#fff}
+.wrong .tl-num{background:var(--rose);color:#fff}
+.tl-check-btn{width:100%;padding:.75rem;border:none;border-radius:var(--rs);background:var(--gold);color:var(--bg);font-family:'Fredoka One',cursive;font-size:.95rem;cursor:pointer;transition:all .2s;margin-bottom:.5rem}
+.tl-check-btn:active{transform:scale(.97)}
+.tl-result{display:none;font-size:.78rem;font-weight:700;line-height:1.7;border-radius:var(--rs);padding:.65rem .8rem}
+.tl-result.ok{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.tl-result.err{background:var(--rose-dim);color:var(--rose);border:1px solid rgba(244,63,94,.25)}
+
+/* ACCUSE */
+.accuse-box{display:none;background:var(--rose-dim);border:1px solid rgba(244,63,94,.25);border-radius:var(--r);padding:.9rem;margin-bottom:.85rem}
 .accuse-box.show{display:block;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-.acc-lbl{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--rose);margin-bottom:.5rem}
-.acc-suspects{display:flex;flex-direction:column;gap:8px;margin-bottom:.7rem}
-.acc-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:.9rem;cursor:pointer;display:flex;align-items:center;gap:.8rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--txt);transition:all .2s;width:100%}
+.acc-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--rose);margin-bottom:.4rem}
+.acc-sub{font-size:.76rem;font-weight:700;color:var(--txt2);margin-bottom:.75rem;line-height:1.5}
+.acc-list{display:flex;flex-direction:column;gap:6px}
+.acc-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--rs);padding:.8rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:var(--txt);transition:all .2s;width:100%}
 .acc-btn:hover,.acc-btn:active{border-color:var(--rose);background:var(--rose-dim)}
-.acc-btn.mystery{border-color:rgba(236,72,153,.4);background:var(--pink-dim);display:none}
-.acc-btn.mystery.unlocked{display:flex;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);border-color:var(--pink);box-shadow:0 0 20px rgba(236,72,153,.3)}
-.acc-btn.mystery:hover{border-color:var(--pink);background:rgba(236,72,153,.25)}
-.acc-emoji{font-size:1.3rem}
-.mystery-lock{font-size:.7rem;font-weight:800;color:var(--pink);margin-left:auto;letter-spacing:.5px}
+.acc-btn.mystery{display:none;border-color:rgba(59,130,246,.35);background:var(--blue-dim)}
+.acc-btn.mystery.unlocked{display:flex;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 18px rgba(59,130,246,.25)}
+.acc-btn.mystery:hover{border-color:var(--blue)}
+.acc-emoji{font-size:1.2rem}
+.acc-lock{font-size:.6rem;font-weight:800;color:var(--blue);margin-left:auto;letter-spacing:.3px}
 
-/* ── VERDICT ── */
-.verdict-overlay{display:none;position:fixed;inset:0;z-index:800;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;overflow-y:auto}
+/* VERDICT */
+.verdict-overlay{display:none;position:fixed;inset:0;z-index:800;flex-direction:column;align-items:center;justify-content:center;padding:1.25rem;overflow-y:auto}
 .verdict-overlay.show{display:flex;animation:fadeIn .4s ease}
-.verdict-overlay.win-bg{background:linear-gradient(180deg,rgba(15,10,40,.98),rgba(10,20,10,.98))}
+.verdict-overlay.win-bg{background:linear-gradient(180deg,rgba(10,5,35,.98),rgba(5,18,10,.98))}
 .verdict-overlay.fail-bg{background:rgba(0,0,0,.96)}
-.verdict-inner{width:100%;max-width:380px}
-.verdict-big{font-size:5rem;display:block;margin-bottom:.5rem;animation:bounce 1s ease infinite}
-.verdict-title{font-family:'Fredoka One',cursive;font-size:2.2rem;margin-bottom:.5rem}
-.verdict-title.win{color:var(--gold)}
-.verdict-title.twist{color:var(--pink)}
-.verdict-title.fail{color:var(--rose)}
-.verdict-text{font-size:.88rem;color:var(--txt2);line-height:1.8;font-weight:600;margin-bottom:1.2rem;background:var(--card);border-radius:var(--radius);padding:1rem}
-.verdict-stats{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1.2rem;font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--green);line-height:2;text-align:left}
-.verdict-stats.twist{background:var(--pink-dim);border-color:rgba(236,72,153,.3);color:var(--pink)}
-.verdict-replay{width:100%;padding:.95rem;border:none;border-radius:var(--radius);font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;transition:all .2s}
-.verdict-replay:active{transform:scale(.97)}
-.verdict-replay.gold{background:var(--gold);color:var(--bg)}
-.verdict-replay.rose{background:var(--rose);color:#fff}
-.verdict-replay.pink{background:var(--pink);color:#fff}
+.vinner{width:100%;max-width:380px}
+.vbig{font-size:4.5rem;display:block;margin-bottom:.4rem;animation:bounce .9s ease infinite}
+.vtitle{font-family:'Fredoka One',cursive;font-size:2rem;margin-bottom:.4rem}
+.vtitle.win{color:var(--gold)}.vtitle.twist{color:var(--blue)}.vtitle.fail{color:var(--rose)}
+.vtext{font-size:.82rem;color:var(--txt2);line-height:1.75;font-weight:600;margin-bottom:1rem;background:var(--card);border-radius:var(--r);padding:.9rem}
+.vstats{border-radius:var(--rs);padding:.8rem;margin-bottom:1rem;font-family:'Fredoka One',cursive;font-size:.85rem;line-height:1.9;text-align:left}
+.vstats.win{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.vstats.twist{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.vbtn{width:100%;padding:.9rem;border:none;border-radius:var(--r);font-family:'Fredoka One',cursive;font-size:1.05rem;cursor:pointer;transition:all .2s;margin-bottom:.5rem}
+.vbtn:active{transform:scale(.97)}
+.vbtn.gold{background:var(--gold);color:var(--bg)}.vbtn.rose{background:var(--rose);color:#fff}.vbtn.blue{background:var(--blue);color:#fff}
 
-/* ── DOC VIEWER ── */
+/* DOC VIEWER */
 .doverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:500;flex-direction:column}
 .doverlay.show{display:flex}
-.dheader{background:var(--bg2);border-bottom:1px solid var(--border2);padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.dheader-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--gold)}
-.dclose{background:var(--hi);border:none;color:var(--txt2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.85rem;font-weight:700}
-.dbody{flex:1;overflow-y:auto;padding:1.1rem;-webkit-overflow-scrolling:touch}
+.dheader{background:var(--bg2);border-bottom:1px solid var(--border2);padding:.75rem .9rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dtitle{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--gold)}
+.dclose{background:var(--hi);border:none;color:var(--txt2);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.8rem;font-weight:700}
+.dbody{flex:1;overflow-y:auto;padding:1rem;-webkit-overflow-scrolling:touch}
 
-/* ── TABLE ── */
-.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:.9rem}
-.table-hdr{background:var(--hi);padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:grid;gap:.5rem}
-.table-row{padding:.6rem .9rem;border-bottom:1px solid var(--border);font-size:.75rem;color:var(--txt2);font-weight:600;display:grid;gap:.5rem}
-.table-row:last-child{border-bottom:none}
-.table-row.flagged{background:rgba(244,63,94,.06);color:var(--txt)}
-.table-row.flagged2{background:rgba(245,166,35,.05);color:var(--txt)}
-.table-row.flagged3{background:rgba(236,72,153,.08);color:var(--txt)}
-.flag-val{color:var(--rose);font-weight:800}
-.flag-val2{color:var(--gold);font-weight:800}
-.flag-val3{color:var(--pink);font-weight:800}
+/* TABLE */
+.tw{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);overflow:hidden;margin-bottom:.85rem}
+.th{background:var(--hi);padding:.55rem .85rem;border-bottom:1px solid var(--border);font-size:.6rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:grid;gap:.4rem}
+.tr{padding:.55rem .85rem;border-bottom:1px solid var(--border);font-size:.7rem;color:var(--txt2);font-weight:600;display:grid;gap:.4rem}
+.tr:last-child{border-bottom:none}
+.tr.f1{background:rgba(244,63,94,.05);color:var(--txt)}.tr.f2{background:rgba(245,158,11,.05);color:var(--txt)}.tr.f3{background:rgba(59,130,246,.07);color:var(--txt)}.tr.ok{background:rgba(34,197,94,.05)}
+.fv1{color:var(--rose);font-weight:800}.fv2{color:var(--gold);font-weight:800}.fv3{color:var(--blue);font-weight:800}.fvg{color:var(--green);font-weight:800}
 
-/* ── NOTEBOOK TERMINAL ── */
-.note-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
-.note-bar{background:var(--hi);border-bottom:1px solid var(--border);padding:.6rem .9rem;font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
-.note-out{padding:.9rem;font-size:.78rem;color:var(--green);line-height:1.9;min-height:70px;white-space:pre-wrap}
-.note-out .m{color:var(--muted)}.note-out .a{color:var(--gold)}.note-out .r{color:var(--rose)}.note-out .p{color:var(--pink)}
-.note-row{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 .9rem;gap:6px}
-.note-prompt{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
-.note-input{flex:1;background:transparent;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;color:var(--txt);padding:10px 0;caret-color:var(--gold)}
-.note-run{background:var(--gold);color:var(--bg);border:none;padding:5px 10px;font-family:'Fredoka One',cursive;font-size:.75rem;border-radius:var(--radius-sm);cursor:pointer}
+/* TERMINAL */
+.note-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:.85rem}
+.note-bar{background:var(--hi);border-bottom:1px solid var(--border);padding:.55rem .85rem;font-family:'Fredoka One',cursive;font-size:.82rem;color:var(--gold)}
+.note-out{padding:.85rem;font-size:.73rem;color:var(--green);line-height:1.85;min-height:65px;max-height:180px;overflow-y:auto;white-space:pre-wrap}
+.note-out .m{color:var(--muted)}.note-out .a{color:var(--gold)}.note-out .r{color:var(--rose)}.note-out .b{color:var(--blue)}
+.note-row{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 .85rem;gap:5px}
+.note-prompt{font-family:'Fredoka One',cursive;font-size:.82rem;color:var(--gold)}
+.note-input{flex:1;background:transparent;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;color:var(--txt);padding:9px 0;caret-color:var(--gold)}
+.note-run{background:var(--gold);color:var(--bg);border:none;padding:4px 9px;font-family:'Fredoka One',cursive;font-size:.72rem;border-radius:var(--rs);cursor:pointer}
 
-/* ── TOAST ── */
-.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Fredoka One',cursive;font-size:.85rem;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:2000;transition:all .25s ease;white-space:nowrap;max-width:90vw;text-align:center}
+/* TOAST */
+.toast{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-10px);font-family:'Fredoka One',cursive;font-size:.82rem;padding:7px 16px;border-radius:18px;opacity:0;pointer-events:none;z-index:2000;transition:all .25s ease;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.warn{background:var(--gold)}
-.toast.danger{background:var(--rose);color:#fff}
-.toast.twist{background:var(--pink);color:#fff}
+.toast.ok{background:var(--green);color:#000}.toast.warn{background:var(--gold);color:var(--bg)}.toast.danger{background:var(--rose);color:#fff}.toast.twist{background:var(--blue);color:#fff}
 
-/* ── ANIMATIONS ── */
+/* ANIMATIONS */
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes popIn{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes shakeWiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 
 <!-- INTERVIEW MODAL -->
@@ -358,59 +383,47 @@ body{
 
 <!-- DOC VIEWER -->
 <div class="doverlay" id="doc-viewer">
-  <div class="dheader"><div class="dheader-title" id="doc-title">📄 Document</div><button class="dclose" onclick="closeDoc()">✕</button></div>
+  <div class="dheader"><div class="dtitle" id="doc-title">Document</div><button class="dclose" onclick="closeDoc()">✕</button></div>
   <div class="dbody" id="doc-body"></div>
 </div>
 
 <!-- VERDICT -->
 <div class="verdict-overlay" id="verdict-overlay">
-  <div class="verdict-inner" id="verdict-inner"></div>
+  <div class="vinner" id="verdict-inner"></div>
 </div>
 
 <!-- HEADER -->
 <header class="header">
-  <div class="logo" onclick="logoTap()">🔍 Detective Capps<span>Mystery Case Files</span></div>
-  <div class="xp-badge" id="xpBadge">⭐ 0 XP</div>
+  <div class="logo" onclick="logoTap()">🔍 Detective Capps<span>Season 2 — The Hard One</span></div>
+  <div class="hdr-right">
+    <div class="wrong-badge" id="wrong-badge">❌ <span id="wrong-count">0</span> wrong</div>
+    <div class="xp-badge" id="xpBadge">⭐ 0 XP</div>
+  </div>
 </header>
 
-<!-- ══════════ BOARD ══════════ -->
+<!-- ═══ BOARD ═══ -->
 <div class="panel active" id="panel-board">
-  <div class="panel-tag">🗺️ Case Board</div>
-  <div class="panel-title" style="color:var(--gold)" id="board-title">Loading...</div>
-  <div class="panel-sub" id="board-sub">Loading...</div>
+  <div class="ptag">🗺️ Case Board — Season 2</div>
+  <div class="ptitle" style="color:var(--gold)" id="board-title">Loading...</div>
+  <div class="psub" id="board-sub">Loading...</div>
 
   <div class="det-card">
     <div class="det-inner">
-      <div class="det-avatar">🕵️</div>
+      <div class="det-av">🕵️</div>
       <div>
-        <div class="det-rank">⭐ Junior Detective</div>
+        <div class="det-rank">⭐ Senior Detective</div>
         <div class="det-name">Detective Capps</div>
-        <div class="det-role" id="det-case-name">Loading...</div>
-        <div class="det-status"><div class="det-dot"></div>ON THE CASE!</div>
+        <div class="det-role" id="det-case-name">Case loading...</div>
+        <div class="det-status"><div class="det-dot"></div>ACTIVE — 5 SUSPECTS</div>
       </div>
     </div>
   </div>
 
-  <!-- Elizabeth witness card on the board -->
-  <div class="eliz-card" id="eliz-board-card">
-    <div class="eliz-header">
-      <div class="eliz-avatar">😇</div>
-      <div>
-        <div class="eliz-name">Elizabeth Capps</div>
-        <div class="eliz-role">👧 Your Sister — Key Witness</div>
-      </div>
-    </div>
-    <div class="eliz-quote" id="eliz-board-quote">"I walked past the trophy case after school and I noticed the trophy was GONE! I called you right away, Detective Capps! You have to find out who did this — I've already been helping look around!"</div>
-  </div>
-
-  <div class="notebook">
-    <div class="nb-hdr">📓 Detective Capps' Notes</div>
-    <div id="notebook-body">
-      <div class="nb-entry">
-        <div class="nb-lbl">Opening Report</div>
-        <span id="nb-opening">Loading...</span>
-      </div>
-    </div>
+  <!-- SUSPICION BOARD -->
+  <div class="susp-board">
+    <div class="sb-hdr">🎯 Suspicion Meter — Who's Looking Guilty?</div>
+    <div id="sb-rows"></div>
+    <div style="font-size:.62rem;font-weight:700;color:var(--muted);margin-top:.4rem">Updates as you find clues. Don't trust it blindly — it can be fooled!</div>
   </div>
 
   <div class="pwrap">
@@ -419,161 +432,162 @@ body{
   </div>
 
   <div class="sgrid">
-    <div class="scard"><div class="sval" style="color:var(--rose)">3</div><div class="slb">Suspects</div></div>
-    <div class="scard"><div class="sval" style="color:var(--gold)">6</div><div class="slb">Clues Hidden</div></div>
+    <div class="scard"><div class="sval" style="color:var(--rose)">5</div><div class="slb">Suspects</div></div>
+    <div class="scard"><div class="sval" style="color:var(--gold)">8</div><div class="slb">Clues Hidden</div></div>
     <div class="scard"><div class="sval" style="color:var(--green)" id="clue-counter">0</div><div class="slb">Clues Found</div></div>
-    <div class="scard"><div class="sval" style="color:var(--purple)" id="xp-counter">0</div><div class="slb">XP Earned</div></div>
+    <div class="scard"><div class="sval" style="color:var(--blue)" id="xp-counter">0</div><div class="slb">XP Earned</div></div>
   </div>
 
   <div class="srow"><div class="slbl">🗂️ Case Sections</div><div class="sline"></div></div>
-  <div class="ccard cr" onclick="showPanel('scene')"><span class="ccard-badge badge-open">Active</span><div class="ccard-tag">🔍 Crime Scene</div><div class="ccard-title">The Trophy Room</div><div class="ccard-desc">Examine the scene and find the clues. Every detail matters!</div></div>
-  <div class="ccard cp" onclick="showPanel('suspects')"><span class="ccard-badge badge-active">3 Suspects</span><div class="ccard-tag">🗣️ Interviews</div><div class="ccard-title">Talk to Suspects</div><div class="ccard-desc">Ask questions and listen carefully. Someone is not telling the truth!</div></div>
-  <div class="ccard cg" onclick="showPanel('evidence')"><span class="ccard-badge badge-cold" id="ev-badge">0 Found</span><div class="ccard-tag">🧪 Evidence Lab</div><div class="ccard-title">Your Clue Collection</div><div class="ccard-desc">Every clue you find goes here. Collect them all to solve the case!</div></div>
-  <div class="ccard ca" onclick="showPanel('solve')"><span class="ccard-badge badge-open">Final Step</span><div class="ccard-tag">⚖️ Solve It</div><div class="ccard-title">Make Your Accusation!</div><div class="ccard-desc">Ready to name the culprit? Collect clues — then choose wisely!</div></div>
+  <div class="ccard cr" onclick="showPanel('scene')"><span class="ccbadge b-open">Active</span><div class="cctag">🔍 Crime Scene</div><div class="cctitle">Trophy Room & Science Lab</div><div class="ccdesc">Two crimes, one night. Examine everything — there are red herrings everywhere!</div></div>
+  <div class="ccard cp" onclick="showPanel('suspects')"><span class="ccbadge b-active">5 Suspects</span><div class="cctag">🗣️ Interviews</div><div class="cctitle">Talk to Everyone</div><div class="ccdesc">Five suspects. At least one is trying to trick you. Listen carefully!</div></div>
+  <div class="ccard cg" onclick="showPanel('evidence')"><span class="ccbadge b-ok" id="ev-badge">0 Found</span><div class="cctag">🧪 Evidence Lab</div><div class="cctitle">Clues + Cipher Decoder</div><div class="ccdesc">Collect clues and crack the secret code hidden in the lab!</div></div>
+  <div class="ccard cb" onclick="showPanel('solve')"><span class="ccbadge b-open">Final Step</span><div class="cctag">⚖️ Solve It</div><div class="cctitle">Timeline + Accusation</div><div class="ccdesc">Solve the timeline puzzle — then name the culprit. Wrong answers cost XP!</div></div>
 </div>
 
-<!-- ══════════ SCENE ══════════ -->
+<!-- ═══ SCENE ═══ -->
 <div class="panel" id="panel-scene">
-  <div class="panel-tag">🔍 Crime Scene</div>
-  <div class="panel-title" style="color:var(--rose)">The Trophy Room</div>
-  <div class="panel-sub">Examine everything carefully — Detective Capps never misses a clue!</div>
+  <div class="ptag">🔍 Crime Scene</div>
+  <div class="ptitle" style="color:var(--rose)">Trophy Room & Lab</div>
+  <div class="psub">Two crimes in one night. Start with the trophy case — then dig deeper.</div>
 
-  <div class="clue-banner" id="cbanner-c1"><div class="cb-icon">🔍</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The trophy case lock was <strong style="color:var(--gold)">scratched with a small tool</strong> — someone broke it open!</div></div></div>
-  <div class="clue-banner" id="cbanner-c2"><div class="cb-icon">👟</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">A <strong style="color:var(--gold)">muddy shoe print — size 4</strong> — found right in front of the trophy case!</div></div></div>
-  <div class="clue-banner" id="cbanner-c3"><div class="cb-icon">📷</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The hallway camera shows someone in a <strong style="color:var(--gold)">pink hoodie</strong> near the trophy case at 8:47pm!</div></div></div>
+  <div class="clue-banner std" id="cbanner-c1"><div class="cb-ico">🔵</div><div><div class="cb-lbl">✦ Clue Found — Red Herring?</div><div class="cb-txt"><strong style="color:var(--rose)">Blue hoodie fiber</strong> on the trophy case lock. Alex Kim wears a blue hoodie every day...</div></div></div>
+  <div class="clue-banner std" id="cbanner-c2"><div class="cb-ico">👟</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-txt">Shoe print — <strong style="color:var(--gold)">size 4.5</strong>. Alex Kim wears size 7. Sam Torres wears size 6. Ms. Chen wears 6.5. Who has size 4.5 feet?</div></div></div>
+  <div class="clue-banner std" id="cbanner-c3"><div class="cb-ico">🔑</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-txt">Ms. Chen's <strong style="color:var(--gold)">master key went missing 2 days before</strong> the crime. She reported it to Principal Hughes — but was she believed?</div></div></div>
+  <div class="clue-banner std" id="cbanner-c4"><div class="cb-ico">💻</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-txt">The lab computer was accessed with a <strong style="color:var(--gold)">student login — username: TNash2025</strong>. T. Nash. Someone used their own login by accident!</div></div></div>
 
-  <div class="srow"><div class="slbl">📁 Scene Evidence</div><div class="sline"></div></div>
+  <div class="srow"><div class="slbl">📁 Trophy Room</div><div class="sline"></div></div>
 
-  <div class="doccard cr" onclick="openDoc('trophy-photo')">
-    <div class="doc-new">TAP!</div><div class="doc-icon">📸</div>
+  <div class="doccard cr" onclick="openDoc('scene-photos')">
+    <div class="doc-new">TAP!</div><div class="doc-ico">📸</div>
     <div class="doc-lbl">Photo Evidence</div>
-    <div class="doc-title">Trophy Case — Crime Scene Photos</div>
-    <div class="doc-meta">Taken by Principal Hughes. Look for anything unusual!</div>
+    <div class="doc-title">Crime Scene Photos — Trophy Case</div>
+    <div class="doc-meta">3 findings. Look hard — one clue is a red herring!</div>
     <div class="doc-tap">Open ›</div>
   </div>
 
   <div class="doccard cr" id="gate-camera" onclick="openDoc('camera-log')" style="position:relative">
-    <div class="gate-lock" id="lock-camera"><div class="gate-icon">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Examine the trophy case photos first!<br>Find the first two clues.</div></div>
-    <div class="doc-icon">📷</div><div class="doc-lbl">Camera Footage</div>
-    <div class="doc-title">Hallway Security Camera — 8pm Log</div>
-    <div class="doc-meta">Camera outside the trophy room. Who walked past?</div>
+    <div class="gate-lock" id="lock-camera"><div class="gate-ico">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Find the shoe size clue first!</div></div>
+    <div class="doc-ico">📷</div><div class="doc-lbl">Camera Footage</div>
+    <div class="doc-title">Hallway & Lab Camera Logs</div>
+    <div class="doc-meta">Both cameras. Who was where and when?</div>
     <div class="doc-tap">Open ›</div>
   </div>
 
-  <div class="doccard cr" id="gate-signin" onclick="openDoc('sign-out')" style="position:relative">
-    <div class="gate-lock" id="lock-signin"><div class="gate-icon">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Check the camera footage first!</div></div>
-    <div class="doc-icon">📋</div><div class="doc-lbl">Official Record</div>
-    <div class="doc-title">School Sign-Out Sheet — Friday Evening</div>
-    <div class="doc-meta">Who was still in the building after 7pm?</div>
+  <div class="srow"><div class="slbl">🔬 Science Lab</div><div class="sline"></div></div>
+
+  <div class="doccard ca" id="gate-lab" onclick="openDoc('lab-records')" style="position:relative">
+    <div class="gate-lock" id="lock-lab"><div class="gate-ico">🔒</div><div class="gate-lbl">Cross-Reference Gate</div><div class="gate-req">Need BOTH camera footage<br>AND the master key clue!</div></div>
+    <div class="doc-ico">🔬</div><div class="doc-lbl">Lab Records</div>
+    <div class="doc-title">Science Lab — Access & Login Log</div>
+    <div class="doc-meta">Who accessed the lab computer this week?</div>
     <div class="doc-tap">Open ›</div>
   </div>
 
-  <!-- Elizabeth's "tip" on the scene — she's framing others! -->
-  <div class="srow"><div class="slbl">💌 Tip from Elizabeth</div><div class="sline"></div></div>
-  <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
+  <div class="doccard ca" id="gate-signin" onclick="openDoc('sign-out')" style="position:relative">
+    <div class="gate-lock" id="lock-signin"><div class="gate-ico">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Read the lab records first!</div></div>
+    <div class="doc-ico">📋</div><div class="doc-lbl">Official Record</div>
+    <div class="doc-title">Building Sign-Out Sheet — Saturday</div>
+    <div class="doc-meta">Who was actually in the building — and who lied about it?</div>
+    <div class="doc-tap">Open ›</div>
+  </div>
+
+  <!-- Elizabeth witness note -->
+  <div class="srow"><div class="slbl">😇 Elizabeth's Report</div><div class="sline"></div></div>
+  <div class="eliz-card">
     <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
-      <span style="font-size:1.2rem">😇</span>
-      <span style="font-family:'Fredoka One',cursive;font-size:.95rem">Elizabeth's Tip</span>
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--pink-dim);border:2px solid rgba(236,72,153,.35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">😇</div>
+      <div><div style="font-family:'Fredoka One',cursive;font-size:.95rem">Elizabeth Capps — Your Sister</div><div style="font-size:.62rem;font-weight:700;color:rgba(236,72,153,.7);text-transform:uppercase;letter-spacing:.5px">Witness / Helper</div></div>
     </div>
-    <div style="font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic">"Detective Capps! I just remembered — I saw Alex Kim hanging around the trophy room after school! And they had a backpack! You should definitely check them out. Just saying! 😇"</div>
-    <div style="font-size:.65rem;font-weight:800;color:rgba(236,72,153,.6);margin-top:.5rem;text-transform:uppercase;letter-spacing:.5px">Sent at 9:02pm via text message</div>
+    <div style="font-size:.78rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic;border-left:2px solid rgba(236,72,153,.35);padding-left:.7rem" id="eliz-quote-scene">Loading...</div>
   </div>
 </div>
 
-<!-- ══════════ SUSPECTS ══════════ -->
+<!-- ═══ SUSPECTS ═══ -->
 <div class="panel" id="panel-suspects">
-  <div class="panel-tag">🗣️ Interviews</div>
-  <div class="panel-title" style="color:var(--purple)">Talk to Suspects</div>
-  <div class="panel-sub">Tap to interview each suspect! Listen carefully — someone is innocent!</div>
+  <div class="ptag">🗣️ Interviews</div>
+  <div class="ptitle" style="color:var(--purple)">Five Suspects</div>
+  <div class="psub">Interview everyone. Check shoe sizes. Check hoodies. Someone is lying — find the contradiction!</div>
 
-  <div class="clue-banner" id="cbanner-c4"><div class="cb-icon">✅</div><div><div class="cb-lbl">✦ Alibi Confirmed!</div><div class="cb-text">After interviews, the alibis are checking out for the main suspects. But then... <strong style="color:var(--gold)">who WAS in the building?</strong></div></div></div>
+  <div class="clue-banner warn" id="cbanner-c5"><div class="cb-ico">✅</div><div><div class="cb-lbl">✦ Alibi Check!</div><div class="cb-txt">After interviews: <strong style="color:var(--gold)">most alibis seem solid</strong>. But one suspect's alibi can't be verified — they say they were alone in the library. No witnesses.</div></div></div>
 
   <div id="suspects-list"></div>
 
-  <!-- Elizabeth "helping" by pointing fingers -->
-  <div class="srow"><div class="slbl">😇 Elizabeth is "Helping"</div><div class="sline"></div></div>
-  <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
-    <div style="font-size:.82rem;color:var(--txt2);line-height:1.7;font-weight:600">
-      <strong style="color:var(--pink)">Elizabeth keeps popping up during the investigation.</strong> She suggested you check Alex's locker. She told you Coach Rivera "seemed suspicious." She even pointed out where the muddy footprint was before you found it...<br><br>
-      <span style="font-size:.75rem;color:var(--muted)">Wait. How did she know exactly where the footprint was?</span>
-    </div>
+  <div class="srow"><div class="slbl">😇 Elizabeth — Checked Out</div><div class="sline"></div></div>
+  <div style="background:var(--card);border:1px solid rgba(34,197,94,.2);border-radius:var(--r);padding:.9rem;margin-bottom:.85rem">
+    <div style="font-size:.72rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem">✅ Elizabeth's alibi verified</div>
+    <div style="font-size:.78rem;color:var(--txt2);line-height:1.65;font-weight:600" id="eliz-alibi-text">Loading...</div>
   </div>
 </div>
 
-<!-- ══════════ EVIDENCE ══════════ -->
+<!-- ═══ EVIDENCE ═══ -->
 <div class="panel" id="panel-evidence">
-  <div class="panel-tag">🧪 Evidence Lab</div>
-  <div class="panel-title" style="color:var(--green)">Your Clue Collection</div>
-  <div class="panel-sub">Every clue Detective Capps finds goes here!</div>
+  <div class="ptag">🧪 Evidence Lab</div>
+  <div class="ptitle" style="color:var(--green)">Clue Collection + Cipher</div>
+  <div class="psub">Collect clues and crack the secret code — it names the culprit!</div>
 
   <div class="pwrap">
-    <div class="ptop"><span>🔍 Clues Found</span><span id="ev-count-label">0 of 6</span></div>
+    <div class="ptop"><span>🔍 Clues Found</span><span id="ev-count-label">0 of 8</span></div>
     <div class="ptrack"><div class="pfill" id="ev-fill" style="width:0%"></div></div>
   </div>
 
-  <div id="evidence-list"><div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Explore the crime scene and<br>interview the suspects!</div></div>
+  <div id="evidence-list"><div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Start at the Crime Scene!</div></div>
 
-  <div class="note-wrap" style="margin-top:1rem">
+  <!-- CIPHER DECODER — unlocks after c4 found -->
+  <div class="cipher-box" id="cipher-box" style="display:none">
+    <div class="cipher-hdr">🔐 Caesar Cipher Decoder</div>
+    <div class="cipher-sub">A coded message was found scratched into the lab desk! Each letter was shifted <strong style="color:var(--gold)">3 steps FORWARD</strong> in the alphabet. To decode: count 3 letters BACK!<br>Example: <strong style="color:var(--gold)">D → A</strong> (D back 3 = C, B, A ✓)</div>
+    <div class="cipher-code" id="cipher-code-display">???</div>
+    <div class="cipher-hdr" style="font-size:.75rem;margin-bottom:.5rem;color:var(--muted)">📖 Decoder Reference:</div>
+    <div class="alpha-grid" id="alpha-grid"></div>
+    <div class="cipher-row">
+      <input class="cipher-input" id="cipher-input" type="text" placeholder="Type the decoded message..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="cipher-btn" onclick="checkCipher()">Decode!</button>
+    </div>
+    <div class="cipher-res" id="cipher-res"></div>
+  </div>
+
+  <!-- NOTEBOOK -->
+  <div class="note-wrap" style="margin-top:.85rem">
     <div class="note-bar">📓 Detective Capps' Notebook</div>
-    <div class="note-out" id="note-out"><span class="m">// Ready to take notes, Detective Capps!
-// Type 'help' to see available commands.</span>
+    <div class="note-out" id="note-out"><span class="m">// Detective Capps — Season 2
+// Type 'help' to see commands.
+// This case is MUCH harder. Use me!</span>
 </div>
     <div class="note-row">
       <span class="note-prompt">🔍</span>
       <input class="note-input" id="note-input" type="text" placeholder="ask anything..." autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="note-run" onclick="runNotebook()">Go!</button>
+      <button class="note-run" onclick="runNotebook()">Ask!</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ SOLVE ══════════ -->
+<!-- ═══ SOLVE ═══ -->
 <div class="panel" id="panel-solve">
-  <div class="panel-tag">⚖️ Solve It</div>
-  <div class="panel-title" style="color:var(--gold)">Make Your Move!</div>
-  <div class="panel-sub">Put all the clues together, Detective Capps!</div>
+  <div class="ptag">⚖️ Solve It</div>
+  <div class="ptitle" style="color:var(--gold)">Two Challenges!</div>
+  <div class="psub">Solve the timeline — then name the culprit. <strong style="color:var(--rose)">Wrong accusations cost 25 XP!</strong></div>
 
-  <div class="solve-intro">
-    <span class="solve-emoji">⚖️</span>
-    <div class="solve-title">Are You Ready?</div>
-    <div class="solve-desc" id="solve-desc">Collect clues before making your accusation!</div>
+  <!-- TIMELINE PUZZLE -->
+  <div class="timeline-box">
+    <div class="tl-hdr">⏰ Step 1: Timeline Puzzle</div>
+    <div class="tl-sub">Put these events in the correct order! Tap each event to number it 1–5 in the right sequence. Then hit CHECK.</div>
+    <div class="tl-events" id="tl-events"></div>
+    <button class="tl-check-btn" onclick="checkTimeline()" id="tl-check-btn" style="display:none">Check My Order! →</button>
+    <div class="tl-result" id="tl-result"></div>
   </div>
 
-  <div class="answer-box">
-    <div class="ans-lbl">🎨 Step 1: What color was the hoodie?</div>
-    <div class="ans-hint">The camera caught the suspect in the hallway. What color was their hoodie? (Check the camera footage!)</div>
-    <div class="ans-row">
-      <input class="ans-input" id="inp-q1" type="text" placeholder="Type the color..." autocomplete="off">
-      <button class="ans-btn" onclick="checkQ1()">Check!</button>
-    </div>
-    <div class="ans-result" id="res-q1"></div>
+  <!-- CIPHER REMINDER -->
+  <div id="cipher-reminder" style="display:none;background:var(--blue-dim);border:1px solid rgba(59,130,246,.25);border-radius:var(--rs);padding:.75rem;margin-bottom:.85rem;font-size:.78rem;font-weight:700;color:var(--blue);line-height:1.55">
+    🔐 Don't forget to decode the cipher in the Evidence Lab first! The coded message names the culprit.
   </div>
 
-  <div class="answer-box" id="q2-box" style="display:none">
-    <div class="ans-lbl">👟 Step 2: What shoe size was the footprint?</div>
-    <div class="ans-hint">The muddy shoe print near the case — what size was it? (Check the crime scene photos!)</div>
-    <div class="ans-row">
-      <input class="ans-input" id="inp-q2" type="text" placeholder="Type the shoe size..." autocomplete="off">
-      <button class="ans-btn" onclick="checkQ2()">Check!</button>
-    </div>
-    <div class="ans-result" id="res-q2"></div>
-  </div>
-
+  <!-- ACCUSATION -->
   <div class="accuse-box" id="accuse-box">
-    <div class="acc-lbl">⚖️ Step 3: Who did it?!</div>
-    <div style="font-size:.8rem;font-weight:700;color:var(--txt2);margin-bottom:.85rem;line-height:1.55">You have the evidence, Detective Capps. Make your accusation! Choose carefully...</div>
-    <div class="acc-suspects" id="accuse-suspects">
-      <!-- Regular suspects rendered by JS -->
-    </div>
-    <!-- Hidden Elizabeth button — unlocks after all clues found -->
-    <div id="eliz-accuse-wrap">
-      <button class="acc-btn mystery" id="eliz-accuse-btn" onclick="makeAccusation('elizabeth')">
-        <span class="acc-emoji">😇</span>
-        <div>
-          <div style="font-size:.9rem">Elizabeth Capps</div>
-          <div style="font-size:.7rem;color:rgba(236,72,153,.8);margin-top:1px">Your Sister / Key Witness</div>
-        </div>
-        <div class="mystery-lock" id="mystery-lock-lbl">🔒 Find all clues first...</div>
-      </button>
+    <div class="acc-lbl">⚖️ Step 2: Who Did It?!</div>
+    <div class="acc-sub">You cracked the code. You solved the timeline. Now name the culprit — but choose carefully. <strong style="color:var(--rose)">Wrong = -25 XP!</strong></div>
+    <div class="acc-list" id="accuse-list">
+      <!-- rendered by JS -->
     </div>
   </div>
 </div>
@@ -588,397 +602,532 @@ body{
 </nav>
 
 <script>
-// ── STATE ──────────────────────────────
-let xp=0, cluesFound=[], progress=0, q1Solved=false, q2Solved=false, elizUnlocked=false, logoTaps=0, logoTimer=null;
-const TOTAL_CLUES = 6; // 5 regular + 1 twist clue
+// ── STATE ──────────────────────────────────────────────────────
+let xp=0,wrongAccusations=0,cluesFound=[],progress=0,cipherSolved=false,timelineSolved=false,tylerUnlocked=false,tlOrder=[],logoTaps=0,logoTimer=null;
+const TOTAL=8;
 
-const ALL_CLUES = [
-  {id:'c1', emoji:'🔍', name:'Scratched Lock', desc:'The trophy case lock was scratched open with a small pointy tool.', twist:false},
-  {id:'c2', emoji:'👟', name:'Muddy Footprint (Size 4!)', desc:'A size-4 shoe print found near the trophy case. That\'s pretty small — not a student or teacher!', twist:false},
-  {id:'c3', emoji:'📷', name:'Pink Hoodie on Camera', desc:'The camera shows someone in a pink hoodie at 8:47pm walking toward the trophy room.', twist:false},
-  {id:'c4', emoji:'✅', name:'Suspects\' Alibis', desc:'After interviewing all 3 suspects, their stories all check out. But someone was definitely in that building...', twist:false},
-  {id:'c5', emoji:'📋', name:'Sign-Out Sheet', desc:'The sign-out sheet shows who was in the building. One name stands out — someone who said they just "walked past."', twist:false},
-  {id:'c6', emoji:'💖', name:'The Secret Note — TWIST!', desc:'A sticky note behind the trophy stand reads "EB was here 💖" in purple gel pen. Elizabeth ALWAYS uses purple gel pen...', twist:true},
-];
+// Suspicion weights per clue (which suspects each clue points toward)
+const SUSP_WEIGHTS = {
+  c1: {alex:35},         // blue fiber — strong red herring for Alex
+  c2: {tyler:25,alex:-15},   // size 4.5 — rules out Alex (size 7)
+  c3: {chen:20,tyler:10},    // missing key — Chen suspicious, but Tyler used it
+  c4: {tyler:40},            // TNash login — HUGE clue
+  c5: {tyler:15,alex:-10},   // alibis — Tyler's unverifiable
+  c6: {tyler:20,chen:-10},   // lab records — Tyler accessed lab
+  c7: {tyler:15,alex:-5},    // sign out
+  c8: {tyler:30},            // old notebook — motive confirmed
+};
 
-// ── INIT ──────────────────────────────
-window.addEventListener('load', () => {
-  document.getElementById('board-title').textContent = STORY.title;
-  document.getElementById('board-sub').textContent = '📍 ' + STORY.setting + ' — ' + STORY.date;
-  document.getElementById('det-case-name').textContent = STORY.title;
-  document.getElementById('nb-opening').textContent = STORY.what_happened;
-  renderSuspects();
-  renderAccuseSuspects();
+// ── INIT ──────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  document.getElementById('board-title').textContent=STORY.title;
+  document.getElementById('board-sub').textContent='📍 '+STORY.setting+' — '+STORY.date;
+  document.getElementById('det-case-name').textContent=STORY.title;
+  document.getElementById('eliz-quote-scene').textContent=STORY.elizabeth.quote;
+  document.getElementById('eliz-alibi-text').textContent='Camera footage shows Elizabeth arriving at 9:05pm — AFTER the crimes happened. She was carrying Tyler\'s notebook. She dropped it in the office and left at 9:12pm. She didn\'t know anything was wrong until she got the call from Detective Capps. Her story checks out completely.';
+  document.getElementById('cipher-code-display').textContent=STORY.cipher_encoded;
+  renderSuspects(); renderAccuseList(); renderSuspBoard(); buildAlphaGrid(); initTimeline();
 
-  const saved = localStorage.getItem('kidmystery_capps_v1');
-  if (saved) {
-    try {
-      const s = JSON.parse(saved);
-      xp=s.xp||0; cluesFound=s.cluesFound||[]; progress=s.progress||0;
-      q1Solved=s.q1Solved||false; q2Solved=s.q2Solved||false; elizUnlocked=s.elizUnlocked||false;
-      updateUI();
-      cluesFound.forEach(id => { const b=document.getElementById('cbanner-'+id); if(b) b.classList.add('show'); });
-      if(q1Solved) document.getElementById('q2-box').style.display='block';
-      if(q2Solved) document.getElementById('accuse-box').classList.add('show');
-      if(elizUnlocked) unlockElizabeth(true);
-      checkGates();
-    } catch(e) {}
-  }
+  const saved=localStorage.getItem('kidmystery_s2_v1');
+  if(saved){try{
+    const s=JSON.parse(saved);
+    xp=s.xp||0;wrongAccusations=s.wrongAccusations||0;cluesFound=s.cluesFound||[];progress=s.progress||0;
+    cipherSolved=s.cipherSolved||false;timelineSolved=s.timelineSolved||false;tylerUnlocked=s.tylerUnlocked||false;
+    updateUI();
+    cluesFound.forEach(id=>{const b=document.getElementById('cbanner-'+id);if(b)b.classList.add('show');});
+    if(tylerUnlocked)unlockTyler(true);
+    if(cipherSolved){document.getElementById('cipher-box').style.display='block';const r=document.getElementById('cipher-res');r.style.display='block';r.className='cipher-res ok';r.textContent='✅ Decoded: "TYLER NASH WAS HERE" — The suspect left their own name at the crime scene!';}
+    if(timelineSolved){document.getElementById('accuse-box').classList.add('show');document.getElementById('tl-result').style.display='block';document.getElementById('tl-result').className='tl-result ok';document.getElementById('tl-result').textContent='✅ Correct timeline! Now go make your accusation!';}
+    checkGates(); updateSuspBoard();
+  }catch(e){}}
 });
 
-// ── NAV ──────────────────────────────
-function showPanel(id) {
+// ── NAV ──────────────────────────────────────────────────────
+function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
-  const p=document.getElementById('panel-'+id); if(p){p.classList.add('active');window.scrollTo(0,0);}
-  const b=document.getElementById('nav-'+id); if(b) b.classList.add('active');
-  if(id==='evidence') renderEvidence();
-  if(id==='solve') updateSolvePanel();
+  const p=document.getElementById('panel-'+id);if(p){p.classList.add('active');window.scrollTo(0,0);}
+  const b=document.getElementById('nav-'+id);if(b)b.classList.add('active');
+  if(id==='evidence')renderEvidence();
+  if(id==='solve')updateSolvePanel();
 }
 
-// ── ADD CLUE ──────────────────────────
-function addClue(id, pts, bannerId, noteText) {
-  if (cluesFound.includes(id)) return;
-  cluesFound.push(id);
-  xp += pts;
-  progress = Math.round((cluesFound.length / TOTAL_CLUES) * 100);
-  if (bannerId) { const b=document.getElementById(bannerId); if(b) b.classList.add('show'); }
-  if (noteText) addNotebookEntry(noteText, id==='c6');
-  updateUI();
-  save();
-  checkGates();
-  // Check if all clues found — unlock Elizabeth
-  if (cluesFound.length >= TOTAL_CLUES && !elizUnlocked) {
-    setTimeout(() => unlockElizabeth(false), 1500);
-  }
-  const isTwist = id === 'c6';
-  showToast(isTwist ? '😱 Wait a second... +' + pts + ' XP!' : '🔍 Clue Found! +' + pts + ' XP!', isTwist ? 'twist' : 'warn');
+// ── ADD CLUE ──────────────────────────────────────────────────
+function addClue(id,pts,bannerId,noteText,type='std'){
+  if(cluesFound.includes(id))return;
+  cluesFound.push(id);xp+=pts;
+  progress=Math.round((cluesFound.length/TOTAL)*100);
+  if(bannerId){const b=document.getElementById('cbanner-'+bannerId);if(b)b.classList.add('show');}
+  if(noteText)addNBEntry(noteText,type);
+  updateUI();updateSuspBoard();save();checkGates();
+  const msg=type==='twist'?'😱 Wait... +'+pts+' XP':type==='rh'?'⚠️ Red Herring found! +'+pts+' XP':'🔍 Clue Found! +'+pts+' XP';
+  showToast(msg,type==='twist'?'twist':type==='rh'?'warn':'ok');
+  // reveal cipher box after c4
+  if(cluesFound.includes('c4')){const cb=document.getElementById('cipher-box');if(cb&&cb.style.display==='none'){cb.style.display='block';showToast('🔐 Cipher Decoder unlocked!','twist');}}
+  // unlock Tyler after cipher solved + 6 clues
+  if(cipherSolved&&cluesFound.length>=6&&!tylerUnlocked)unlockTyler(false);
 }
 
-function updateUI() {
-  document.getElementById('prog-fill').style.width = progress + '%';
-  document.getElementById('pct-label').textContent = progress + '%';
-  document.getElementById('clue-counter').textContent = cluesFound.length;
-  document.getElementById('xp-counter').textContent = xp;
-  document.getElementById('xpBadge').textContent = '⭐ ' + xp + ' XP';
-  const eb=document.getElementById('ev-badge'); if(eb) eb.textContent=cluesFound.length+' Found';
-  const el=document.getElementById('ev-count-label'); if(el) el.textContent=cluesFound.length+' of '+TOTAL_CLUES;
-  const ef=document.getElementById('ev-fill'); if(ef) ef.style.width=Math.round((cluesFound.length/TOTAL_CLUES)*100)+'%';
+function updateUI(){
+  document.getElementById('prog-fill').style.width=progress+'%';
+  document.getElementById('pct-label').textContent=progress+'%';
+  document.getElementById('clue-counter').textContent=cluesFound.length;
+  document.getElementById('xp-counter').textContent=xp;
+  document.getElementById('xpBadge').textContent='⭐ '+xp+' XP';
+  const eb=document.getElementById('ev-badge');if(eb)eb.textContent=cluesFound.length+' Found';
+  const el=document.getElementById('ev-count-label');if(el)el.textContent=cluesFound.length+' of '+TOTAL;
+  const ef=document.getElementById('ev-fill');if(ef)ef.style.width=Math.round((cluesFound.length/TOTAL)*100)+'%';
+  const wb=document.getElementById('wrong-badge');
+  if(wb){wb.classList.toggle('show',wrongAccusations>0);document.getElementById('wrong-count').textContent=wrongAccusations;}
 }
 
-function addNotebookEntry(text, isTwist=false) {
-  const body=document.getElementById('notebook-body');
-  const div=document.createElement('div');
-  div.className='nb-entry new';
-  div.innerHTML=`<div class="nb-lbl" style="${isTwist?'color:var(--pink)':''}">${isTwist?'😱 WAIT A SECOND...':'🔍 New Clue!'}</div>${text}`;
-  body.appendChild(div);
+function addNBEntry(text,type='std'){
+  const b=document.getElementById('notebook-body');
+  const d=document.createElement('div');d.className='nb-entry new';
+  const color=type==='twist'?'color:var(--blue)':type==='rh'?'color:var(--rose)':'';
+  d.innerHTML=`<div class="nb-lbl" style="${color}">${type==='twist'?'😱 TWIST:':type==='rh'?'⚠️ Red Herring:':'🔍 Clue:'}</div>${text}`;
+  b.appendChild(d);
 }
 
-// ── GATES ──────────────────────────────
-function checkGates() {
-  if(cluesFound.includes('c1')&&cluesFound.includes('c2')) unlockGate('camera');
-  if(cluesFound.includes('c3')) unlockGate('signin');
-}
-
-function unlockGate(id) {
-  const lock=document.getElementById('lock-'+id);
-  if(lock&&!lock.classList.contains('unlocking')){
-    lock.classList.add('unlocking');
-    setTimeout(()=>{if(lock)lock.remove();},500);
-    showToast('🔓 New document unlocked!');
-  }
-}
-
-// ── UNLOCK ELIZABETH ─────────────────
-function unlockElizabeth(silent=false) {
-  elizUnlocked = true;
-  save();
-  const btn = document.getElementById('eliz-accuse-btn');
-  const lbl = document.getElementById('mystery-lock-lbl');
-  if (btn) {
-    btn.classList.add('unlocked');
-    if (lbl) lbl.textContent = '⚠️ Could it be...?';
-  }
-  if (!silent) {
-    showToast('😱 Wait... something doesn\'t add up!', 'twist');
-    addClue('c6', 30, null, STORY.elizabeth.twist_clue);
-    // Show twist clue in scene panel
-    const sceneTwist = document.getElementById('scene-twist');
-    if (sceneTwist) sceneTwist.style.display='block';
-    addNotebookEntry('A sticky note says "EB was here 💖" in purple gel pen. EB... Elizabeth? But that can\'t be... right?', true);
-  }
-}
-
-// ── SUSPECTS ──────────────────────────
-function renderSuspects() {
-  const list=document.getElementById('suspects-list'); list.innerHTML='';
-  STORY.suspects.forEach(s => {
-    const div=document.createElement('div');
-    div.className='susp-card '+s.color;
-    div.innerHTML=`<div class="susp-header"><div class="susp-avatar ${s.color}">${s.emoji}</div><div><div class="susp-name">${s.name}</div><div class="susp-role">${s.role} · Age ${s.age}</div></div></div><div class="susp-motive">🤔 <strong>Possible Motive:</strong> ${s.motive}</div><div class="susp-tap">Tap to Interview →</div>`;
-    div.onclick=()=>openInterview(s.id);
-    list.appendChild(div);
+// ── SUSPICION BOARD ───────────────────────────────────────────
+function renderSuspBoard(){
+  const rows=document.getElementById('sb-rows');rows.innerHTML='';
+  const colors={purple:'#a855f7',teal:'#06b6d4',amber:'#f59e0b',green:'#22c55e',blue:'#3b82f6'};
+  STORY.suspects.forEach(s=>{
+    const row=document.createElement('div');row.className='sb-row';
+    row.innerHTML=`<div class="sb-av" style="background:rgba(255,255,255,.05);border:1.5px solid var(--border2)">${s.emoji}</div>
+    <div class="sb-name" style="font-size:.7rem">${s.name.split(' ')[0]}</div>
+    <div class="sb-track"><div class="sb-fill" id="sbf-${s.id}" style="background:${colors[s.color]||'var(--muted)'}"></div></div>
+    <div class="sb-pct" id="sbp-${s.id}">5%</div>`;
+    rows.appendChild(row);
   });
 }
 
-function renderAccuseSuspects() {
-  const list=document.getElementById('accuse-suspects'); list.innerHTML='';
-  STORY.suspects.forEach(s => {
-    const btn=document.createElement('button');
-    btn.className='acc-btn';
-    btn.innerHTML=`<span class="acc-emoji">${s.emoji}</span><div><div>${s.name}</div><div style="font-size:.7rem;color:var(--muted);font-weight:600;margin-top:1px">${s.role}</div></div><span style="margin-left:auto">→</span>`;
-    btn.onclick=()=>makeAccusation(s.id);
-    list.appendChild(btn);
+function updateSuspBoard(){
+  const scores={};STORY.suspects.forEach(s=>scores[s.id]=5);
+  cluesFound.forEach(cid=>{
+    const w=SUSP_WEIGHTS[cid]||{};
+    Object.entries(w).forEach(([sid,v])=>{scores[sid]=(scores[sid]||5)+v;});
+  });
+  Object.keys(scores).forEach(k=>scores[k]=Math.max(2,Math.min(95,scores[k])));
+  STORY.suspects.forEach(s=>{
+    const f=document.getElementById('sbf-'+s.id);const p=document.getElementById('sbp-'+s.id);
+    if(f)f.style.width=scores[s.id]+'%';
+    if(p)p.textContent=Math.round(scores[s.id])+'%';
   });
 }
 
-function openInterview(id) {
+// ── GATES ──────────────────────────────────────────────────────
+function checkGates(){
+  if(cluesFound.includes('c2'))unlockGate('camera');
+  if(cluesFound.includes('c2')&&cluesFound.includes('c3'))unlockGate('lab');
+  if(cluesFound.includes('c4'))unlockGate('signin');
+}
+function unlockGate(id){
+  const l=document.getElementById('lock-'+id);
+  if(l&&!l.classList.contains('unlocking')){l.classList.add('unlocking');setTimeout(()=>{if(l)l.remove();},500);showToast('🔓 Document unlocked!');}
+}
+
+// ── SUSPECTS ──────────────────────────────────────────────────
+function renderSuspects(){
+  const list=document.getElementById('suspects-list');list.innerHTML='';
+  STORY.suspects.forEach(s=>{
+    const d=document.createElement('div');d.className='susp-card '+s.color;
+    d.innerHTML=`<div class="sh"><div class="sav ${s.color}">${s.emoji}</div><div><div class="sn">${s.name}</div><div class="sr">${s.role} · Age ${s.age}</div></div></div>
+    <div class="smot">🤔 <strong>Possible motive:</strong> ${s.motive}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.4rem">
+      <div style="font-size:.62rem;font-weight:700;color:var(--muted)">Shoe: ${s.shoe_size} · Hoodie: ${s.hoodie}</div>
+      <div class="stap">Interview →</div>
+    </div>`;
+    d.onclick=()=>openInterview(s.id);list.appendChild(d);
+  });
+}
+
+function openInterview(id){
   const s=STORY.suspects.find(s=>s.id===id);
+  const isCulprit=s.id===STORY.culprit_id;
   const doc=document.getElementById('im-content');
-  // Interviewing all 3 gives the alibi clue
-  if (!cluesFound.includes('c4_'+id)) {
-    setTimeout(()=>{
-      if (!cluesFound.includes('c4')) addClue('c4', 15, 'cbanner-c4', s.name+'\'s alibi checks out. All suspects have good alibis. So who WAS in the building?!');
-      else addClue('c4_'+id, 5, null, s.name+' interviewed — alibi confirmed.');
-    }, 2000);
+  if(!cluesFound.includes('c5_'+id)){
+    setTimeout(()=>addClue('c5_'+id,5,'c5','Interview '+s.name+': alibi='+(isCulprit?'UNVERIFIED — no witnesses!':s.alibi),isCulprit?'rh':'std'),2000);
   }
-  doc.innerHTML=`<div class="im-avatar ${s.color}">${s.emoji}</div><div class="im-name">${s.name}</div><div class="im-role">${s.role}</div>
-  <div class="chat-wrap">
-    <div class="chat-msg me"><div class="chat-bub">Hi ${s.name.split(' ')[0]}! I'm Detective Capps. Where were you Friday at 8:47pm?</div><div class="chat-who">Detective Capps</div></div>
-    <div class="chat-msg"><div class="chat-bub">${s.alibi}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-    <div class="chat-msg me"><div class="chat-bub">The camera shows someone in a pink hoodie near the trophy room. Do you own a pink hoodie?</div><div class="chat-who">Detective Capps</div></div>
-    <div class="chat-msg"><div class="chat-bub">${s.innocent_response}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-    <div class="chat-msg me"><div class="chat-bub">One more question — what size shoe do you wear?</div><div class="chat-who">Detective Capps</div></div>
-    <div class="chat-msg"><div class="chat-bub">${id==='coach'?'Size 11! Why?':id==='alex'?'Size 7! I can prove it!':'Size 6! They\'re new sneakers!'}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-    <div class="chat-msg me"><div class="chat-bub">Interesting. That'll be all for now. Thanks for your time!</div><div class="chat-who">Detective Capps</div></div>
-    <div class="chat-msg"><div class="chat-bub">Good luck finding the trophy! I hope you catch whoever did this! Maybe check out that Alex Kim — they seemed really nervous at school today!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-  </div>`;
-  document.getElementById('ioverlay').classList.add('show');
-  document.body.style.overflow='hidden';
+  const alibiBub = isCulprit
+    ? `<div class="chat-msg"><div class="bub" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.2)">I was... in the library. Studying. Alone. Nobody saw me.</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`
+    : `<div class="chat-msg"><div class="bub">${s.alibi}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`;
+  const shoeReply = `Size ${s.shoe_size}. ${s.shoe_size==='4.5'?"Why... is that relevant?":"They're pretty normal shoes!"}`;
+  doc.innerHTML=`
+    <div class="im-av ${s.color}">${s.emoji}</div>
+    <div class="im-name">${s.name}</div><div class="im-role">${s.role}</div>
+    <div class="chat-wrap">
+      <div class="chat-msg me"><div class="bub">Hi ${s.name.split(' ')[0]}! I'm Detective Capps. Where were you Saturday evening around 8pm?</div><div class="chat-who">Detective Capps</div></div>
+      ${alibiBub}
+      <div class="chat-msg me"><div class="bub">The camera shows someone near the trophy room. What color hoodie do you own?</div><div class="chat-who">Detective Capps</div></div>
+      <div class="chat-msg"><div class="bub">I have a ${s.hoodie} one. ${isCulprit?"...among other colors.":"That's literally all I have."}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+      <div class="chat-msg me"><div class="bub">What shoe size do you wear?</div><div class="chat-who">Detective Capps</div></div>
+      <div class="chat-msg"><div class="bub">${shoeReply}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+      ${isCulprit?`<div class="chat-msg me"><div class="bub">Do you know how to use Caesar cipher codes?</div><div class="chat-who">Detective Capps</div></div>
+      <div class="chat-msg"><div class="bub" style="background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.2)">We... we did them in math class. I'm not good at them. Why are you asking me that?</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`:`<div class="chat-msg me"><div class="bub">Last question — do you know Tyler Nash?</div><div class="chat-who">Detective Capps</div></div>
+      <div class="chat-msg"><div class="bub">The new kid? Not really. Quiet guy. Keeps to himself.</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`}
+    </div>`;
+  document.getElementById('ioverlay').classList.add('show');document.body.style.overflow='hidden';
 }
 function closeInterview(){document.getElementById('ioverlay').classList.remove('show');document.body.style.overflow='';}
 
-// ── EVIDENCE ──────────────────────────
-function renderEvidence() {
+// ── EVIDENCE BOARD ────────────────────────────────────────────
+const ALL_CLUES=[
+  {id:'c1',emoji:'🔵',name:'Blue Hoodie Fiber',desc:'Found on trophy case lock. Points to Alex Kim — who wears blue every day. Classic red herring.',type:'rh'},
+  {id:'c2',emoji:'👟',name:'Shoe Print — Size 4.5',desc:'Found near trophy case. Rules out Alex (7), Sam (6), Ms. Chen (6.5), Coach (11). Very small feet!',type:'std'},
+  {id:'c3',emoji:'🔑',name:"Ms. Chen's Missing Key",desc:'Reported stolen 2 days before the crime. The thief needed it to get into the lab after hours.',type:'std'},
+  {id:'c4',emoji:'💻',name:'Lab Computer Login — TNash2025',desc:'The hacker used their OWN student login by accident! T. Nash = Tyler Nash!',type:'std'},
+  {id:'c6',emoji:'📋',name:'Lab Access Log',desc:'Tyler Nash accessed the lab THREE times this week — each time after hours using Ms. Chen\'s stolen key.',type:'std'},
+  {id:'c7',emoji:'📝',name:'Sign-Out Sheet Contradiction',desc:'Tyler claimed he was in the library all evening — but the building log shows him in Lab Wing B at 8:45pm!',type:'std'},
+  {id:'c8',emoji:'📓',name:'Tyler\'s Old Notebook',desc:'Elizabeth returned this from the library. Inside: his brother\'s original project files and "IT WASN\'T FAIR — JUDGE PEARSON LIED" written in red.',type:'twist'},
+  {id:'cipher',emoji:'🔐',name:'Cipher Decoded: TYLER NASH WAS HERE',desc:'The coded message scratched into the lab desk. Tyler left his own name — he wanted someone to find it.',type:'twist'},
+];
+// dynamic interview sub-clues
+const C5_IDS=['c5_alex','c5_sam','c5_coach','c5_chen','c5_tyler'];
+
+function renderEvidence(){
   const list=document.getElementById('evidence-list');
   const found=ALL_CLUES.filter(c=>cluesFound.includes(c.id));
-  if(found.length===0){list.innerHTML='<div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Explore the crime scene and<br>interview the suspects!</div>';return;}
+  if(found.length===0){list.innerHTML='<div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Go to the Crime Scene!</div>';return;}
   list.innerHTML='';
   found.forEach(c=>{
-    const div=document.createElement('div');
-    div.className='ev-card'+(c.twist?' twist':'');
-    div.innerHTML=`<div class="ev-emoji">${c.emoji}</div><div><div class="ev-name${c.twist?' twist':''}">${c.name}</div><div class="ev-desc">${c.desc}</div></div>`;
-    list.appendChild(div);
+    const d=document.createElement('div');d.className='ev-card '+c.type;
+    d.innerHTML=`<div class="ev-ico">${c.emoji}</div><div><div class="ev-tag ${c.type}">${c.type==='rh'?'⚠️ Red Herring':c.type==='twist'?'😱 Twist Clue':'✅ Evidence'}</div><div class="ev-name ${c.type}">${c.name}</div><div class="ev-desc">${c.desc}</div></div>`;
+    list.appendChild(d);
   });
 }
 
-// ── SOLVE ──────────────────────────────
-function updateSolvePanel() {
-  const desc=document.getElementById('solve-desc');
-  const n=cluesFound.length;
-  if(n<3){desc.textContent=`You've found ${n} clue${n!==1?'s':''} so far. Find more before making your accusation!`;desc.style.color='var(--rose)';}
-  else{desc.textContent=`Great work, Detective Capps! You've found ${n} clues. Answer the questions and make your accusation — but look carefully at ALL the suspects...`;desc.style.color='var(--green)';}
+// ── CIPHER ──────────────────────────────────────────────────
+function buildAlphaGrid(){
+  const grid=document.getElementById('alpha-grid');grid.innerHTML='';
+  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  // Show only the relevant pairs (coded→decoded for the message letters)
+  const pairs=[['W','T'],['B','Y'],['O','L'],['H','E'],['U','R'],['Q','N'],['D','A'],['V','S'],['K','H'],['Z','W'],['D','A'],['V','S'],['K','H'],['H','E'],['U','R'],['H','E']];
+  // Deduplicate
+  const shown=new Set();const unique=pairs.filter(([c])=>{if(shown.has(c))return false;shown.add(c);return true;});
+  unique.forEach(([coded,plain])=>{
+    const cell=document.createElement('div');cell.className='alpha-cell';
+    cell.innerHTML=`<div class="alpha-coded">${coded}</div><div class="alpha-plain">→ ${plain}</div>`;
+    grid.appendChild(cell);
+  });
 }
 
-function checkQ1() {
-  if(cluesFound.length<3){showToast('🔍 Find more clues first!','danger');return;}
-  const val=document.getElementById('inp-q1').value.trim().toUpperCase();
-  const res=document.getElementById('res-q1'); res.style.display='block';
-  if(val.includes('PINK')){
-    res.className='ans-result ok';
-    res.textContent='✅ Correct! The camera clearly shows a PINK hoodie! Great eye, Detective Capps!';
-    q1Solved=true; xp+=20; updateUI(); save();
-    setTimeout(()=>{document.getElementById('q2-box').style.display='block';document.getElementById('q2-box').scrollIntoView({behavior:'smooth'});},800);
-    showToast('🌟 Correct! +20 XP!','warn');
+function checkCipher(){
+  const val=document.getElementById('cipher-input').value.trim().toUpperCase().replace(/[^A-Z\s]/g,'');
+  const res=document.getElementById('cipher-res');res.style.display='block';
+  const target=STORY.cipher_decoded.toUpperCase();
+  // Accept partial match for first two words
+  if(val.includes('TYLER')&&val.includes('NASH')||val===target){
+    res.className='cipher-res ok';
+    res.textContent='✅ DECODED: "'+STORY.cipher_decoded+'" — Tyler Nash was at the crime scene and left his name in code. Maybe he WANTED to be caught?';
+    if(!cipherSolved){
+      cipherSolved=true;
+      addClue('cipher',25,null,'The Caesar cipher decoded to "TYLER NASH WAS HERE" — he scratched his own name into the lab desk!','twist');
+      showToast('😱 Cipher cracked! +25 XP!','twist');
+      if(cluesFound.length>=6&&!tylerUnlocked)unlockTyler(false);
+    }
+    save();
+  } else if(val.includes('TYLER')){
+    res.className='cipher-res err';
+    res.textContent='⚠️ Getting warmer! You got "TYLER" right — keep going! Decode the rest: QDVK';
   } else {
-    res.className='ans-result err';
-    res.textContent='❌ Not quite! Check the camera log again. What color hoodie did the person wear?';
+    res.className='cipher-res err';
+    res.textContent='❌ Not quite! Remember: each letter is 3 steps BACK. W→V→U→T. Use the decoder table above!';
   }
 }
 
-function checkQ2() {
-  const val=document.getElementById('inp-q2').value.trim().toUpperCase().replace(/[^0-9]/g,'');
-  const res=document.getElementById('res-q2'); res.style.display='block';
-  if(val==='4'||val==='4'){
-    res.className='ans-result ok';
-    res.textContent='✅ Size 4! That\'s really small — not a teacher, and smaller than most of the students! Who has size 4 feet? Hmm... this is a big clue!';
-    q2Solved=true; xp+=20; updateUI(); save();
-    setTimeout(()=>{document.getElementById('accuse-box').classList.add('show');document.getElementById('accuse-box').scrollIntoView({behavior:'smooth'});},800);
-    showToast('🌟 Correct! +20 XP!','warn');
+// ── TIMELINE ─────────────────────────────────────────────────
+const TL_EVENTS=[
+  {id:'tl-a',text:"Ms. Chen's master key is stolen from her desk",correct_pos:1},
+  {id:'tl-b',text:"Tyler accesses the lab 3 times using the stolen key",correct_pos:2},
+  {id:'tl-c',text:"Trophy case is broken into, trophy disappears",correct_pos:3},
+  {id:'tl-d',text:"Lab computer hacked — project files deleted (Tyler forgets to log out!)",correct_pos:4},
+  {id:'tl-e',text:"Elizabeth innocently returns Tyler's notebook to school",correct_pos:5},
+];
+let tlSelected=[];
+
+function initTimeline(){
+  const wrap=document.getElementById('tl-events');wrap.innerHTML='';
+  // Shuffle
+  const shuffled=[...TL_EVENTS].sort(()=>Math.random()-.5);
+  shuffled.forEach(ev=>{
+    const d=document.createElement('div');d.className='tl-event';d.id='tlev-'+ev.id;
+    d.innerHTML=`<div class="tl-num" id="tlnum-${ev.id}">?</div><div style="flex:1">${ev.text}</div>`;
+    d.onclick=()=>tlTap(ev.id);
+    wrap.appendChild(d);
+  });
+}
+
+function tlTap(id){
+  if(timelineSolved)return;
+  const idx=tlSelected.indexOf(id);
+  if(idx>-1){
+    // deselect
+    tlSelected.splice(idx,1);
+    document.getElementById('tlev-'+id).classList.remove('selected');
+    // re-number all
+    tlSelected.forEach((sid,i)=>{document.getElementById('tlnum-'+sid).textContent=i+1;});
+    document.getElementById('tlnum-'+id).textContent='?';
   } else {
-    res.className='ans-result err';
-    res.textContent='❌ Check the crime scene photos again. How big was the muddy shoe print? (Hint: it was a very small size!)';
+    tlSelected.push(id);
+    const n=tlSelected.length;
+    document.getElementById('tlev-'+id).classList.add('selected');
+    document.getElementById('tlnum-'+id).textContent=n;
+  }
+  const btn=document.getElementById('tl-check-btn');
+  if(btn)btn.style.display=tlSelected.length===TL_EVENTS.length?'block':'none';
+}
+
+function checkTimeline(){
+  const res=document.getElementById('tl-result');res.style.display='block';
+  let allCorrect=true;
+  tlSelected.forEach((sid,i)=>{
+    const ev=TL_EVENTS.find(e=>e.id===sid);
+    const el=document.getElementById('tlev-'+sid);
+    if(ev&&ev.correct_pos===i+1){el.classList.add('correct');el.classList.remove('selected','wrong');}
+    else{el.classList.add('wrong');el.classList.remove('selected','correct');allCorrect=false;}
+  });
+  if(allCorrect){
+    res.className='tl-result ok';
+    res.textContent='✅ Perfect! That\'s the exact right order! Now you can make your accusation!';
+    timelineSolved=true;xp+=30;updateUI();save();
+    document.getElementById('accuse-box').classList.add('show');
+    document.getElementById('cipher-reminder').style.display='none';
+    showToast('🌟 Timeline solved! +30 XP!','ok');
+  } else {
+    xp=Math.max(0,xp-10);updateUI();save();
+    res.className='tl-result err';
+    res.textContent='❌ Not quite! Red items are in the wrong position. Think about WHEN each event had to happen. Try again! (-10 XP)';
+    // Reset for retry
+    setTimeout(()=>{
+      tlSelected=[];
+      TL_EVENTS.forEach(ev=>{const el=document.getElementById('tlev-'+ev.id);if(el){el.classList.remove('correct','wrong','selected');document.getElementById('tlnum-'+ev.id).textContent='?';}});
+      document.getElementById('tl-check-btn').style.display='none';
+    },2000);
   }
 }
 
-// ── ACCUSATION ──────────────────────
-function makeAccusation(id) {
+// ── SOLVE PANEL ───────────────────────────────────────────────
+function updateSolvePanel(){
+  const desc=document.getElementById('cipher-reminder');
+  if(!cipherSolved&&cluesFound.length>=4){if(desc)desc.style.display='block';}
+}
+
+// ── ACCUSE LIST ───────────────────────────────────────────────
+function renderAccuseList(){
+  const list=document.getElementById('accuse-list');list.innerHTML='';
+  STORY.suspects.filter(s=>s.id!==STORY.culprit_id).forEach(s=>{
+    const b=document.createElement('button');b.className='acc-btn';
+    b.innerHTML=`<span class="acc-emoji">${s.emoji}</span><div><div>${s.name}</div><div style="font-size:.65rem;color:var(--muted);font-weight:600;margin-top:1px">${s.role}</div></div><span style="margin-left:auto;font-size:.9rem">→</span>`;
+    b.onclick=()=>makeAccusation(s.id);list.appendChild(b);
+  });
+  // Tyler — hidden until unlocked
+  const tb=document.createElement('button');tb.className='acc-btn mystery';tb.id='tyler-acc-btn';
+  tb.innerHTML=`<span class="acc-emoji">📓</span><div><div>Tyler Nash</div><div style="font-size:.65rem;color:rgba(59,130,246,.7);font-weight:600;margin-top:1px">New Student — Quiet Kid</div></div><div class="acc-lock" id="tyler-lock-lbl">🔐 Crack the cipher first...</div>`;
+  tb.onclick=()=>makeAccusation('tyler');list.appendChild(tb);
+}
+
+function unlockTyler(silent=false){
+  tylerUnlocked=true;save();
+  const btn=document.getElementById('tyler-acc-btn');
+  const lbl=document.getElementById('tyler-lock-lbl');
+  if(btn){btn.classList.add('unlocked');if(lbl)lbl.textContent='⚠️ The cipher named him...';}
+  if(!silent){
+    showToast('😱 Tyler Nash unlocked as suspect!','twist');
+    addClue('c8',20,null,'Tyler\'s old notebook — brought back by Elizabeth — contains his brother\'s original science project and the words "IT WASN\'T FAIR" in red ink. Now the motive makes complete sense.','twist');
+  }
+}
+
+function makeAccusation(id){
+  if(!timelineSolved){showToast('⏰ Solve the timeline first!','warn');return;}
+  const correct=id===STORY.culprit_id;
+  const s=STORY.suspects.find(s=>s.id===id);
+  const culprit=STORY.suspects.find(s=>s.id===STORY.culprit_id);
   const overlay=document.getElementById('verdict-overlay');
   const inner=document.getElementById('verdict-inner');
   overlay.className='verdict-overlay';
 
-  if (id === 'elizabeth') {
-    // THE TWIST ENDING
-    xp += 100;
-    updateUI(); save();
+  if(correct){
+    xp+=75;updateUI();save();
     overlay.classList.add('show','win-bg');
     inner.innerHTML=`
-      <span class="verdict-big" style="animation:shakeWiggle 0.5s ease">😱</span>
-      <div class="verdict-title twist">IT WAS ELIZABETH!!</div>
-      <div class="verdict-text">
-        <strong style="color:var(--pink)">YOUR OWN SISTER TOOK IT!</strong><br><br>
-        She was the one texting you tips and "helping" the whole time — but she was actually trying to throw you off the trail! The pink hoodie. The size-4 footprints. The purple gel pen note. It was her ALL ALONG.<br><br>
-        <em style="color:var(--gold)">"${STORY.elizabeth.confession}"</em>
+      <span class="vbig">🏆</span>
+      <div class="vtitle twist">Case Cracked!</div>
+      <div class="vtext">
+        <strong style="color:var(--blue)">Tyler Nash</strong> did it — but here's the REAL twist:<br><br>
+        Tyler's older brother competed in this same Science Fair <strong style="color:var(--gold)">3 years ago</strong> and had his project disqualified. Tyler found proof that Judge Pearson lied. He didn't steal the trophy for fun — <strong style="color:var(--gold)">he took it to force an investigation.</strong><br><br>
+        <em style="color:var(--txt)">"${culprit.guilty_confession}"</em><br><br>
+        <span style="font-size:.75rem;color:var(--muted)">And Elizabeth? Completely innocent. She accidentally brought back Tyler's notebook — which had all the evidence in it. She had no idea she was carrying the key to the whole case.</span>
       </div>
-      <div class="verdict-stats twist">
-        😇 The Culprit: Elizabeth Capps<br>
-        👟 Her Shoe Size: 4 (a perfect match!)<br>
-        🎨 Her Hoodie: Pink (obviously)<br>
-        💖 Her Clue: Purple gel pen — always<br>
-        🏆 The Trophy: Safe and sound!<br>
-        ⭐ Detective Capps: LEGENDARY!
+      <div class="vstats twist">
+        🧩 Clues found: ${cluesFound.length} of ${TOTAL}<br>
+        ❌ Wrong accusations: ${wrongAccusations}<br>
+        ⭐ Final XP: ${xp}<br>
+        🔐 Cipher cracked: ✅<br>
+        ⏰ Timeline solved: ✅<br>
+        🏆 Case: CLOSED!
       </div>
-      <div style="background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1.1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
-        🌟 <strong style="color:var(--pink)">Amazing detective work!</strong> You saw through ALL her tricks — the fake tips, the finger-pointing, the innocent face. Detective Capps is officially the world's greatest detective! (And maybe Elizabeth owes you a really big apology...)
-      </div>
-      <button class="verdict-replay pink" onclick="playAgain()">🔄 Play Again!</button>`;
-    if(navigator.vibrate) navigator.vibrate([50,30,100,30,200,50,200]);
-    showConfetti(['#ec4899','#f43f5e','#f5a623','#ffd166','#a855f7']);
+      <button class="vbtn blue" onclick="playAgain()">🔄 Play Again!</button>`;
+    showConfetti();if(navigator.vibrate)navigator.vibrate([50,30,100,30,200,50,200]);
   } else {
-    const s=STORY.suspects.find(s=>s.id===id);
+    wrongAccusations++;xp=Math.max(0,xp-25);updateUI();save();
     overlay.classList.add('show','fail-bg');
+    const hint=id==='alex'?'Think about the shoe size — Alex wears a 7, the print was 4.5. And the blue fiber was planted! Who has size 4.5 feet?':
+                id==='chen'?'Ms. Chen reported her key stolen — she\'s a victim too! Who stole it and used it 3 times this week?':
+                'Their alibi holds up. Think about who had NO alibi and whose login appeared on the hacked computer!';
     inner.innerHTML=`
-      <span class="verdict-big">😬</span>
-      <div class="verdict-title fail">Not Quite!</div>
-      <div class="verdict-text">
+      <span class="vbig">😬</span>
+      <div class="vtitle fail">Wrong! -25 XP</div>
+      <div class="vtext">
         <strong style="color:var(--rose)">${s.name}</strong> didn't do it!<br><br>
         "${s.innocent_response}"<br><br>
-        <strong style="color:var(--gold)">Keep investigating, Detective Capps!</strong> There's a clue you might be missing. Look very carefully at everyone involved in this case — even the people who seem to be on YOUR side...
+        <strong style="color:var(--gold)">You have ${wrongAccusations} wrong accusation${wrongAccusations!==1?'s':''}.</strong> Don't give up, Detective Capps!
       </div>
-      <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
-        💡 <strong style="color:var(--pink)">Detective's Hint:</strong> The shoe size was 4. The hoodie was pink. And someone seemed to know a little too much about where the clues were... Who was "helping" you this whole time?
+      <div style="background:var(--blue-dim);border:1px solid rgba(59,130,246,.25);border-radius:var(--rs);padding:.75rem;margin-bottom:.85rem;font-size:.78rem;font-weight:700;color:var(--blue);line-height:1.6">
+        💡 ${hint}
       </div>
-      <button class="verdict-replay rose" onclick="closeVerdict()">🔍 Keep Investigating!</button>`;
+      <button class="vbtn rose" onclick="closeVerdict()">🔍 Keep Investigating!</button>`;
+    overlay.classList.add('show');
+    if(navigator.vibrate)navigator.vibrate([100,50,100]);
   }
 }
 
 function closeVerdict(){document.getElementById('verdict-overlay').classList.remove('show');}
-function playAgain(){localStorage.removeItem('kidmystery_capps_v1');location.reload();}
+function playAgain(){localStorage.removeItem('kidmystery_s2_v1');location.reload();}
 
-// ── CONFETTI ──────────────────────────
-function showConfetti(colors=['#f5a623','#ffd166','#a855f7','#06b6d4','#22c55e','#f43f5e','#ec4899']) {
-  for(let i=0;i<80;i++){
-    const el=document.createElement('div');
-    el.style.cssText=`position:fixed;top:-20px;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${1.5+Math.random()*2}s ${Math.random()*1.5}s linear forwards`;
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),5000);
-  }
-}
-const cs=document.createElement('style');
-cs.textContent='@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
-document.head.appendChild(cs);
-
-// ── DOCS ──────────────────────────────
-const DOCS = {
-  'trophy-photo': { title: '📸 Trophy Case — Crime Scene', render: () => {
+// ── DOCS ─────────────────────────────────────────────────────
+const DOCS={
+  'scene-photos':{title:'📸 Crime Scene Photos',render:()=>{
     setTimeout(()=>{
-      addClue('c1',15,'cbanner-c1','The trophy case lock was scratched with a small pointy tool — like a tiny screwdriver!');
-      setTimeout(()=>addClue('c2',15,'cbanner-c2','Size 4 shoe print near the case! That\'s very small — smaller than most students at Maplewood Elementary!'),2000);
+      addClue('c1',10,'c1','Blue hoodie fiber on the lock — could be Alex Kim\'s! But wait, is this too obvious? Keep it in mind but don\'t jump to conclusions.','rh');
+      setTimeout(()=>addClue('c2',15,'c2','Size 4.5 shoe print! That\'s way smaller than Alex\'s size 7. Someone is trying to frame Alex — OR the real culprit has very small feet.','std'),2000);
     },1200);
-    return `<div style="background:var(--card);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1rem"><div style="font-size:.7rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem">🚨 CRIME SCENE — TROPHY DISPLAY CASE</div><div style="font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.7">Location: Main hallway display case, Maplewood Elementary. Discovered by Principal Hughes at 7am Saturday.</div></div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:.7fr 2fr">Photo Details</div>
-    <div class="table-row flagged" style="grid-template-columns:.7fr 2fr"><span>Photo 1</span><span>🔍 Trophy case lock is <span class="flag-val">SCRATCHED OPEN</span>. Tiny marks — looks like a small screwdriver!</span></div>
-    <div class="table-row flagged" style="grid-template-columns:.7fr 2fr"><span>Photo 2</span><span>👟 <span class="flag-val">MUDDY FOOTPRINT — SIZE 4</span> on the tile. That's really small! A child's shoe!</span></div>
-    <div class="table-row" style="grid-template-columns:.7fr 2fr"><span>Photo 3</span><span>🏆 Empty display stand where the Golden Science Trophy was kept.</span></div>
-    <div class="table-row flagged3" style="grid-template-columns:.7fr 2fr"><span>Photo 4</span><span>💖 <span class="flag-val3">STICKY NOTE</span> found behind the trophy stand — says something! (Locked — find more clues to reveal it)</span></div>
-    <div class="table-row" style="grid-template-columns:.7fr 2fr"><span>Photo 5</span><span>💡 Hallway light near the case was unscrewed — someone didn't want to be seen on camera!</span></div>
+    return `<div style="font-size:.68rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">🚨 CRIME SCENE — TROPHY ROOM</div>
+    <div class="tw"><div class="th" style="grid-template-columns:.6fr 2fr 1fr">Photo Evidence Findings</div>
+    <div class="tr f1" style="grid-template-columns:.6fr 2fr 1fr"><span>Photo 1</span><span>🔵 <span class="fv1">BLUE FIBER</span> found on trophy case lock. Matches hoodies commonly worn by Science Club students.</span><span>Possible plant!</span></div>
+    <div class="tr f2" style="grid-template-columns:.6fr 2fr 1fr"><span>Photo 2</span><span>👟 Muddy shoe print — <span class="fv2">SIZE 4.5</span>. Very small for a student or teacher.</span><span>Key clue!</span></div>
+    <div class="tr" style="grid-template-columns:.6fr 2fr 1fr"><span>Photo 3</span><span>🏆 Empty display stand. Dust outline shows trophy was taken cleanly, not knocked over.</span><span>Planned theft</span></div>
+    <div class="tr f3" style="grid-template-columns:.6fr 2fr 1fr"><span>Photo 4</span><span>🔐 Lab door scratched — <span class="fv3">NO SCRATCH.</span> Door opened with a real key. No forced entry.</span><span>Used a key!</span></div>
     </div>
-    <div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">🔍 Detective's Tip: Size 4 is a REALLY small shoe — think about who in this case might have small feet. And who has a small screwdriver? Write everything down!</div>`;
+    <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:var(--rs);padding:.75rem;font-size:.76rem;font-weight:700;color:var(--gold);line-height:1.55">⚠️ Detective Tip: The blue fiber is suspicious — but notice the shoe size. ALSO notice the lab needed a KEY to open. No key, no crime. Who had access to a key?</div>`;
   }},
-  'camera-log': { title: '📷 Hallway Camera — 8pm Log', render: () => {
-    setTimeout(()=>addClue('c3',20,'cbanner-c3','Pink hoodie! And whoever it was knew exactly where the camera was — they kept their head down. Very suspicious!'),1200);
+  'camera-log':{title:'📷 Camera Logs — 8pm to 10pm',render:()=>{
+    setTimeout(()=>addClue('c3',15,'c3','Ms. Chen\'s master key reported stolen 2 days before! The thief planned ahead.','std'),1200);
     const rows=[
-      ['8:02pm','Mr. Pete the Janitor','Leaving for the night. Waving goodbye at the door!',''],
-      ['8:15pm','Unknown student','Picking up a forgotten jacket. Face unclear.',''],
-      ['8:31pm','Coach Rivera','Walking to parking lot. Carrying a large sports bag.',''],
-      ['8:47pm','UNKNOWN IN PINK HOODIE','Walking fast toward trophy room! Head DOWN — hiding from camera!','flagged'],
-      ['8:52pm','SAME PERSON','NOW RUNNING away! Backpack looks BIGGER and heavier!','flagged'],
-      ['9:02pm','Elizabeth Capps','Walking casually past trophy room. Stops. Looks at case. Then looks around nervously.','flagged3'],
-      ['9:10pm','No movement','Hallway goes dark — light near trophy case unscrewed.',''],
+      ['8:00pm','Coach Rivera','Leaving parking lot. Camera clearly shows him driving away.','ok'],
+      ['8:15pm','Sam Torres','Leaving Drama rehearsal, carrying props. Ms. Morris waving.','ok'],
+      ['8:32pm','Ms. Chen','In her office window — lamp on, shadows moving. Working late.','ok'],
+      ['8:41pm','FIGURE','Dark hoodie, small frame, enters Trophy Room hallway. Fast walk. Head down.','f1'],
+      ['8:47pm','FIGURE','Exits Trophy Room. No trophy visible... yet.','f1'],
+      ['8:52pm','FIGURE','Enters Lab Wing B. Using a KEY — smooth entry, no fumbling.','f1'],
+      ['9:01pm','FIGURE','Exits Lab Wing B quickly. Backpack looks heavier.','f1'],
+      ['9:05pm','Elizabeth Capps','Arrives main entrance. Carrying a notebook. Goes to office. Leaves 9:12pm.','f3'],
+      ['9:30pm','Lab lights','Lab lights turn off automatically. Crime already done.',''],
     ];
-    let html=`<div style="font-size:.7rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📷 SECURITY CAMERA — TROPHY HALL</div>
-    <div style="background:var(--teal-dim);border:1px solid rgba(6,182,212,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Watch for what color clothes the suspect was wearing — and notice if anyone else appears on this footage!</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.2fr .8fr 2fr"><span>Time</span><span>Who?</span><span>What?</span></div>`;
-    rows.forEach(([t,w,d,f])=>{html+=`<div class="table-row${f?' '+f:''}" style="grid-template-columns:1.2fr .8fr 2fr"><span class="${f==='flagged'?'flag-val':f==='flagged3'?'flag-val3':''}">${t}</span><span>${w}</span><span>${d}</span></div>`;});
-    html+=`</div><div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--pink);line-height:1.65">😇 Wait... Elizabeth was also on this camera at 9:02pm! She said she "walked past and noticed the trophy was gone." But she's looking around VERY nervously. Hmm...</div>`;
+    let html=`<div style="font-size:.68rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📷 SECURITY CAMERAS — MAPLEWOOD ELEMENTARY</div>
+    <div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:var(--rs);padding:.65rem;margin-bottom:.75rem;font-size:.74rem;font-weight:700;color:var(--gold)">🔍 Tip: Look at the FIGURE's entries carefully. Small frame. Uses a KEY. This person is small and had the master key.</div>
+    <div class="tw"><div class="th" style="grid-template-columns:1.2fr .8fr 2.2fr .8fr">Time Who What Note</div>`;
+    rows.forEach(([t,w,d,f])=>{html+=`<div class="tr${f?' '+f:''}" style="grid-template-columns:1.2fr .8fr 2.2fr .8fr"><span class="${f==='f1'?'fv1':f==='f3'?'fv3':''}">${t}</span><span>${w}</span><span>${d}</span><span>${f==='f1'?'⚠️':f==='ok'?'✅':f==='f3'?'📓':''}</span></div>`;});
+    html+=`</div><div style="background:rgba(236,72,153,.07);border:1px solid rgba(236,72,153,.2);border-radius:var(--rs);padding:.7rem;font-size:.75rem;font-weight:700;color:var(--pink);line-height:1.55">😇 Elizabeth arrives AFTER both crimes. She's carrying Tyler's notebook — totally unaware of what happened. Timeline confirms she's innocent.</div>`;
     return html;
   }},
-  'sign-out': { title: '📋 Sign-Out Sheet — Friday Evening', render: () => {
-    setTimeout(()=>addClue('c5',20,null,'The sign-out sheet is very revealing! Look at who signed out when — and think about who had time to take the trophy!'),1200);
+  'lab-records':{title:'🔬 Lab Access Log',render:()=>{
+    setTimeout(()=>addClue('c6',20,null,'Tyler accessed the lab 3 times this week after hours — using Ms. Chen\'s stolen key each time! He was planning this for DAYS.','std'),1200);
     const rows=[
-      ['Sam Torres','Art Club Pres.','Drama Rehearsal','4:00pm','8:30pm','Room 104 (Drama)','Ms. Morris confirmed ✓',''],
-      ['Coach Rivera','PE Teacher','Soccer Practice','3:30pm','6:15pm','Gym / Parking','Camera confirms left 6:15pm ✓',''],
-      ['Alex Kim','Science Club Pres.','Science Lab (studying)','4:00pm','8:00pm','Science Lab','Left BEFORE 8:47pm ✓',''],
-      ['Mr. Pete','Janitor','Evening Cleaning','6:00pm','8:05pm','Various','Camera confirms left 8:02pm ✓',''],
-      ['Elizabeth Capps','Visitor (student\'s sister)','Helping look for missing trophy','8:45pm','9:15pm','Main Hallway / Trophy Area','Signed in AFTER trophy disappeared??','flagged3'],
+      ['Mon 8:15pm','TNash2025','Lab PC Login','15 min — browsed science fair rules & judge history','f3'],
+      ['Wed 7:50pm','TNash2025','Lab PC Login','28 min — downloaded project file templates','f3'],
+      ['Sat 8:52pm','TNash2025','Lab PC Login — SAME NIGHT','<strong style="color:var(--rose)">DELETED: all 14 project files. Accessed judge roster. Saved 1 file to USB.</strong>','f1'],
+      ['Sat 8:52pm','Key entry','MASTER KEY used — Lab Wing B','Not Ms. Chen\'s shift. Key was STOLEN.','f1'],
     ];
-    let html=`<div style="font-size:.7rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📋 OFFICIAL SIGN-OUT SHEET — FRIDAY EVENING</div>
-    <div style="background:var(--amber-dim);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Compare this to each suspect's alibi — does their story match?</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span>Name</span><span>In</span><span>Out</span><span>Location</span><span>Notes</span></div>`;
-    rows.forEach(([n,r,a,i,o,l,nt,f])=>{html+=`<div class="table-row${f?' '+f:f===''&&n==='Elizabeth Capps'?' flagged3':''}" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span class="${n==='Elizabeth Capps'?'flag-val3':''}">${n}<br><span style="font-size:.62rem;color:var(--muted)">${r}</span></span><span>${i}</span><span>${o}</span><span>${l}</span><span class="${n==='Elizabeth Capps'?'flag-val3':''}">${nt}</span></div>`;});
-    html+=`</div><div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.4);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--pink);line-height:1.65">😱 WAIT. Elizabeth signed IN at 8:45pm to "help look for the missing trophy" — but the trophy wasn't reported missing until 9pm! How did she know it was gone? And the pink hoodie person was on camera at 8:47pm... only 2 minutes after she signed in... Does Elizabeth own a pink hoodie?!</div>`;
+    let html=`<div style="font-size:.68rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">🔬 SCIENCE LAB — COMPUTER ACCESS LOG</div>
+    <div style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:var(--rs);padding:.65rem;margin-bottom:.75rem;font-size:.74rem;font-weight:700;color:var(--blue)">💻 Username TNash2025 appears THREE times. T. Nash = Tyler Nash. He forgot to use a fake login!</div>
+    <div class="tw"><div class="th" style="grid-template-columns:1.2fr 1fr .8fr 2fr">Time Login Type Activity</div>`;
+    rows.forEach(([t,u,tp,a,f])=>{html+=`<div class="tr${f?' '+f:''}" style="grid-template-columns:1.2fr 1fr .8fr 2fr"><span class="${f==='f1'?'fv1':f==='f3'?'fv3':''}">${t}</span><span>${u}</span><span>${tp}</span><span>${a}</span></div>`;});
+    html+=`</div><div style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:var(--rs);padding:.7rem;font-size:.75rem;font-weight:700;color:var(--green);line-height:1.55">🔍 Big find! He used the lab three times to research and plan — and on the night of the crime, he accessed it using Ms. Chen's stolen key. He also saved ONE file to USB. Which file? His brother's original project — the one that proves Judge Pearson lied.</div>`;
     return html;
-  }}
+  }},
+  'sign-out':{title:'📋 Sign-Out Sheet — Saturday',render:()=>{
+    setTimeout(()=>addClue('c7',20,null,'Tyler claimed to be in the library all evening — but the building log places him in Lab Wing B at 8:52pm. His alibi is COMPLETELY FALSE.','std'),1200);
+    const rows=[
+      ['Sam Torres','Drama Rehearsal Room','4:00pm','8:30pm','Confirmed by Ms. Morris ✅','ok'],
+      ['Coach Rivera','Gym / Parking Lot','3:30pm','6:15pm','Camera confirms 6:15pm ✅','ok'],
+      ['Alex Kim','Science Classroom A','4:00pm','7:45pm','Left before any crimes ✅','ok'],
+      ['Ms. Chen','Her Office','4:30pm','10:00pm','Working late — lamp on in window ✅','ok'],
+      ['Tyler Nash','CLAIMS: Library','6:00pm','CLAIMS: 9:00pm','Camera puts him in LAB WING B at 8:52pm ❌','f1'],
+      ['Elizabeth Capps','Main Office','9:05pm','9:12pm','Returned notebook. Camera confirmed ✅','f3'],
+    ];
+    let html=`<div style="font-size:.68rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📋 BUILDING SIGN-OUT — SATURDAY</div>
+    <div style="background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.2);border-radius:var(--rs);padding:.65rem;margin-bottom:.75rem;font-size:.74rem;font-weight:700;color:var(--rose)">⚠️ Cross-reference sign-out claims with camera footage. One person's story falls apart completely!</div>
+    <div class="tw"><div class="th" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr">Name Location In Out Notes</div>`;
+    rows.forEach(([n,l,i,o,nt,f])=>{html+=`<div class="tr${f?' '+f:''}" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span class="${f==='f1'?'fv1':f==='f3'?'fv3':''}">${n}</span><span>${l}</span><span>${i}</span><span>${o}</span><span class="${f==='f1'?'fv1':''}">${nt}</span></div>`;});
+    html+=`</div><div style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:var(--rs);padding:.7rem;font-size:.75rem;font-weight:700;color:var(--blue);line-height:1.55">💡 Tyler said he was in the library. The camera says he was in Lab Wing B at 8:52pm. That's the same time the hacker was on the lab computer. His alibi is completely false.</div>`;
+    return html;
+  }},
 };
 
 function openDoc(id){const doc=DOCS[id];if(!doc)return;document.getElementById('doc-title').textContent=doc.title;document.getElementById('doc-body').innerHTML=doc.render();document.getElementById('doc-viewer').classList.add('show');document.body.style.overflow='hidden';}
 function closeDoc(){document.getElementById('doc-viewer').classList.remove('show');document.body.style.overflow='';}
 
-// ── NOTEBOOK ──────────────────────────
-const NOTEBOOK_CMDS={
-  'help':`Commands, Detective Capps:\n  suspects   — info on the 3 suspects\n  elizabeth  — what do we know about her?\n  clues      — your clues so far\n  status     — case progress\n  hint       — I need a hint!\n  shoe       — who has size 4 feet?\n  pink       — who wears pink hoodies?\n  clear      — clear the notebook`,
-  'suspects':()=>STORY.suspects.map(s=>`${s.emoji} ${s.name} (${s.role})\n  Motive: ${s.motive}\n  Alibi: ${s.alibi}`).join('\n\n'),
-  'elizabeth':()=>`😇 Elizabeth Capps — Your Sister\n  Age: ${STORY.elizabeth.age}\n  Role: ${STORY.elizabeth.role}\n  Motive: ${STORY.elizabeth.motive}\n  She's been "helping" all along...\n  ${elizUnlocked?'💖 But wait — the sticky note says "EB was here"...\n  EB = Elizabeth? And she was on the\n  camera at 9:02pm looking nervous!\n  And she knew about the footprint\n  before you found it... SUSPICIOUS!':'Find more clues to learn more!'}`,
-  'clues':()=>cluesFound.length===0?'No clues yet! Go explore!':'✅ Clues found:\n'+ALL_CLUES.filter(c=>cluesFound.includes(c.id)).map(c=>`  ${c.emoji} ${c.name}`).join('\n')+(cluesFound.length<TOTAL_CLUES?`\n\n🔍 Still ${TOTAL_CLUES-cluesFound.length} more to find!`:'\n\n🏆 All clues found!'),
-  'status':()=>`🔍 Progress: ${progress}%\n⭐ XP: ${xp}\n🧩 Clues: ${cluesFound.length} of ${TOTAL_CLUES}\n${elizUnlocked?'😱 The secret suspect is unlocked!\n   Go to Solve It to make your accusation!':cluesFound.length>=3?'✅ Ready to start solving!':'🔍 Keep finding clues!'}`,
+// ── NOTEBOOK ─────────────────────────────────────────────────
+const CMDS={
+  'help':`Season 2 Commands:\n  suspects  — all 5 suspects\n  shoes     — who has what shoe size\n  hoodies   — who wears what color\n  alibis    — check each alibi\n  cipher    — how to crack the code\n  tyler     — what do we know?\n  elizabeth — is she guilty?\n  clues     — your evidence so far\n  status    — case overview\n  hint      — I need a hint!\n  clear     — clear notebook`,
+  'suspects':()=>STORY.suspects.map(s=>`${s.emoji} ${s.name}\n  Shoe: ${s.shoe_size} | Hoodie: ${s.hoodie}\n  Alibi: ${s.alibi}`).join('\n\n'),
+  'shoes':()=>`👟 Shoe Size Comparison:\n  Alex Kim:     size 7\n  Sam Torres:   size 6\n  Coach Rivera: size 11\n  Ms. Chen:     size 6.5\n  Tyler Nash:   size 4.5 ← matches print!\n\n  The shoe print was SIZE 4.5. Only one person...`,
+  'hoodies':()=>`🎨 Hoodie Colors:\n  Alex Kim:     BLUE (camera unclear)\n  Sam Torres:   yellow\n  Coach Rivera: red\n  Ms. Chen:     grey\n  Tyler Nash:   dark blue\n\n  The camera figure was in a dark hoodie.\n  Dark blue ≠ bright blue. The blue fiber\n  may have been planted to frame Alex!`,
+  'alibis':()=>`Alibi Check:\n  Alex Kim:     home evening ✅ (left school 7:45)\n  Sam Torres:   Drama rehearsal ✅ confirmed\n  Coach Rivera: soccer + daycare ✅ confirmed\n  Ms. Chen:     office all night ✅ camera+lamp\n  Tyler Nash:   library ❌ CAMERA SAYS LAB WING B`,
+  'cipher':()=>`🔐 How to crack the Caesar cipher:\n  Each letter is shifted 3 FORWARD\n  To decode: go 3 BACK in alphabet\n  \n  W → V → U → T (W goes back 3 = T)\n  B → A → Z → Y (B goes back 3 = Y)\n  O → N → M → L = L\n  H → G → F → E = E\n  U → T → S → R = R\n  \n  First word: WBOHU = T-Y-L-E-R\n  Second word: QDVK = ?\n  Hint: Q-3=N, D-3=A, V-3=S, K-3=H\n  Second word = N-A-S-H!`,
+  'tyler':()=>`📓 Tyler Nash — What We Know:\n  ${cluesFound.includes('c4')?'✅ His login (TNash2025) was on the hacked computer':'🔒 Check the lab records'}  \n  ${cluesFound.includes('c7')?'✅ Alibi is FALSE — caught on camera':'🔒 Read the sign-out sheet'}\n  ${cluesFound.includes('c8')?'✅ His notebook reveals the real motive: his brother was cheated 3 years ago':'🔒 Find his old notebook'}\n  ${cluesFound.includes('c2')?'✅ Shoe size 4.5 matches the print exactly':'🔒 Check the crime scene photos'}\n  ${cipherSolved?'✅ Cipher decoded — he literally left his name!':'🔒 Crack the cipher in Evidence Lab'}\n  \n  Verdict: ${cipherSolved&&cluesFound.includes('c7')?'STRONG CASE AGAINST TYLER':'Keep collecting evidence!'}`,
+  'elizabeth':()=>`😇 Elizabeth Capps:\n  This time: INNOCENT ✅\n  \n  Timeline proves she arrived at 9:05pm —\n  AFTER both crimes happened.\n  She was returning Tyler's old notebook.\n  She had no idea he had done anything.\n  \n  The irony: the notebook she returned\n  contained all the evidence of his motive!\n  \n  Don't accuse her. She's clean this time.`,
+  'clues':()=>cluesFound.length===0?'No clues yet! Go to the Crime Scene!':'✅ Clues found:\n'+ALL_CLUES.filter(c=>cluesFound.includes(c.id)).map(c=>`  ${c.emoji} [${c.type.toUpperCase()}] ${c.name}`).join('\n')+(cluesFound.length<TOTAL?`\n\n🔍 ${TOTAL-cluesFound.length} more to find!`:'\n\n🏆 All clues found!'),
+  'status':()=>`🔍 Case Status:\n  Progress: ${progress}%\n  XP: ${xp}\n  Clues: ${cluesFound.length}/${TOTAL}\n  Wrong accusations: ${wrongAccusations}\n  Cipher solved: ${cipherSolved?'✅ YES!':'❌ Not yet'}\n  Timeline solved: ${timelineSolved?'✅ YES!':'❌ Not yet'}\n  Tyler unlocked: ${tylerUnlocked?'✅ YES!':'🔒 Crack cipher + get 6+ clues'}`,
   'hint':()=>{
-    if(!cluesFound.includes('c1'))return '💡 Start at the Crime Scene!\nLook at the trophy case photos.';
-    if(!cluesFound.includes('c3'))return '💡 Check the camera footage!\nUnlocks after 2 scene clues.';
-    if(!cluesFound.includes('c4'))return '💡 Interview all 3 suspects!\nAnd pay attention to who is "helping" you...';
-    if(!cluesFound.includes('c5'))return '💡 Read the sign-out sheet!\nCheck who was in the building and WHEN.';
-    if(!elizUnlocked)return '💡 Find all the clues!\nSomething doesn\'t add up about\nsomeone close to this case...';
-    return '💡 You have all the clues!\nGo to Solve It and look at\nALL the suspects — even\nthe ones not on the main list!';
+    if(!cluesFound.includes('c1'))return '💡 Start at the Crime Scene! Open the trophy case photos.';
+    if(!cluesFound.includes('c3'))return '💡 Check the camera footage — it unlocks after the shoe size clue.';
+    if(!cluesFound.includes('c4'))return '💡 Read the lab records! They need both the camera clue AND the missing key clue.';
+    if(!cipherSolved)return '💡 The cipher decoder is in the Evidence Lab. Try: type "tyler nash" — but decode it first! Use the table!';
+    if(!timelineSolved)return '💡 Go to Solve It and sort the timeline. Think: which HAD to happen before which?';
+    if(!tylerUnlocked)return '💡 Crack the cipher AND have 6+ clues to unlock the hidden suspect!';
+    return '💡 You have everything! Go to Solve It → solve timeline → accuse Tyler Nash!';
   },
-  'shoe':()=>`👟 Shoe Size 4 Analysis:\n  Alex Kim (age 11) — size 7\n  Sam Torres (age 10) — size 6\n  Coach Rivera (age 38) — size 11\n  ${elizUnlocked?`Elizabeth Capps (age ${STORY.elizabeth.age}) — size... 4? 🤔\n  That's the same as the footprint!`:'Someone with very small feet...\n  Find more clues to figure out who!'}`,
-  'pink':()=>`🎨 Pink Hoodie Analysis:\n  Alex Kim — no pink hoodie (blue hoodie)\n  Sam Torres — yes has pink... but was at Drama!\n  Coach Rivera — definitely NO pink hoodies\n  ${elizUnlocked?`Elizabeth Capps — has a bright pink\n  hoodie she got for her birthday! 😱`:'Hmm... find more clues to learn who!'}`,
   'clear':'__CLEAR__',
 };
 function runNotebook(){
-  const input=document.getElementById('note-input');const output=document.getElementById('note-out');
-  const cmd=input.value.trim().toLowerCase(); input.value=''; if(!cmd)return;
-  let response=NOTEBOOK_CMDS[cmd]; if(typeof response==='function')response=response();
-  if(!response)response=`I don't know that command!\nType 'help' to see what I can do!`;
-  if(response==='__CLEAR__'){output.innerHTML='<span class="m">// Notebook cleared!</span>\n';return;}
+  const input=document.getElementById('note-input');const out=document.getElementById('note-out');
+  const cmd=input.value.trim().toLowerCase();input.value='';if(!cmd)return;
+  let res=CMDS[cmd];if(typeof res==='function')res=res();
+  if(!res)res=`Don't know "${cmd}". Type 'help'!`;
+  if(res==='__CLEAR__'){out.innerHTML='<span class="m">// Cleared!</span>\n';return;}
   const line=document.createElement('div');
-  line.style.cssText='border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
-  line.innerHTML=`<span class="a">Capps: ${cmd}</span>\n<span>${response}</span>`;
-  output.appendChild(line); output.scrollTop=output.scrollHeight;
+  line.style.cssText='border-top:1px solid var(--border);padding-top:7px;margin-top:7px';
+  line.innerHTML=`<span class="a">Capps: ${cmd}</span>\n<span>${res}</span>`;
+  out.appendChild(line);out.scrollTop=out.scrollHeight;
 }
 document.getElementById('note-input').addEventListener('keydown',e=>{if(e.key==='Enter')runNotebook();});
 
-// ── TOAST ──────────────────────────────
+// ── TOAST ──────────────────────────────────────────────────
 function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2800);}
 
-// ── LOGO TAP ──────────────────────────
+// ── CONFETTI ────────────────────────────────────────────────
+function showConfetti(){
+  const colors=['#f5a623','#ffd166','#3b82f6','#06b6d4','#22c55e','#a855f7','#ec4899'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.style.cssText=`position:fixed;top:-20px;left:${Math.random()*100}%;width:${5+Math.random()*8}px;height:${5+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${1.5+Math.random()*2}s ${Math.random()*1.5}s linear forwards`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+  }
+}
+
+// ── LOGO TAP ──────────────────────────────────────────────
 function logoTap(){
   logoTaps++;
   if(logoTimer)clearTimeout(logoTimer);
   logoTimer=setTimeout(()=>logoTaps=0,2000);
-  if(logoTaps===5){showToast('💖 Tip: Think about who has a purple gel pen...','twist');logoTaps=0;}
+  if(logoTaps>=5){showToast('💡 Tip: Type "tyler" in the notebook!','twist');logoTaps=0;}
 }
 
-// ── SAVE ──────────────────────────────
-function save(){localStorage.setItem('kidmystery_capps_v1',JSON.stringify({xp,cluesFound,progress,q1Solved,q2Solved,elizUnlocked}));}
+// ── SAVE ─────────────────────────────────────────────────
+function save(){localStorage.setItem('kidmystery_s2_v1',JSON.stringify({xp,wrongAccusations,cluesFound,progress,cipherSolved,timelineSolved,tylerUnlocked}));}
 </script>
 </body>
 </html>
