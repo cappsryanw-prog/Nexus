@@ -3,22 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Detective Academy — Mystery Case Files</title>
+<title>Detective Capps — Mystery Case Files</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <!-- ╔══════════════════════════════════════════════════════╗
      ║   🕵️ MYSTERY CONFIG — EDIT YOUR OWN STORY HERE!   ║
-     ╚══════════════════════════════════════════════════════╝
-     Change these values to create a brand new mystery!
-     You can change the names, place, and who did it.     -->
+     ╚══════════════════════════════════════════════════════╝ -->
 <script>
 const STORY = {
   title: "The Case of the Missing Golden Trophy",
   subtitle: "Someone took it — can YOU find out who?",
   setting: "Maplewood Elementary School",
   date: "Friday, October 18th",
-  what_happened: "The Golden Science Fair Trophy has vanished from the display case! The awards ceremony is TOMORROW and nobody knows where it went. Principal Hughes needs YOUR help to crack the case!",
-  culprit: "alex",   // "alex" or "sam" or "coach" — must match a suspect id below
+  what_happened: "The Golden Science Fair Trophy has vanished from the display case! The awards ceremony is TOMORROW and nobody knows where it went. Your sister Elizabeth called you in a panic — she says she walked past and noticed it was gone. Detective Capps, YOU are on the case!",
+  culprit_id: "elizabeth",
   suspects: [
     {
       id: "alex",
@@ -27,11 +25,9 @@ const STORY = {
       role: "Science Club President",
       emoji: "🧪",
       color: "purple",
-      motive: "Came in 2nd place last year and really, REALLY wanted to win.",
+      motive: "Came in 2nd place last year and REALLY wanted to win this year.",
       alibi: "Says they were at home all evening studying.",
-      guilty_detail: "Alex was spotted near the trophy case at 8pm and has a matching screwdriver.",
-      innocent_response: "I was HOME studying! I wanted to WIN fair and square!",
-      guilty_confession: "Okay... okay. I took it. I just wanted to hold it for one night. I was going to put it back! I PROMISE!"
+      innocent_response: "I was HOME studying! I wanted to WIN fair and square! Why does everyone always suspect me?!",
     },
     {
       id: "sam",
@@ -42,8 +38,7 @@ const STORY = {
       color: "teal",
       motive: "Thought the trophy would look way cooler in the art room display.",
       alibi: "Was at Drama Club rehearsal from 4pm to 8pm.",
-      innocent_response: "I was at rehearsal! Ask Ms. Morris — she'll tell you! I wasn't anywhere near the trophy case!",
-      guilty_confession: "I just thought it would look so much better next to our art projects! I was going to borrow it... maybe forever."
+      innocent_response: "I was at rehearsal ALL night! Ask Ms. Morris — she took attendance! I wasn't anywhere near the trophy case!",
     },
     {
       id: "coach",
@@ -53,18 +48,19 @@ const STORY = {
       role: "PE Teacher & Gym Coach",
       color: "amber",
       motive: "Complained the science trophy was 'too shiny' compared to the sports trophies.",
-      alibi: "Was running soccer practice until 6pm, then went home.",
-      innocent_response: "I was at practice! I don't even care about that trophy! Check the sign-out sheet!",
-      guilty_confession: "Fine! The sports kids work just as hard as the science kids! I wanted people to notice OUR trophies for once!"
+      alibi: "Was running soccer practice until 6pm, then went straight home.",
+      innocent_response: "I was at practice and then I went HOME! I have three kids to feed! I don't even care about that trophy!",
     }
   ],
-  clues: [
-    { id:"c1", emoji:"🔍", name:"Scratched Lock", desc:"The trophy case lock was scratched by something small and pointy." },
-    { id:"c2", emoji:"👟", name:"Muddy Footprint", desc:"A size-6 sneaker print was found near the trophy case." },
-    { id:"c3", emoji:"📷", name:"Hallway Camera", desc:"The camera shows someone with a blue backpack at 8:47pm." },
-    { id:"c4", emoji:"🔧", name:"Tiny Screwdriver", desc:"A small screwdriver was found nearby — it matches the scratches!" },
-    { id:"c5", emoji:"📝", name:"Sign-Out Sheet", desc:"The sign-out sheet shows who was in the building after 7pm." },
-  ]
+  elizabeth: {
+    name: "Elizabeth Capps",
+    emoji: "😇",
+    age: 9,
+    role: "Your Little Sister / Key Witness",
+    confession: "Okay... OKAY. I took it. It was SO shiny and pretty and I just wanted to keep it in my room for a little while! I was going to put it back before the ceremony I PROMISE! Please don't tell Mom!!",
+    motive: "She thought the trophy was the most beautiful thing she'd ever seen and wanted it for her bedroom shelf.",
+    twist_clue: "A sticky note was found behind the trophy stand — it says 'EB was here 💖' in purple gel pen. Elizabeth always writes in purple gel pen...",
+  }
 };
 </script>
 <!-- ═══════════════════════════════════════════════════════ -->
@@ -79,47 +75,32 @@ const STORY = {
   --amber:#f59e0b;--amber-dim:rgba(245,158,11,.15);
   --green:#22c55e;--green-dim:rgba(34,197,94,.15);
   --rose:#f43f5e;--rose-dim:rgba(244,63,94,.15);
+  --pink:#ec4899;--pink-dim:rgba(236,72,153,.15);
   --txt:#f0eef8;--txt2:#a89fc8;--muted:#6b63a0;
   --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
   --radius:16px;--radius-sm:10px;
 }
 html,body{min-height:100vh;overflow-x:hidden}
 body{
-  background:var(--bg);color:var(--txt);
-  font-family:'Nunito',sans-serif;
+  background:var(--bg);color:var(--txt);font-family:'Nunito',sans-serif;
   padding-bottom:90px;
   background-image:
     radial-gradient(1.5px 1.5px at 12% 8%,rgba(255,255,255,.5) 0%,transparent 100%),
     radial-gradient(1px 1px at 35% 5%,rgba(255,255,255,.4) 0%,transparent 100%),
     radial-gradient(2px 2px at 68% 12%,rgba(245,166,35,.5) 0%,transparent 100%),
     radial-gradient(1px 1px at 85% 7%,rgba(255,255,255,.6) 0%,transparent 100%),
-    radial-gradient(1px 1px at 22% 25%,rgba(255,255,255,.3) 0%,transparent 100%),
     radial-gradient(1.5px 1.5px at 78% 22%,rgba(168,85,247,.4) 0%,transparent 100%),
-    radial-gradient(1px 1px at 50% 18%,rgba(255,255,255,.4) 0%,transparent 100%),
-    radial-gradient(2px 2px at 8% 45%,rgba(6,182,212,.3) 0%,transparent 100%),
-    radial-gradient(1px 1px at 92% 40%,rgba(255,255,255,.3) 0%,transparent 100%);
+    radial-gradient(2px 2px at 8% 45%,rgba(6,182,212,.3) 0%,transparent 100%);
 }
 
 /* ── HEADER ── */
-.header{
-  position:sticky;top:0;z-index:200;
-  background:rgba(12,12,30,.97);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  padding:0 1rem;height:58px;
-  display:flex;align-items:center;justify-content:space-between;
-}
+.header{position:sticky;top:0;z-index:200;background:rgba(12,12,30,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1rem;height:58px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-family:'Fredoka One',cursive;font-size:1.3rem;letter-spacing:1px;color:var(--gold);cursor:pointer;user-select:none}
-.logo span{font-size:.7rem;letter-spacing:2px;color:var(--muted);display:block;font-family:'Nunito',sans-serif;font-weight:700;margin-top:-2px}
+.logo span{font-size:.65rem;letter-spacing:2px;color:var(--muted);display:block;font-family:'Nunito',sans-serif;font-weight:700;margin-top:-2px}
 .xp-badge{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold2);background:var(--gold-dim);border:1px solid rgba(245,166,35,.3);border-radius:20px;padding:4px 12px}
 
 /* ── BOTTOM NAV ── */
-.bnav{
-  position:fixed;bottom:0;left:0;right:0;z-index:200;
-  background:rgba(12,12,30,.97);backdrop-filter:blur(16px);
-  border-top:1px solid var(--border);
-  display:grid;grid-template-columns:repeat(5,1fr);
-  padding-bottom:env(safe-area-inset-bottom);
-}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(12,12,30,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
 .nbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:transparent;gap:3px;position:relative}
 .nbtn.active{background:var(--gold-dim)}
 .nbtn.active .nico,.nbtn.active .nlbl{color:var(--gold)}
@@ -131,10 +112,9 @@ body{
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── TYPOGRAPHY ── */
-.panel-tag{font-family:'Nunito',sans-serif;font-size:.65rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.panel-tag{font-size:.65rem;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
 .panel-title{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:6px}
 .panel-sub{font-size:.85rem;color:var(--txt2);margin-bottom:1.1rem;line-height:1.6;font-weight:600}
-
 .srow{display:flex;align-items:center;gap:10px;margin:1.3rem 0 .8rem}
 .slbl{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold);white-space:nowrap}
 .sline{flex:1;height:1px;background:var(--border)}
@@ -142,30 +122,36 @@ body{
 /* ── STAT CARDS ── */
 .sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.1rem}
 .scard{background:var(--card);border:1px solid var(--border);padding:.9rem;border-radius:var(--radius-sm);text-align:center}
-.sval{font-family:'Fredoka One',cursive;font-size:2rem;letter-spacing:1px;line-height:1;margin-bottom:2px}
+.sval{font-family:'Fredoka One',cursive;font-size:2rem;line-height:1;margin-bottom:2px}
 .slb{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 
 /* ── PROGRESS ── */
 .pwrap{margin-bottom:1.1rem}
 .ptop{display:flex;justify-content:space-between;font-size:.7rem;font-weight:800;color:var(--muted);margin-bottom:6px}
-.ptrack{height:6px;background:var(--border);border-radius:4px}.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+.ptrack{height:6px;background:var(--border);border-radius:4px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
 
 /* ── DETECTIVE CARD ── */
-.det-card{
-  background:linear-gradient(135deg,var(--purple-dim),rgba(12,12,30,.8));
-  border:1px solid rgba(168,85,247,.3);border-radius:var(--radius);
-  padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden;
-}
+.det-card{background:linear-gradient(135deg,var(--purple-dim),rgba(12,12,30,.8));border:1px solid rgba(168,85,247,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
 .det-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),transparent)}
 .det-inner{display:flex;gap:.9rem;align-items:flex-start}
 .det-avatar{width:52px;height:52px;border-radius:var(--radius-sm);background:var(--purple-dim);border:2px solid rgba(168,85,247,.4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
 .det-rank{font-size:.65rem;font-weight:800;letter-spacing:1.5px;color:var(--purple);text-transform:uppercase;margin-bottom:2px}
-.det-name{font-family:'Fredoka One',cursive;font-size:1.2rem;letter-spacing:.5px;margin-bottom:2px}
+.det-name{font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:2px}
 .det-role{font-size:.75rem;color:var(--txt2);font-weight:600;margin-bottom:6px}
 .det-status{font-size:.7rem;font-weight:800;color:var(--green);display:flex;align-items:center;gap:5px}
 .det-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
 
-/* ── CASE NOTEBOOK ── */
+/* ── ELIZABETH WITNESS CARD ── */
+.eliz-card{background:linear-gradient(135deg,var(--pink-dim),rgba(12,12,30,.8));border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
+.eliz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),transparent)}
+.eliz-header{display:flex;gap:.85rem;align-items:center;margin-bottom:.7rem}
+.eliz-avatar{width:46px;height:46px;border-radius:50%;background:var(--pink-dim);border:2px solid rgba(236,72,153,.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.eliz-name{font-family:'Fredoka One',cursive;font-size:1.1rem}
+.eliz-role{font-size:.7rem;font-weight:700;color:rgba(236,72,153,.8);text-transform:uppercase;letter-spacing:.5px}
+.eliz-quote{font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic;background:rgba(236,72,153,.06);border-left:3px solid rgba(236,72,153,.4);padding:.6rem .8rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+
+/* ── NOTEBOOK ── */
 .notebook{background:var(--purple-dim);border:1px solid rgba(168,85,247,.2);border-radius:var(--radius);padding:.9rem;margin-bottom:1.1rem}
 .nb-hdr{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--purple);margin-bottom:.6rem}
 .nb-entry{font-size:.82rem;color:var(--txt2);line-height:1.7;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
@@ -173,18 +159,20 @@ body{
 .nb-entry.new{color:var(--txt)}
 .nb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 
-/* ── CLUE FOUND BANNER ── */
+/* ── CLUE BANNERS ── */
 .clue-banner{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;display:none}
 .clue-banner.show{display:flex;gap:10px;align-items:flex-start;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.clue-banner.twist{background:var(--pink-dim);border-color:rgba(236,72,153,.4)}
 .cb-icon{font-size:1.3rem;flex-shrink:0}
 .cb-lbl{font-size:.62rem;font-weight:800;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:2px}
+.cb-lbl.twist{color:var(--pink)}
 .cb-text{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
 
-/* ── CASE CARDS (overview) ── */
+/* ── CASE CARDS ── */
 .ccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
 .ccard:active{transform:scale(.98)}
 .ccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.ccard.cr::before{background:var(--rose)}.ccard.cb::before{background:var(--teal)}.ccard.cg::before{background:var(--green)}.ccard.ca::before{background:var(--amber)}.ccard.cp::before{background:var(--purple)}
+.ccard.cr::before{background:var(--rose)}.ccard.cp::before{background:var(--purple)}.ccard.cg::before{background:var(--green)}.ccard.ca::before{background:var(--amber)}
 .ccard-tag{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
 .ccard-title{font-family:'Fredoka One',cursive;font-size:1.1rem;margin-bottom:4px}
 .ccard-desc{font-size:.8rem;color:var(--txt2);line-height:1.55;font-weight:600}
@@ -197,26 +185,24 @@ body{
 .doccard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
 .doccard:active{transform:scale(.98)}
 .doccard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.doccard.cr::before{background:var(--rose)}.doccard.cb::before{background:var(--teal)}.doccard.cg::before{background:var(--green)}.doccard.ca::before{background:var(--amber)}.doccard.cp::before{background:var(--purple)}
+.doccard.cr::before{background:var(--rose)}.doccard.ca::before{background:var(--amber)}.doccard.cp::before{background:var(--pink)}
 .doc-icon{font-size:1.3rem;margin-bottom:5px}
 .doc-lbl{font-size:.62rem;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
 .doc-title{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:3px}
 .doc-meta{font-size:.76rem;color:var(--txt2);font-weight:600}
-.doc-tap{position:absolute;bottom:.7rem;right:.85rem;font-size:.62rem;font-weight:800;color:var(--gold);letter-spacing:.5px}
-.doc-new{position:absolute;top:.7rem;right:.7rem;background:var(--rose);color:#fff;font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:6px;letter-spacing:.5px}
+.doc-tap{position:absolute;bottom:.7rem;right:.85rem;font-size:.62rem;font-weight:800;color:var(--gold)}
+.doc-new{position:absolute;top:.7rem;right:.7rem;background:var(--rose);color:#fff;font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:6px}
+.doc-twist{background:var(--pink);animation:pulse-pink 1.5s ease infinite}
+@keyframes pulse-pink{0%,100%{background:var(--pink)}50%{background:#f472b6}}
 
-/* ── LOCKED GATE ── */
-.gate-lock{
-  position:absolute;inset:0;background:rgba(12,12,30,.9);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:10;border-radius:var(--radius);transition:opacity .4s;
-}
+/* ── GATE ── */
+.gate-lock{position:absolute;inset:0;background:rgba(12,12,30,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);transition:opacity .4s}
 .gate-lock.unlocking{opacity:0;pointer-events:none}
 .gate-icon{font-size:1.5rem;margin-bottom:5px}
 .gate-lbl{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--muted)}
 .gate-req{font-size:.65rem;font-weight:700;color:var(--border2);margin-top:4px;text-align:center;line-height:1.6;padding:0 1rem}
 
-/* ── SUSPECT CARDS ── */
+/* ── SUSPECTS ── */
 .susp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
 .susp-card:active{transform:scale(.98)}
 .susp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -251,14 +237,16 @@ body{
 .chat-who{font-size:.6rem;font-weight:800;color:var(--muted);flex-shrink:0;padding-bottom:4px}
 .im-close{width:100%;padding:.85rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--txt2);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;margin-top:.5rem}
 
-/* ── EVIDENCE BOARD ── */
+/* ── EVIDENCE ── */
 .ev-empty{text-align:center;padding:2rem 1rem;color:var(--muted);font-weight:700;font-size:.85rem;line-height:1.8}
 .ev-card{background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:8px;display:flex;align-items:center;gap:.9rem;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.ev-card.twist{border-color:rgba(236,72,153,.5);background:var(--pink-dim)}
 .ev-emoji{font-size:1.5rem;flex-shrink:0}
 .ev-name{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--green)}
+.ev-name.twist{color:var(--pink)}
 .ev-desc{font-size:.78rem;color:var(--txt2);font-weight:600;margin-top:1px}
 
-/* ── SOLVE PANEL ── */
+/* ── SOLVE ── */
 .solve-intro{text-align:center;padding:.5rem 0 1rem}
 .solve-emoji{font-size:3.5rem;display:block;margin-bottom:.6rem}
 .solve-title{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--gold);margin-bottom:.5rem}
@@ -281,24 +269,33 @@ body{
 .accuse-box.show{display:block;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
 .acc-lbl{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--rose);margin-bottom:.5rem}
 .acc-suspects{display:flex;flex-direction:column;gap:8px;margin-bottom:.7rem}
-.acc-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:.9rem;cursor:pointer;display:flex;align-items:center;gap:.8rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--txt);transition:all .2s}
+.acc-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--radius-sm);padding:.9rem;cursor:pointer;display:flex;align-items:center;gap:.8rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:var(--txt);transition:all .2s;width:100%}
 .acc-btn:hover,.acc-btn:active{border-color:var(--rose);background:var(--rose-dim)}
+.acc-btn.mystery{border-color:rgba(236,72,153,.4);background:var(--pink-dim);display:none}
+.acc-btn.mystery.unlocked{display:flex;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);border-color:var(--pink);box-shadow:0 0 20px rgba(236,72,153,.3)}
+.acc-btn.mystery:hover{border-color:var(--pink);background:rgba(236,72,153,.25)}
 .acc-emoji{font-size:1.3rem}
+.mystery-lock{font-size:.7rem;font-weight:800;color:var(--pink);margin-left:auto;letter-spacing:.5px}
 
-/* ── VERDICT OVERLAY ── */
-.verdict-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:800;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center}
+/* ── VERDICT ── */
+.verdict-overlay{display:none;position:fixed;inset:0;z-index:800;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;overflow-y:auto}
 .verdict-overlay.show{display:flex;animation:fadeIn .4s ease}
+.verdict-overlay.win-bg{background:linear-gradient(180deg,rgba(15,10,40,.98),rgba(10,20,10,.98))}
+.verdict-overlay.fail-bg{background:rgba(0,0,0,.96)}
 .verdict-inner{width:100%;max-width:380px}
 .verdict-big{font-size:5rem;display:block;margin-bottom:.5rem;animation:bounce 1s ease infinite}
 .verdict-title{font-family:'Fredoka One',cursive;font-size:2.2rem;margin-bottom:.5rem}
 .verdict-title.win{color:var(--gold)}
+.verdict-title.twist{color:var(--pink)}
 .verdict-title.fail{color:var(--rose)}
 .verdict-text{font-size:.88rem;color:var(--txt2);line-height:1.8;font-weight:600;margin-bottom:1.2rem;background:var(--card);border-radius:var(--radius);padding:1rem}
 .verdict-stats{background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1.2rem;font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--green);line-height:2;text-align:left}
+.verdict-stats.twist{background:var(--pink-dim);border-color:rgba(236,72,153,.3);color:var(--pink)}
 .verdict-replay{width:100%;padding:.95rem;border:none;border-radius:var(--radius);font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;transition:all .2s}
 .verdict-replay:active{transform:scale(.97)}
 .verdict-replay.gold{background:var(--gold);color:var(--bg)}
 .verdict-replay.rose{background:var(--rose);color:#fff}
+.verdict-replay.pink{background:var(--pink);color:#fff}
 
 /* ── DOC VIEWER ── */
 .doverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:500;flex-direction:column}
@@ -315,24 +312,27 @@ body{
 .table-row:last-child{border-bottom:none}
 .table-row.flagged{background:rgba(244,63,94,.06);color:var(--txt)}
 .table-row.flagged2{background:rgba(245,166,35,.05);color:var(--txt)}
+.table-row.flagged3{background:rgba(236,72,153,.08);color:var(--txt)}
 .flag-val{color:var(--rose);font-weight:800}
 .flag-val2{color:var(--gold);font-weight:800}
+.flag-val3{color:var(--pink);font-weight:800}
 
-/* ── DETECTIVE NOTEBOOK (hints) ── */
+/* ── NOTEBOOK TERMINAL ── */
 .note-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
 .note-bar{background:var(--hi);border-bottom:1px solid var(--border);padding:.6rem .9rem;font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
 .note-out{padding:.9rem;font-size:.78rem;color:var(--green);line-height:1.9;min-height:70px;white-space:pre-wrap}
-.note-out .m{color:var(--muted)}.note-out .a{color:var(--gold)}.note-out .r{color:var(--rose)}
+.note-out .m{color:var(--muted)}.note-out .a{color:var(--gold)}.note-out .r{color:var(--rose)}.note-out .p{color:var(--pink)}
 .note-row{border-top:1px solid var(--border);display:flex;align-items:center;padding:0 .9rem;gap:6px}
 .note-prompt{font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--gold)}
 .note-input{flex:1;background:transparent;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;color:var(--txt);padding:10px 0;caret-color:var(--gold)}
 .note-run{background:var(--gold);color:var(--bg);border:none;padding:5px 10px;font-family:'Fredoka One',cursive;font-size:.75rem;border-radius:var(--radius-sm);cursor:pointer}
 
 /* ── TOAST ── */
-.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Fredoka One',cursive;font-size:.85rem;letter-spacing:.5px;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:2000;transition:all .25s ease;white-space:nowrap;max-width:90vw;text-align:center;box-shadow:0 4px 20px rgba(34,197,94,.4)}
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--green);color:#000;font-family:'Fredoka One',cursive;font-size:.85rem;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:2000;transition:all .25s ease;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.warn{background:var(--gold);box-shadow:0 4px 20px rgba(245,166,35,.4)}
-.toast.danger{background:var(--rose);color:#fff;box-shadow:0 4px 20px rgba(244,63,94,.4)}
+.toast.warn{background:var(--gold)}
+.toast.danger{background:var(--rose);color:#fff}
+.toast.twist{background:var(--pink);color:#fff}
 
 /* ── ANIMATIONS ── */
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
@@ -340,12 +340,11 @@ body{
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shakeWiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <!-- INTERVIEW MODAL -->
@@ -363,21 +362,21 @@ body{
   <div class="dbody" id="doc-body"></div>
 </div>
 
-<!-- VERDICT OVERLAY -->
+<!-- VERDICT -->
 <div class="verdict-overlay" id="verdict-overlay">
   <div class="verdict-inner" id="verdict-inner"></div>
 </div>
 
 <!-- HEADER -->
 <header class="header">
-  <div class="logo" onclick="logoTap()">🔍 Detective Club<span>Mystery Case Files</span></div>
+  <div class="logo" onclick="logoTap()">🔍 Detective Capps<span>Mystery Case Files</span></div>
   <div class="xp-badge" id="xpBadge">⭐ 0 XP</div>
 </header>
 
-<!-- ══════════ PANEL: CASE BOARD ══════════ -->
+<!-- ══════════ BOARD ══════════ -->
 <div class="panel active" id="panel-board">
   <div class="panel-tag">🗺️ Case Board</div>
-  <div class="panel-title" id="board-title" style="color:var(--gold)">Loading...</div>
+  <div class="panel-title" style="color:var(--gold)" id="board-title">Loading...</div>
   <div class="panel-sub" id="board-sub">Loading...</div>
 
   <div class="det-card">
@@ -385,18 +384,30 @@ body{
       <div class="det-avatar">🕵️</div>
       <div>
         <div class="det-rank">⭐ Junior Detective</div>
-        <div class="det-name">Your Name Goes Here</div>
-        <div class="det-role" id="det-case-title">Loading case...</div>
+        <div class="det-name">Detective Capps</div>
+        <div class="det-role" id="det-case-name">Loading...</div>
         <div class="det-status"><div class="det-dot"></div>ON THE CASE!</div>
       </div>
     </div>
   </div>
 
-  <div class="notebook" id="notebook-panel">
-    <div class="nb-hdr">📓 Detective's Notes</div>
+  <!-- Elizabeth witness card on the board -->
+  <div class="eliz-card" id="eliz-board-card">
+    <div class="eliz-header">
+      <div class="eliz-avatar">😇</div>
+      <div>
+        <div class="eliz-name">Elizabeth Capps</div>
+        <div class="eliz-role">👧 Your Sister — Key Witness</div>
+      </div>
+    </div>
+    <div class="eliz-quote" id="eliz-board-quote">"I walked past the trophy case after school and I noticed the trophy was GONE! I called you right away, Detective Capps! You have to find out who did this — I've already been helping look around!"</div>
+  </div>
+
+  <div class="notebook">
+    <div class="nb-hdr">📓 Detective Capps' Notes</div>
     <div id="notebook-body">
       <div class="nb-entry">
-        <div class="nb-lbl">Opening Note</div>
+        <div class="nb-lbl">Opening Report</div>
         <span id="nb-opening">Loading...</span>
       </div>
     </div>
@@ -409,63 +420,32 @@ body{
 
   <div class="sgrid">
     <div class="scard"><div class="sval" style="color:var(--rose)">3</div><div class="slb">Suspects</div></div>
-    <div class="scard"><div class="sval" style="color:var(--gold)">5</div><div class="slb">Clues Hidden</div></div>
+    <div class="scard"><div class="sval" style="color:var(--gold)">6</div><div class="slb">Clues Hidden</div></div>
     <div class="scard"><div class="sval" style="color:var(--green)" id="clue-counter">0</div><div class="slb">Clues Found</div></div>
     <div class="scard"><div class="sval" style="color:var(--purple)" id="xp-counter">0</div><div class="slb">XP Earned</div></div>
   </div>
 
   <div class="srow"><div class="slbl">🗂️ Case Sections</div><div class="sline"></div></div>
-
-  <div class="ccard cr" onclick="showPanel('scene')">
-    <span class="ccard-badge badge-open">Active</span>
-    <div class="ccard-tag">🔍 Crime Scene</div>
-    <div class="ccard-title">The Trophy Room</div>
-    <div class="ccard-desc">Examine the scene and find the clues. Every detail matters!</div>
-  </div>
-  <div class="ccard cp" onclick="showPanel('suspects')">
-    <span class="ccard-badge badge-active">3 Suspects</span>
-    <div class="ccard-tag">🗣️ Interviews</div>
-    <div class="ccard-title">Talk to Suspects</div>
-    <div class="ccard-desc">Ask questions and listen carefully. Someone is not telling the truth!</div>
-  </div>
-  <div class="ccard cg" onclick="showPanel('evidence')">
-    <span class="ccard-badge badge-cold" id="ev-badge">0 Found</span>
-    <div class="ccard-tag">🧪 Evidence Lab</div>
-    <div class="ccard-title">Your Clue Collection</div>
-    <div class="ccard-desc">Every clue you find goes here. Collect them all to solve the case!</div>
-  </div>
-  <div class="ccard ca" onclick="showPanel('solve')">
-    <span class="ccard-badge badge-open">Final Step</span>
-    <div class="ccard-tag">⚖️ Solve It</div>
-    <div class="ccard-title">Make Your Accusation!</div>
-    <div class="ccard-desc">Ready to name the culprit? You'll need at least 3 clues first!</div>
-  </div>
+  <div class="ccard cr" onclick="showPanel('scene')"><span class="ccard-badge badge-open">Active</span><div class="ccard-tag">🔍 Crime Scene</div><div class="ccard-title">The Trophy Room</div><div class="ccard-desc">Examine the scene and find the clues. Every detail matters!</div></div>
+  <div class="ccard cp" onclick="showPanel('suspects')"><span class="ccard-badge badge-active">3 Suspects</span><div class="ccard-tag">🗣️ Interviews</div><div class="ccard-title">Talk to Suspects</div><div class="ccard-desc">Ask questions and listen carefully. Someone is not telling the truth!</div></div>
+  <div class="ccard cg" onclick="showPanel('evidence')"><span class="ccard-badge badge-cold" id="ev-badge">0 Found</span><div class="ccard-tag">🧪 Evidence Lab</div><div class="ccard-title">Your Clue Collection</div><div class="ccard-desc">Every clue you find goes here. Collect them all to solve the case!</div></div>
+  <div class="ccard ca" onclick="showPanel('solve')"><span class="ccard-badge badge-open">Final Step</span><div class="ccard-tag">⚖️ Solve It</div><div class="ccard-title">Make Your Accusation!</div><div class="ccard-desc">Ready to name the culprit? Collect clues — then choose wisely!</div></div>
 </div>
 
-<!-- ══════════ PANEL: CRIME SCENE ══════════ -->
+<!-- ══════════ SCENE ══════════ -->
 <div class="panel" id="panel-scene">
   <div class="panel-tag">🔍 Crime Scene</div>
   <div class="panel-title" style="color:var(--rose)">The Trophy Room</div>
-  <div class="panel-sub">Examine everything carefully. Clues could be anywhere!</div>
+  <div class="panel-sub">Examine everything carefully — Detective Capps never misses a clue!</div>
 
-  <div class="clue-banner" id="cbanner-c1">
-    <div class="cb-icon">🔍</div>
-    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The trophy case lock was <strong style="color:var(--gold)">scratched and dented</strong> — like someone used a tool to open it!</div></div>
-  </div>
-  <div class="clue-banner" id="cbanner-c2">
-    <div class="cb-icon">👟</div>
-    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">There's a <strong style="color:var(--gold)">muddy shoe print</strong> near the trophy case — size 6 sneakers!</div></div>
-  </div>
-  <div class="clue-banner" id="cbanner-c3">
-    <div class="cb-icon">📷</div>
-    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The hallway camera shows someone with a <strong style="color:var(--gold)">blue backpack</strong> at 8:47pm — just before the trophy went missing!</div></div>
-  </div>
+  <div class="clue-banner" id="cbanner-c1"><div class="cb-icon">🔍</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The trophy case lock was <strong style="color:var(--gold)">scratched with a small tool</strong> — someone broke it open!</div></div></div>
+  <div class="clue-banner" id="cbanner-c2"><div class="cb-icon">👟</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">A <strong style="color:var(--gold)">muddy shoe print — size 4</strong> — found right in front of the trophy case!</div></div></div>
+  <div class="clue-banner" id="cbanner-c3"><div class="cb-icon">📷</div><div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The hallway camera shows someone in a <strong style="color:var(--gold)">pink hoodie</strong> near the trophy case at 8:47pm!</div></div></div>
 
   <div class="srow"><div class="slbl">📁 Scene Evidence</div><div class="sline"></div></div>
 
   <div class="doccard cr" onclick="openDoc('trophy-photo')">
-    <div class="doc-new">TAP!</div>
-    <div class="doc-icon">📸</div>
+    <div class="doc-new">TAP!</div><div class="doc-icon">📸</div>
     <div class="doc-lbl">Photo Evidence</div>
     <div class="doc-title">Trophy Case — Crime Scene Photos</div>
     <div class="doc-meta">Taken by Principal Hughes. Look for anything unusual!</div>
@@ -473,102 +453,94 @@ body{
   </div>
 
   <div class="doccard cr" id="gate-camera" onclick="openDoc('camera-log')" style="position:relative">
-    <div class="gate-lock" id="lock-camera">
-      <div class="gate-icon">🔒</div>
-      <div class="gate-lbl">Locked</div>
-      <div class="gate-req">Examine the trophy case first!<br>Find the first two clues.</div>
-    </div>
-    <div class="doc-icon">📷</div>
-    <div class="doc-lbl">Camera Footage</div>
+    <div class="gate-lock" id="lock-camera"><div class="gate-icon">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Examine the trophy case photos first!<br>Find the first two clues.</div></div>
+    <div class="doc-icon">📷</div><div class="doc-lbl">Camera Footage</div>
     <div class="doc-title">Hallway Security Camera — 8pm Log</div>
     <div class="doc-meta">Camera outside the trophy room. Who walked past?</div>
     <div class="doc-tap">Open ›</div>
   </div>
 
   <div class="doccard cr" id="gate-signin" onclick="openDoc('sign-out')" style="position:relative">
-    <div class="gate-lock" id="lock-signin">
-      <div class="gate-icon">🔒</div>
-      <div class="gate-lbl">Locked</div>
-      <div class="gate-req">Check the camera footage first!</div>
-    </div>
-    <div class="doc-icon">📋</div>
-    <div class="doc-lbl">Official Record</div>
+    <div class="gate-lock" id="lock-signin"><div class="gate-icon">🔒</div><div class="gate-lbl">Locked</div><div class="gate-req">Check the camera footage first!</div></div>
+    <div class="doc-icon">📋</div><div class="doc-lbl">Official Record</div>
     <div class="doc-title">School Sign-Out Sheet — Friday Evening</div>
     <div class="doc-meta">Who was still in the building after 7pm?</div>
     <div class="doc-tap">Open ›</div>
   </div>
 
-  <div class="srow"><div class="slbl">📝 Witness Report</div><div class="sline"></div></div>
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
-    <div style="font-size:.65rem;font-weight:800;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:.5rem">👧 Witness: Maya (5th grade)</div>
-    <div style="background:var(--hi);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic">
-      "I forgot my water bottle and came back to school around 8:45. I saw someone running down the hallway near the trophy room. They had a blue backpack. I didn't see their face but they were wearing the Science Club hoodie!"
+  <!-- Elizabeth's "tip" on the scene — she's framing others! -->
+  <div class="srow"><div class="slbl">💌 Tip from Elizabeth</div><div class="sline"></div></div>
+  <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+      <span style="font-size:1.2rem">😇</span>
+      <span style="font-family:'Fredoka One',cursive;font-size:.95rem">Elizabeth's Tip</span>
     </div>
+    <div style="font-size:.82rem;color:var(--txt2);line-height:1.65;font-weight:600;font-style:italic">"Detective Capps! I just remembered — I saw Alex Kim hanging around the trophy room after school! And they had a backpack! You should definitely check them out. Just saying! 😇"</div>
+    <div style="font-size:.65rem;font-weight:800;color:rgba(236,72,153,.6);margin-top:.5rem;text-transform:uppercase;letter-spacing:.5px">Sent at 9:02pm via text message</div>
   </div>
 </div>
 
-<!-- ══════════ PANEL: SUSPECTS ══════════ -->
+<!-- ══════════ SUSPECTS ══════════ -->
 <div class="panel" id="panel-suspects">
   <div class="panel-tag">🗣️ Interviews</div>
   <div class="panel-title" style="color:var(--purple)">Talk to Suspects</div>
-  <div class="panel-sub">Tap a suspect to interview them! Listen carefully — someone is lying!</div>
+  <div class="panel-sub">Tap to interview each suspect! Listen carefully — someone is innocent!</div>
 
-  <div class="clue-banner" id="cbanner-c4">
-    <div class="cb-icon">🔧</div>
-    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">A <strong style="color:var(--gold)">small screwdriver</strong> matching the trophy case scratches was found in a Science Club locker!</div></div>
-  </div>
-  <div class="clue-banner" id="cbanner-c5">
-    <div class="cb-icon">📝</div>
-    <div><div class="cb-lbl">✦ Clue Found!</div><div class="cb-text">The <strong style="color:var(--gold)">sign-out sheet</strong> shows who was in the building — and who was NOT where they claimed to be!</div></div>
-  </div>
+  <div class="clue-banner" id="cbanner-c4"><div class="cb-icon">✅</div><div><div class="cb-lbl">✦ Alibi Confirmed!</div><div class="cb-text">After interviews, the alibis are checking out for the main suspects. But then... <strong style="color:var(--gold)">who WAS in the building?</strong></div></div></div>
 
   <div id="suspects-list"></div>
-</div>
 
-<!-- ══════════ PANEL: EVIDENCE ══════════ -->
-<div class="panel" id="panel-evidence">
-  <div class="panel-tag">🧪 Evidence Lab</div>
-  <div class="panel-title" style="color:var(--green)">Your Clue Collection</div>
-  <div class="panel-sub">Every clue you find shows up here. Collect them all!</div>
-
-  <div class="pwrap">
-    <div class="ptop"><span>🔍 Clues Found</span><span id="ev-count-label">0 of 5</span></div>
-    <div class="ptrack"><div class="pfill" id="ev-fill" style="width:0%"></div></div>
-  </div>
-
-  <div id="evidence-list">
-    <div class="ev-empty">🔍 No clues found yet!<br>Go explore the crime scene<br>and interview the suspects!</div>
-  </div>
-
-  <div class="note-wrap" style="margin-top:1rem">
-    <div class="note-bar">📓 Detective's Notebook — Ask Me Anything!</div>
-    <div class="note-out" id="note-out"><span class="m">// Welcome, Detective!
-// Type 'help' to see what I can do.
-// I'm here to help you think through the case!</span>
-</div>
-    <div class="note-row">
-      <span class="note-prompt">🔍</span>
-      <input class="note-input" id="note-input" type="text" placeholder="ask a question or type a command..." autocomplete="off" autocorrect="off" spellcheck="false">
-      <button class="note-run" onclick="runNotebook()">Ask!</button>
+  <!-- Elizabeth "helping" by pointing fingers -->
+  <div class="srow"><div class="slbl">😇 Elizabeth is "Helping"</div><div class="sline"></div></div>
+  <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.25);border-radius:var(--radius);padding:1rem;margin-bottom:10px">
+    <div style="font-size:.82rem;color:var(--txt2);line-height:1.7;font-weight:600">
+      <strong style="color:var(--pink)">Elizabeth keeps popping up during the investigation.</strong> She suggested you check Alex's locker. She told you Coach Rivera "seemed suspicious." She even pointed out where the muddy footprint was before you found it...<br><br>
+      <span style="font-size:.75rem;color:var(--muted)">Wait. How did she know exactly where the footprint was?</span>
     </div>
   </div>
 </div>
 
-<!-- ══════════ PANEL: SOLVE IT ══════════ -->
+<!-- ══════════ EVIDENCE ══════════ -->
+<div class="panel" id="panel-evidence">
+  <div class="panel-tag">🧪 Evidence Lab</div>
+  <div class="panel-title" style="color:var(--green)">Your Clue Collection</div>
+  <div class="panel-sub">Every clue Detective Capps finds goes here!</div>
+
+  <div class="pwrap">
+    <div class="ptop"><span>🔍 Clues Found</span><span id="ev-count-label">0 of 6</span></div>
+    <div class="ptrack"><div class="pfill" id="ev-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="evidence-list"><div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Explore the crime scene and<br>interview the suspects!</div></div>
+
+  <div class="note-wrap" style="margin-top:1rem">
+    <div class="note-bar">📓 Detective Capps' Notebook</div>
+    <div class="note-out" id="note-out"><span class="m">// Ready to take notes, Detective Capps!
+// Type 'help' to see available commands.</span>
+</div>
+    <div class="note-row">
+      <span class="note-prompt">🔍</span>
+      <input class="note-input" id="note-input" type="text" placeholder="ask anything..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="note-run" onclick="runNotebook()">Go!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SOLVE ══════════ -->
 <div class="panel" id="panel-solve">
   <div class="panel-tag">⚖️ Solve It</div>
   <div class="panel-title" style="color:var(--gold)">Make Your Move!</div>
-  <div class="panel-sub">Put the clues together and name the culprit!</div>
+  <div class="panel-sub">Put all the clues together, Detective Capps!</div>
 
   <div class="solve-intro">
     <span class="solve-emoji">⚖️</span>
     <div class="solve-title">Are You Ready?</div>
-    <div class="solve-desc" id="solve-desc">Collect at least 3 clues before you can make your accusation! The more clues you find, the better your case!</div>
+    <div class="solve-desc" id="solve-desc">Collect clues before making your accusation!</div>
   </div>
 
   <div class="answer-box">
-    <div class="ans-lbl">🔍 Step 1: What color was the backpack?</div>
-    <div class="ans-hint">The witness saw a backpack. The camera confirms it. What color was it?</div>
+    <div class="ans-lbl">🎨 Step 1: What color was the hoodie?</div>
+    <div class="ans-hint">The camera caught the suspect in the hallway. What color was their hoodie? (Check the camera footage!)</div>
     <div class="ans-row">
       <input class="ans-input" id="inp-q1" type="text" placeholder="Type the color..." autocomplete="off">
       <button class="ans-btn" onclick="checkQ1()">Check!</button>
@@ -577,10 +549,10 @@ body{
   </div>
 
   <div class="answer-box" id="q2-box" style="display:none">
-    <div class="ans-lbl">🕐 Step 2: What time was the suspect seen?</div>
-    <div class="ans-hint">The camera caught them in the hallway. What time? (hint: it's in the camera log)</div>
+    <div class="ans-lbl">👟 Step 2: What shoe size was the footprint?</div>
+    <div class="ans-hint">The muddy shoe print near the case — what size was it? (Check the crime scene photos!)</div>
     <div class="ans-row">
-      <input class="ans-input" id="inp-q2" type="text" placeholder="Type the time... (e.g. 8:47pm)" autocomplete="off">
+      <input class="ans-input" id="inp-q2" type="text" placeholder="Type the shoe size..." autocomplete="off">
       <button class="ans-btn" onclick="checkQ2()">Check!</button>
     </div>
     <div class="ans-result" id="res-q2"></div>
@@ -588,8 +560,21 @@ body{
 
   <div class="accuse-box" id="accuse-box">
     <div class="acc-lbl">⚖️ Step 3: Who did it?!</div>
-    <div style="font-size:.8rem;font-weight:700;color:var(--txt2);margin-bottom:.85rem;line-height:1.55">You've gathered the evidence. Now make your accusation! Choose carefully — who do YOU think stole the trophy?</div>
-    <div class="acc-suspects" id="accuse-suspects"></div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--txt2);margin-bottom:.85rem;line-height:1.55">You have the evidence, Detective Capps. Make your accusation! Choose carefully...</div>
+    <div class="acc-suspects" id="accuse-suspects">
+      <!-- Regular suspects rendered by JS -->
+    </div>
+    <!-- Hidden Elizabeth button — unlocks after all clues found -->
+    <div id="eliz-accuse-wrap">
+      <button class="acc-btn mystery" id="eliz-accuse-btn" onclick="makeAccusation('elizabeth')">
+        <span class="acc-emoji">😇</span>
+        <div>
+          <div style="font-size:.9rem">Elizabeth Capps</div>
+          <div style="font-size:.7rem;color:rgba(236,72,153,.8);margin-top:1px">Your Sister / Key Witness</div>
+        </div>
+        <div class="mystery-lock" id="mystery-lock-lbl">🔒 Find all clues first...</div>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -604,39 +589,38 @@ body{
 
 <script>
 // ── STATE ──────────────────────────────
-let xp=0, cluesFound=[], progress=0, q1Solved=false, q2Solved=false, logoTaps=0, logoTimer=null;
-const MAX_CLUES = STORY.clues.length;
+let xp=0, cluesFound=[], progress=0, q1Solved=false, q2Solved=false, elizUnlocked=false, logoTaps=0, logoTimer=null;
+const TOTAL_CLUES = 6; // 5 regular + 1 twist clue
+
+const ALL_CLUES = [
+  {id:'c1', emoji:'🔍', name:'Scratched Lock', desc:'The trophy case lock was scratched open with a small pointy tool.', twist:false},
+  {id:'c2', emoji:'👟', name:'Muddy Footprint (Size 4!)', desc:'A size-4 shoe print found near the trophy case. That\'s pretty small — not a student or teacher!', twist:false},
+  {id:'c3', emoji:'📷', name:'Pink Hoodie on Camera', desc:'The camera shows someone in a pink hoodie at 8:47pm walking toward the trophy room.', twist:false},
+  {id:'c4', emoji:'✅', name:'Suspects\' Alibis', desc:'After interviewing all 3 suspects, their stories all check out. But someone was definitely in that building...', twist:false},
+  {id:'c5', emoji:'📋', name:'Sign-Out Sheet', desc:'The sign-out sheet shows who was in the building. One name stands out — someone who said they just "walked past."', twist:false},
+  {id:'c6', emoji:'💖', name:'The Secret Note — TWIST!', desc:'A sticky note behind the trophy stand reads "EB was here 💖" in purple gel pen. Elizabeth ALWAYS uses purple gel pen...', twist:true},
+];
 
 // ── INIT ──────────────────────────────
 window.addEventListener('load', () => {
-  // Apply story config to DOM
   document.getElementById('board-title').textContent = STORY.title;
   document.getElementById('board-sub').textContent = '📍 ' + STORY.setting + ' — ' + STORY.date;
-  document.getElementById('det-case-title').textContent = STORY.title;
+  document.getElementById('det-case-name').textContent = STORY.title;
   document.getElementById('nb-opening').textContent = STORY.what_happened;
-
-  // Render suspects
   renderSuspects();
   renderAccuseSuspects();
 
-  // Load saved progress
-  const saved = localStorage.getItem('kidmystery_v3');
+  const saved = localStorage.getItem('kidmystery_capps_v1');
   if (saved) {
     try {
       const s = JSON.parse(saved);
-      xp = s.xp || 0;
-      cluesFound = s.cluesFound || [];
-      progress = s.progress || 0;
-      q1Solved = s.q1Solved || false;
-      q2Solved = s.q2Solved || false;
+      xp=s.xp||0; cluesFound=s.cluesFound||[]; progress=s.progress||0;
+      q1Solved=s.q1Solved||false; q2Solved=s.q2Solved||false; elizUnlocked=s.elizUnlocked||false;
       updateUI();
-      // Restore banners
-      cluesFound.forEach(id => {
-        const b = document.getElementById('cbanner-' + id);
-        if (b) b.classList.add('show');
-      });
-      if (q1Solved) { document.getElementById('q2-box').style.display = 'block'; }
-      if (q2Solved) { document.getElementById('accuse-box').classList.add('show'); }
+      cluesFound.forEach(id => { const b=document.getElementById('cbanner-'+id); if(b) b.classList.add('show'); });
+      if(q1Solved) document.getElementById('q2-box').style.display='block';
+      if(q2Solved) document.getElementById('accuse-box').classList.add('show');
+      if(elizUnlocked) unlockElizabeth(true);
       checkGates();
     } catch(e) {}
   }
@@ -644,14 +628,12 @@ window.addEventListener('load', () => {
 
 // ── NAV ──────────────────────────────
 function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nbtn').forEach(b => b.classList.remove('active'));
-  const p = document.getElementById('panel-' + id);
-  if (p) { p.classList.add('active'); window.scrollTo(0,0); }
-  const b = document.getElementById('nav-' + id);
-  if (b) b.classList.add('active');
-  if (id === 'evidence') renderEvidence();
-  if (id === 'solve') updateSolvePanel();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  const p=document.getElementById('panel-'+id); if(p){p.classList.add('active');window.scrollTo(0,0);}
+  const b=document.getElementById('nav-'+id); if(b) b.classList.add('active');
+  if(id==='evidence') renderEvidence();
+  if(id==='solve') updateSolvePanel();
 }
 
 // ── ADD CLUE ──────────────────────────
@@ -659,16 +641,18 @@ function addClue(id, pts, bannerId, noteText) {
   if (cluesFound.includes(id)) return;
   cluesFound.push(id);
   xp += pts;
-  progress = Math.round((cluesFound.length / MAX_CLUES) * 100);
-  if (bannerId) {
-    const b = document.getElementById(bannerId);
-    if (b) b.classList.add('show');
-  }
-  if (noteText) addNotebookEntry(noteText);
+  progress = Math.round((cluesFound.length / TOTAL_CLUES) * 100);
+  if (bannerId) { const b=document.getElementById(bannerId); if(b) b.classList.add('show'); }
+  if (noteText) addNotebookEntry(noteText, id==='c6');
   updateUI();
   save();
   checkGates();
-  showToast('🔍 Clue Found! +' + pts + ' XP!', 'warn');
+  // Check if all clues found — unlock Elizabeth
+  if (cluesFound.length >= TOTAL_CLUES && !elizUnlocked) {
+    setTimeout(() => unlockElizabeth(false), 1500);
+  }
+  const isTwist = id === 'c6';
+  showToast(isTwist ? '😱 Wait a second... +' + pts + ' XP!' : '🔍 Clue Found! +' + pts + ' XP!', isTwist ? 'twist' : 'warn');
 }
 
 function updateUI() {
@@ -677,396 +661,324 @@ function updateUI() {
   document.getElementById('clue-counter').textContent = cluesFound.length;
   document.getElementById('xp-counter').textContent = xp;
   document.getElementById('xpBadge').textContent = '⭐ ' + xp + ' XP';
-  const evBadge = document.getElementById('ev-badge');
-  if (evBadge) evBadge.textContent = cluesFound.length + ' Found';
-  const evLabel = document.getElementById('ev-count-label');
-  if (evLabel) evLabel.textContent = cluesFound.length + ' of ' + MAX_CLUES;
-  const evFill = document.getElementById('ev-fill');
-  if (evFill) evFill.style.width = Math.round((cluesFound.length / MAX_CLUES) * 100) + '%';
+  const eb=document.getElementById('ev-badge'); if(eb) eb.textContent=cluesFound.length+' Found';
+  const el=document.getElementById('ev-count-label'); if(el) el.textContent=cluesFound.length+' of '+TOTAL_CLUES;
+  const ef=document.getElementById('ev-fill'); if(ef) ef.style.width=Math.round((cluesFound.length/TOTAL_CLUES)*100)+'%';
 }
 
-function addNotebookEntry(text) {
-  const body = document.getElementById('notebook-body');
-  const div = document.createElement('div');
-  div.className = 'nb-entry new';
-  div.innerHTML = '<div class="nb-lbl">🔍 New Clue!</div>' + text;
+function addNotebookEntry(text, isTwist=false) {
+  const body=document.getElementById('notebook-body');
+  const div=document.createElement('div');
+  div.className='nb-entry new';
+  div.innerHTML=`<div class="nb-lbl" style="${isTwist?'color:var(--pink)':''}">${isTwist?'😱 WAIT A SECOND...':'🔍 New Clue!'}</div>${text}`;
   body.appendChild(div);
 }
 
-// ── GATE SYSTEM ──────────────────────
+// ── GATES ──────────────────────────────
 function checkGates() {
-  // Camera unlocks after trophy photo (clues c1 + c2)
-  if (cluesFound.includes('c1') && cluesFound.includes('c2')) unlockGate('camera');
-  // Sign-out unlocks after camera (clue c3)
-  if (cluesFound.includes('c3')) unlockGate('signin');
+  if(cluesFound.includes('c1')&&cluesFound.includes('c2')) unlockGate('camera');
+  if(cluesFound.includes('c3')) unlockGate('signin');
 }
 
 function unlockGate(id) {
-  const lock = document.getElementById('lock-' + id);
-  if (lock && !lock.classList.contains('unlocking')) {
+  const lock=document.getElementById('lock-'+id);
+  if(lock&&!lock.classList.contains('unlocking')){
     lock.classList.add('unlocking');
-    setTimeout(() => { if (lock) lock.remove(); }, 500);
+    setTimeout(()=>{if(lock)lock.remove();},500);
     showToast('🔓 New document unlocked!');
+  }
+}
+
+// ── UNLOCK ELIZABETH ─────────────────
+function unlockElizabeth(silent=false) {
+  elizUnlocked = true;
+  save();
+  const btn = document.getElementById('eliz-accuse-btn');
+  const lbl = document.getElementById('mystery-lock-lbl');
+  if (btn) {
+    btn.classList.add('unlocked');
+    if (lbl) lbl.textContent = '⚠️ Could it be...?';
+  }
+  if (!silent) {
+    showToast('😱 Wait... something doesn\'t add up!', 'twist');
+    addClue('c6', 30, null, STORY.elizabeth.twist_clue);
+    // Show twist clue in scene panel
+    const sceneTwist = document.getElementById('scene-twist');
+    if (sceneTwist) sceneTwist.style.display='block';
+    addNotebookEntry('A sticky note says "EB was here 💖" in purple gel pen. EB... Elizabeth? But that can\'t be... right?', true);
   }
 }
 
 // ── SUSPECTS ──────────────────────────
 function renderSuspects() {
-  const list = document.getElementById('suspects-list');
-  list.innerHTML = '';
+  const list=document.getElementById('suspects-list'); list.innerHTML='';
   STORY.suspects.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'susp-card ' + s.color;
-    div.innerHTML = `
-      <div class="susp-header">
-        <div class="susp-avatar ${s.color}">${s.emoji}</div>
-        <div>
-          <div class="susp-name">${s.name}</div>
-          <div class="susp-role">${s.role} · Age ${s.age}</div>
-        </div>
-      </div>
-      <div class="susp-motive">🤔 <strong>Possible Motive:</strong> ${s.motive}</div>
-      <div class="susp-tap">Tap to Interview →</div>
-    `;
-    div.onclick = () => openInterview(s.id);
+    const div=document.createElement('div');
+    div.className='susp-card '+s.color;
+    div.innerHTML=`<div class="susp-header"><div class="susp-avatar ${s.color}">${s.emoji}</div><div><div class="susp-name">${s.name}</div><div class="susp-role">${s.role} · Age ${s.age}</div></div></div><div class="susp-motive">🤔 <strong>Possible Motive:</strong> ${s.motive}</div><div class="susp-tap">Tap to Interview →</div>`;
+    div.onclick=()=>openInterview(s.id);
     list.appendChild(div);
   });
 }
 
 function renderAccuseSuspects() {
-  const list = document.getElementById('accuse-suspects');
-  list.innerHTML = '';
+  const list=document.getElementById('accuse-suspects'); list.innerHTML='';
   STORY.suspects.forEach(s => {
-    const btn = document.createElement('button');
-    btn.className = 'acc-btn';
-    btn.innerHTML = `<span class="acc-emoji">${s.emoji}</span><div><div style="font-size:.9rem">${s.name}</div><div style="font-size:.7rem;color:var(--muted);font-weight:600;margin-top:1px">${s.role}</div></div><span style="margin-left:auto;font-size:1rem">→</span>`;
-    btn.onclick = () => makeAccusation(s.id);
+    const btn=document.createElement('button');
+    btn.className='acc-btn';
+    btn.innerHTML=`<span class="acc-emoji">${s.emoji}</span><div><div>${s.name}</div><div style="font-size:.7rem;color:var(--muted);font-weight:600;margin-top:1px">${s.role}</div></div><span style="margin-left:auto">→</span>`;
+    btn.onclick=()=>makeAccusation(s.id);
     list.appendChild(btn);
   });
 }
 
 function openInterview(id) {
-  const s = STORY.suspects.find(s => s.id === id);
-  const isGuilty = s.id === STORY.culprit;
-  const doc = document.getElementById('im-content');
-
-  // Grant clue for interviewing the culprit
-  if (isGuilty && !cluesFound.includes('c4')) {
-    setTimeout(() => {
-      addClue('c4', 15, 'cbanner-c4', 'After interviewing ' + s.name + ', something seemed off! Found a small screwdriver matching the trophy case scratches.');
+  const s=STORY.suspects.find(s=>s.id===id);
+  const doc=document.getElementById('im-content');
+  // Interviewing all 3 gives the alibi clue
+  if (!cluesFound.includes('c4_'+id)) {
+    setTimeout(()=>{
+      if (!cluesFound.includes('c4')) addClue('c4', 15, 'cbanner-c4', s.name+'\'s alibi checks out. All suspects have good alibis. So who WAS in the building?!');
+      else addClue('c4_'+id, 5, null, s.name+' interviewed — alibi confirmed.');
     }, 2000);
   }
-  if (!isGuilty && !cluesFound.includes('c5_' + id)) {
-    setTimeout(() => {
-      addClue('c5_' + id, 10, null, s.name + ' gave a solid alibi. ' + s.alibi + ' — this checks out!');
-    }, 2000);
-  }
-
-  doc.innerHTML = `
-    <div class="im-avatar ${s.color}">${s.emoji}</div>
-    <div class="im-name">${s.name}</div>
-    <div class="im-role">${s.role}</div>
-    <div class="chat-wrap">
-      <div class="chat-msg me"><div class="chat-bub">Hi ${s.name.split(' ')[0]}! I'm investigating the missing trophy. Can I ask you some questions?</div><div class="chat-who">You</div></div>
-      <div class="chat-msg"><div class="chat-bub">Sure, go ahead. I want to help find it too!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-      <div class="chat-msg me"><div class="chat-bub">Where were you last Friday evening around 8:45pm?</div><div class="chat-who">You</div></div>
-      <div class="chat-msg"><div class="chat-bub">${s.alibi}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-      <div class="chat-msg me"><div class="chat-bub">Someone was seen near the trophy room with a blue backpack. Do you own a blue backpack?</div><div class="chat-who">You</div></div>
-      <div class="chat-msg"><div class="chat-bub">${isGuilty ? '...I... uh... lots of people have blue backpacks! That doesn\'t mean anything!' : s.innocent_response}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
-      ${isGuilty ? `<div class="chat-msg me"><div class="chat-bub">We also found a small screwdriver near the trophy case. Do you have one?</div><div class="chat-who">You</div></div>
-      <div class="chat-msg"><div class="chat-bub" style="background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3)">😰 I... I can explain... I just wanted to hold it for one night! I was going to put it back!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>` : `<div class="chat-msg me"><div class="chat-bub">Thanks for your help! I'll be in touch if I need more information.</div><div class="chat-who">You</div></div>
-      <div class="chat-msg"><div class="chat-bub">Good luck finding it! I hope you catch whoever did this!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>`}
-    </div>
-  `;
+  doc.innerHTML=`<div class="im-avatar ${s.color}">${s.emoji}</div><div class="im-name">${s.name}</div><div class="im-role">${s.role}</div>
+  <div class="chat-wrap">
+    <div class="chat-msg me"><div class="chat-bub">Hi ${s.name.split(' ')[0]}! I'm Detective Capps. Where were you Friday at 8:47pm?</div><div class="chat-who">Detective Capps</div></div>
+    <div class="chat-msg"><div class="chat-bub">${s.alibi}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+    <div class="chat-msg me"><div class="chat-bub">The camera shows someone in a pink hoodie near the trophy room. Do you own a pink hoodie?</div><div class="chat-who">Detective Capps</div></div>
+    <div class="chat-msg"><div class="chat-bub">${s.innocent_response}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+    <div class="chat-msg me"><div class="chat-bub">One more question — what size shoe do you wear?</div><div class="chat-who">Detective Capps</div></div>
+    <div class="chat-msg"><div class="chat-bub">${id==='coach'?'Size 11! Why?':id==='alex'?'Size 7! I can prove it!':'Size 6! They\'re new sneakers!'}</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+    <div class="chat-msg me"><div class="chat-bub">Interesting. That'll be all for now. Thanks for your time!</div><div class="chat-who">Detective Capps</div></div>
+    <div class="chat-msg"><div class="chat-bub">Good luck finding the trophy! I hope you catch whoever did this! Maybe check out that Alex Kim — they seemed really nervous at school today!</div><div class="chat-who">${s.name.split(' ')[0]}</div></div>
+  </div>`;
   document.getElementById('ioverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
+function closeInterview(){document.getElementById('ioverlay').classList.remove('show');document.body.style.overflow='';}
 
-function closeInterview() {
-  document.getElementById('ioverlay').classList.remove('show');
-  document.body.style.overflow = '';
-}
-
-// ── EVIDENCE BOARD ────────────────────
+// ── EVIDENCE ──────────────────────────
 function renderEvidence() {
-  const list = document.getElementById('evidence-list');
-  const found = STORY.clues.filter(c => cluesFound.includes(c.id));
-  if (found.length === 0) {
-    list.innerHTML = '<div class="ev-empty">🔍 No clues found yet!<br>Go explore the crime scene<br>and interview the suspects!</div>';
-    return;
-  }
-  list.innerHTML = '';
-  found.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'ev-card';
-    div.innerHTML = `<div class="ev-emoji">${c.emoji}</div><div><div class="ev-name">${c.name}</div><div class="ev-desc">${c.desc}</div></div>`;
+  const list=document.getElementById('evidence-list');
+  const found=ALL_CLUES.filter(c=>cluesFound.includes(c.id));
+  if(found.length===0){list.innerHTML='<div class="ev-empty">🔍 No clues yet, Detective Capps!<br>Explore the crime scene and<br>interview the suspects!</div>';return;}
+  list.innerHTML='';
+  found.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='ev-card'+(c.twist?' twist':'');
+    div.innerHTML=`<div class="ev-emoji">${c.emoji}</div><div><div class="ev-name${c.twist?' twist':''}">${c.name}</div><div class="ev-desc">${c.desc}</div></div>`;
     list.appendChild(div);
   });
 }
 
-// ── SOLVE PANEL ──────────────────────
+// ── SOLVE ──────────────────────────────
 function updateSolvePanel() {
-  const desc = document.getElementById('solve-desc');
-  const n = cluesFound.length;
-  if (n < 3) {
-    desc.textContent = `You've found ${n} clue${n !== 1 ? 's' : ''} so far. Find at least ${3 - n} more before making your accusation! The more clues, the stronger your case!`;
-    desc.style.color = 'var(--rose)';
-  } else {
-    desc.textContent = `Great work! You've found ${n} clues. You have enough evidence — but can you find ALL ${MAX_CLUES}? Answer the questions below to make your accusation!`;
-    desc.style.color = 'var(--green)';
-  }
+  const desc=document.getElementById('solve-desc');
+  const n=cluesFound.length;
+  if(n<3){desc.textContent=`You've found ${n} clue${n!==1?'s':''} so far. Find more before making your accusation!`;desc.style.color='var(--rose)';}
+  else{desc.textContent=`Great work, Detective Capps! You've found ${n} clues. Answer the questions and make your accusation — but look carefully at ALL the suspects...`;desc.style.color='var(--green)';}
 }
 
-// ── SOLVE QUESTIONS ──────────────────
 function checkQ1() {
-  if (cluesFound.length < 3) { showToast('🔍 Find more clues first!', 'danger'); return; }
-  const val = document.getElementById('inp-q1').value.trim().toUpperCase();
-  const res = document.getElementById('res-q1');
-  res.style.display = 'block';
-  if (val.includes('BLUE') || val === 'BLU') {
-    res.className = 'ans-result ok';
-    res.textContent = '✅ Correct! The witness AND the camera both confirm a BLUE backpack! Great detective work!';
-    q1Solved = true;
-    xp += 20;
-    updateUI();
-    save();
-    setTimeout(() => {
-      document.getElementById('q2-box').style.display = 'block';
-      document.getElementById('q2-box').scrollIntoView({behavior:'smooth'});
-    }, 800);
-    showToast('🌟 Correct! +20 XP!', 'warn');
+  if(cluesFound.length<3){showToast('🔍 Find more clues first!','danger');return;}
+  const val=document.getElementById('inp-q1').value.trim().toUpperCase();
+  const res=document.getElementById('res-q1'); res.style.display='block';
+  if(val.includes('PINK')){
+    res.className='ans-result ok';
+    res.textContent='✅ Correct! The camera clearly shows a PINK hoodie! Great eye, Detective Capps!';
+    q1Solved=true; xp+=20; updateUI(); save();
+    setTimeout(()=>{document.getElementById('q2-box').style.display='block';document.getElementById('q2-box').scrollIntoView({behavior:'smooth'});},800);
+    showToast('🌟 Correct! +20 XP!','warn');
   } else {
-    res.className = 'ans-result err';
-    res.textContent = '❌ Not quite! Check the witness report and camera footage. What color did they mention?';
+    res.className='ans-result err';
+    res.textContent='❌ Not quite! Check the camera log again. What color hoodie did the person wear?';
   }
 }
 
 function checkQ2() {
-  const val = document.getElementById('inp-q2').value.trim().toUpperCase().replace(/\s/g,'');
-  const res = document.getElementById('res-q2');
-  res.style.display = 'block';
-  if (val.includes('847') || val.includes('8:47') || val.includes('20:47') || val.includes('2047')) {
-    res.className = 'ans-result ok';
-    res.textContent = '✅ Yes! 8:47pm! The camera caught someone in the hallway right at that time! You\'re closing in on the culprit!';
-    q2Solved = true;
-    xp += 20;
-    updateUI();
-    save();
-    setTimeout(() => {
-      document.getElementById('accuse-box').classList.add('show');
-      document.getElementById('accuse-box').scrollIntoView({behavior:'smooth'});
-    }, 800);
-    showToast('🌟 Correct! +20 XP!', 'warn');
+  const val=document.getElementById('inp-q2').value.trim().toUpperCase().replace(/[^0-9]/g,'');
+  const res=document.getElementById('res-q2'); res.style.display='block';
+  if(val==='4'||val==='4'){
+    res.className='ans-result ok';
+    res.textContent='✅ Size 4! That\'s really small — not a teacher, and smaller than most of the students! Who has size 4 feet? Hmm... this is a big clue!';
+    q2Solved=true; xp+=20; updateUI(); save();
+    setTimeout(()=>{document.getElementById('accuse-box').classList.add('show');document.getElementById('accuse-box').scrollIntoView({behavior:'smooth'});},800);
+    showToast('🌟 Correct! +20 XP!','warn');
   } else {
-    res.className = 'ans-result err';
-    res.textContent = '❌ Check the camera log again! What time is shown on the footage?';
+    res.className='ans-result err';
+    res.textContent='❌ Check the crime scene photos again. How big was the muddy shoe print? (Hint: it was a very small size!)';
   }
 }
 
 // ── ACCUSATION ──────────────────────
 function makeAccusation(id) {
-  const correct = id === STORY.culprit;
-  const suspect = STORY.suspects.find(s => s.id === id);
-  const culprit = STORY.suspects.find(s => s.id === STORY.culprit);
-  const overlay = document.getElementById('verdict-overlay');
-  const inner = document.getElementById('verdict-inner');
+  const overlay=document.getElementById('verdict-overlay');
+  const inner=document.getElementById('verdict-inner');
+  overlay.className='verdict-overlay';
 
-  if (correct) {
-    xp += 50;
-    updateUI();
-    save();
-    inner.innerHTML = `
-      <span class="verdict-big">🏆</span>
-      <div class="verdict-title win">CASE SOLVED!</div>
+  if (id === 'elizabeth') {
+    // THE TWIST ENDING
+    xp += 100;
+    updateUI(); save();
+    overlay.classList.add('show','win-bg');
+    inner.innerHTML=`
+      <span class="verdict-big" style="animation:shakeWiggle 0.5s ease">😱</span>
+      <div class="verdict-title twist">IT WAS ELIZABETH!!</div>
       <div class="verdict-text">
-        <strong style="color:var(--gold)">${culprit.name}</strong> took the trophy!<br><br>
-        "${culprit.guilty_confession}"<br><br>
-        <strong style="color:var(--green)">Principal Hughes is SO relieved!</strong> The trophy has been returned and the awards ceremony will go ahead as planned! You're an amazing detective! 🎉
+        <strong style="color:var(--pink)">YOUR OWN SISTER TOOK IT!</strong><br><br>
+        She was the one texting you tips and "helping" the whole time — but she was actually trying to throw you off the trail! The pink hoodie. The size-4 footprints. The purple gel pen note. It was her ALL ALONG.<br><br>
+        <em style="color:var(--gold)">"${STORY.elizabeth.confession}"</em>
       </div>
-      <div class="verdict-stats">
-        ⭐ Total XP Earned: ${xp}<br>
-        🔍 Clues Found: ${cluesFound.length} of ${MAX_CLUES}<br>
-        ✅ Accusation: CORRECT!<br>
-        🏆 Status: CASE CLOSED!
+      <div class="verdict-stats twist">
+        😇 The Culprit: Elizabeth Capps<br>
+        👟 Her Shoe Size: 4 (a perfect match!)<br>
+        🎨 Her Hoodie: Pink (obviously)<br>
+        💖 Her Clue: Purple gel pen — always<br>
+        🏆 The Trophy: Safe and sound!<br>
+        ⭐ Detective Capps: LEGENDARY!
       </div>
-      <button class="verdict-replay gold" onclick="playAgain()">🔄 Play Again!</button>
-    `;
-    overlay.classList.add('show');
-    if (navigator.vibrate) navigator.vibrate([50,30,100,30,50,30,200]);
-    showConfetti();
+      <div style="background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1.1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
+        🌟 <strong style="color:var(--pink)">Amazing detective work!</strong> You saw through ALL her tricks — the fake tips, the finger-pointing, the innocent face. Detective Capps is officially the world's greatest detective! (And maybe Elizabeth owes you a really big apology...)
+      </div>
+      <button class="verdict-replay pink" onclick="playAgain()">🔄 Play Again!</button>`;
+    if(navigator.vibrate) navigator.vibrate([50,30,100,30,200,50,200]);
+    showConfetti(['#ec4899','#f43f5e','#f5a623','#ffd166','#a855f7']);
   } else {
-    inner.innerHTML = `
+    const s=STORY.suspects.find(s=>s.id===id);
+    overlay.classList.add('show','fail-bg');
+    inner.innerHTML=`
       <span class="verdict-big">😬</span>
       <div class="verdict-title fail">Not Quite!</div>
       <div class="verdict-text">
-        <strong style="color:var(--rose)">${suspect.name}</strong> didn't do it!<br><br>
-        "${suspect.innocent_response}"<br><br>
-        <strong style="color:var(--gold)">Keep investigating!</strong> You're missing some important clues. Go back and look more carefully — the real culprit is still out there!
+        <strong style="color:var(--rose)">${s.name}</strong> didn't do it!<br><br>
+        "${s.innocent_response}"<br><br>
+        <strong style="color:var(--gold)">Keep investigating, Detective Capps!</strong> There's a clue you might be missing. Look very carefully at everyone involved in this case — even the people who seem to be on YOUR side...
       </div>
-      <div style="background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
-        💡 Hint: Look for clues about who owned the matching equipment. The sign-out sheet and camera footage together point to one person!
+      <div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:1rem;font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.6">
+        💡 <strong style="color:var(--pink)">Detective's Hint:</strong> The shoe size was 4. The hoodie was pink. And someone seemed to know a little too much about where the clues were... Who was "helping" you this whole time?
       </div>
-      <button class="verdict-replay rose" onclick="closeVerdict()">🔍 Keep Investigating!</button>
-    `;
-    overlay.classList.add('show');
+      <button class="verdict-replay rose" onclick="closeVerdict()">🔍 Keep Investigating!</button>`;
   }
 }
 
-function closeVerdict() { document.getElementById('verdict-overlay').classList.remove('show'); }
-function playAgain() { localStorage.removeItem('kidmystery_v3'); location.reload(); }
+function closeVerdict(){document.getElementById('verdict-overlay').classList.remove('show');}
+function playAgain(){localStorage.removeItem('kidmystery_capps_v1');location.reload();}
 
-// ── CONFETTI ─────────────────────────
-function showConfetti() {
-  const colors = ['#f5a623','#ffd166','#a855f7','#06b6d4','#22c55e','#f43f5e'];
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('div');
-    el.style.cssText = `position:fixed;top:-20px;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${1.5+Math.random()*2}s ${Math.random()*1.5}s linear forwards;`;
+// ── CONFETTI ──────────────────────────
+function showConfetti(colors=['#f5a623','#ffd166','#a855f7','#06b6d4','#22c55e','#f43f5e','#ec4899']) {
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.style.cssText=`position:fixed;top:-20px;left:${Math.random()*100}%;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:confettiFall ${1.5+Math.random()*2}s ${Math.random()*1.5}s linear forwards`;
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 5000);
+    setTimeout(()=>el.remove(),5000);
   }
 }
-const confStyle = document.createElement('style');
-confStyle.textContent = '@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
-document.head.appendChild(confStyle);
+const cs=document.createElement('style');
+cs.textContent='@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+document.head.appendChild(cs);
 
-// ── DOCS ─────────────────────────────
+// ── DOCS ──────────────────────────────
 const DOCS = {
   'trophy-photo': { title: '📸 Trophy Case — Crime Scene', render: () => {
-    setTimeout(() => {
-      addClue('c1', 15, 'cbanner-c1', 'The trophy case lock was scratched with a small tool — someone broke in!');
-      setTimeout(() => addClue('c2', 15, 'cbanner-c2', 'A muddy size-6 shoe print was found on the floor near the trophy case!'), 2000);
-    }, 1200);
-    return `<div style="background:var(--card);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
-      <div style="font-size:.7rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem">🚨 CRIME SCENE PHOTOS — TROPHY ROOM</div>
-      <div style="font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.7;margin-bottom:.8rem">Location: Main hallway display case, Maplewood Elementary. Discovered by Principal Hughes at 7am Saturday.</div>
+    setTimeout(()=>{
+      addClue('c1',15,'cbanner-c1','The trophy case lock was scratched with a small pointy tool — like a tiny screwdriver!');
+      setTimeout(()=>addClue('c2',15,'cbanner-c2','Size 4 shoe print near the case! That\'s very small — smaller than most students at Maplewood Elementary!'),2000);
+    },1200);
+    return `<div style="background:var(--card);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius);padding:1rem;margin-bottom:1rem"><div style="font-size:.7rem;font-weight:800;color:var(--rose);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem">🚨 CRIME SCENE — TROPHY DISPLAY CASE</div><div style="font-size:.82rem;font-weight:700;color:var(--txt2);line-height:1.7">Location: Main hallway display case, Maplewood Elementary. Discovered by Principal Hughes at 7am Saturday.</div></div>
+    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:.7fr 2fr">Photo Details</div>
+    <div class="table-row flagged" style="grid-template-columns:.7fr 2fr"><span>Photo 1</span><span>🔍 Trophy case lock is <span class="flag-val">SCRATCHED OPEN</span>. Tiny marks — looks like a small screwdriver!</span></div>
+    <div class="table-row flagged" style="grid-template-columns:.7fr 2fr"><span>Photo 2</span><span>👟 <span class="flag-val">MUDDY FOOTPRINT — SIZE 4</span> on the tile. That's really small! A child's shoe!</span></div>
+    <div class="table-row" style="grid-template-columns:.7fr 2fr"><span>Photo 3</span><span>🏆 Empty display stand where the Golden Science Trophy was kept.</span></div>
+    <div class="table-row flagged3" style="grid-template-columns:.7fr 2fr"><span>Photo 4</span><span>💖 <span class="flag-val3">STICKY NOTE</span> found behind the trophy stand — says something! (Locked — find more clues to reveal it)</span></div>
+    <div class="table-row" style="grid-template-columns:.7fr 2fr"><span>Photo 5</span><span>💡 Hallway light near the case was unscrewed — someone didn't want to be seen on camera!</span></div>
     </div>
-    <div class="table-wrap">
-      <div class="table-hdr" style="grid-template-columns:1fr 2fr">Photo #&nbsp;&nbsp;Details</div>
-      <div class="table-row flagged" style="grid-template-columns:1fr 2fr"><span>Photo 1</span><span>🔍 Trophy case door is <span class="flag-val">OPEN</span>. Lock is visibly damaged — scratched with something sharp and small.</span></div>
-      <div class="table-row flagged" style="grid-template-columns:1fr 2fr"><span>Photo 2</span><span>👟 <span class="flag-val">MUDDY SHOE PRINT</span> on the floor tile. Size 6. Pointing toward the trophy case.</span></div>
-      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 3</span><span>🏆 Empty display stand where the Golden Science Trophy was kept since 2022.</span></div>
-      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 4</span><span>🔎 Close-up of lock scratches. Pattern suggests a small flathead screwdriver was used.</span></div>
-      <div class="table-row" style="grid-template-columns:1fr 2fr"><span>Photo 5</span><span>💡 Hallway light nearest the case has been unscrewed — someone didn't want to be seen!</span></div>
-    </div>
-    <div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">
-      🔍 Detective's Tip: Two big clues right here! The scratched lock (needs a small tool!) and the muddy shoe print (what size shoe does each suspect wear?). Write these down in your notebook!
-    </div>`;
+    <div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">🔍 Detective's Tip: Size 4 is a REALLY small shoe — think about who in this case might have small feet. And who has a small screwdriver? Write everything down!</div>`;
   }},
   'camera-log': { title: '📷 Hallway Camera — 8pm Log', render: () => {
-    setTimeout(() => {
-      addClue('c3', 20, 'cbanner-c3', 'The hallway camera shows someone with a BLUE backpack at 8:47pm — just before the trophy disappeared!');
-    }, 1200);
-    const entries = [
-      ['8:02pm','Staff member','Mr. Pete the janitor leaving for the night. Waving goodbye!'],
-      ['8:15pm','Student','Unknown student picking up forgotten jacket. Too dark to see face clearly.'],
-      ['8:31pm','Coach Rivera','Coach Rivera walking to parking lot. Carrying a sports bag.'],
-      ['8:47pm','Unknown figure','FIGURE IN DARK HOODIE with BLUE BACKPACK walking fast toward trophy room! Head down!','flagged'],
-      ['8:52pm','Unknown figure','Same person — NOW RUNNING back down hallway. Backpack looks fuller!','flagged'],
-      ['9:10pm','Security light','Hallway light near trophy case goes dark — bulb unscrewed.'],
-      ['9:15pm','Camera','No more movement detected until morning.'],
+    setTimeout(()=>addClue('c3',20,'cbanner-c3','Pink hoodie! And whoever it was knew exactly where the camera was — they kept their head down. Very suspicious!'),1200);
+    const rows=[
+      ['8:02pm','Mr. Pete the Janitor','Leaving for the night. Waving goodbye at the door!',''],
+      ['8:15pm','Unknown student','Picking up a forgotten jacket. Face unclear.',''],
+      ['8:31pm','Coach Rivera','Walking to parking lot. Carrying a large sports bag.',''],
+      ['8:47pm','UNKNOWN IN PINK HOODIE','Walking fast toward trophy room! Head DOWN — hiding from camera!','flagged'],
+      ['8:52pm','SAME PERSON','NOW RUNNING away! Backpack looks BIGGER and heavier!','flagged'],
+      ['9:02pm','Elizabeth Capps','Walking casually past trophy room. Stops. Looks at case. Then looks around nervously.','flagged3'],
+      ['9:10pm','No movement','Hallway goes dark — light near trophy case unscrewed.',''],
     ];
-    let html = `<div style="font-size:.7rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📷 SECURITY CAMERA — TROPHY ROOM HALLWAY</div>
-    <div style="background:var(--teal-dim);border:1px solid rgba(6,182,212,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Look at who appears near the trophy room around 8:47pm — and notice what they're carrying!</div>
-    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.2fr .8fr 2fr"><span>Time</span><span>Who?</span><span>What Happened?</span></div>`;
-    entries.forEach(([time,who,desc,flag]) => {
-      html += `<div class="table-row${flag?' flagged':''}" style="grid-template-columns:1.2fr .8fr 2fr"><span class="${flag?'flag-val':''}">${time}</span><span>${who}</span><span>${desc}</span></div>`;
-    });
-    html += `</div><div style="background:var(--rose-dim);border:1px solid rgba(244,63,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--rose);line-height:1.65">⚠️ Key Finding: Someone with a BLUE backpack was seen at 8:47pm walking toward the trophy room — and at 8:52pm they were RUNNING away with a fuller bag! This is your main lead!</div>`;
+    let html=`<div style="font-size:.7rem;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📷 SECURITY CAMERA — TROPHY HALL</div>
+    <div style="background:var(--teal-dim);border:1px solid rgba(6,182,212,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Watch for what color clothes the suspect was wearing — and notice if anyone else appears on this footage!</div>
+    <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.2fr .8fr 2fr"><span>Time</span><span>Who?</span><span>What?</span></div>`;
+    rows.forEach(([t,w,d,f])=>{html+=`<div class="table-row${f?' '+f:''}" style="grid-template-columns:1.2fr .8fr 2fr"><span class="${f==='flagged'?'flag-val':f==='flagged3'?'flag-val3':''}">${t}</span><span>${w}</span><span>${d}</span></div>`;});
+    html+=`</div><div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--pink);line-height:1.65">😇 Wait... Elizabeth was also on this camera at 9:02pm! She said she "walked past and noticed the trophy was gone." But she's looking around VERY nervously. Hmm...</div>`;
     return html;
   }},
-  'sign-out': { title: '📋 School Sign-Out Sheet', render: () => {
-    setTimeout(() => {
-      addClue('c5', 20, 'cbanner-c5', 'The sign-out sheet shows who was really in the building Friday evening!');
-    }, 1200);
-    const rows = [
-      ['Sam Torres','Art Club Pres.','Drama Club Rehearsal','4:00pm','8:30pm','Room 104 (Drama)','Ms. Morris confirmed ✓'],
-      ['Coach Rivera','PE Teacher','Soccer Practice + Grading','3:30pm','6:15pm','Gym / Parking Lot','Signed out 6:15pm ✓'],
-      ['Alex Kim','Science Club Pres.','Science Lab (said: home studying)','4:00pm','9:30pm','Science Lab / Hallways','Signed out 9:30pm — LATE!'],
-      ['Mr. Pete','Janitor','Evening cleaning rounds','6:00pm','8:05pm','Various','Camera confirms left 8:02pm ✓'],
+  'sign-out': { title: '📋 Sign-Out Sheet — Friday Evening', render: () => {
+    setTimeout(()=>addClue('c5',20,null,'The sign-out sheet is very revealing! Look at who signed out when — and think about who had time to take the trophy!'),1200);
+    const rows=[
+      ['Sam Torres','Art Club Pres.','Drama Rehearsal','4:00pm','8:30pm','Room 104 (Drama)','Ms. Morris confirmed ✓',''],
+      ['Coach Rivera','PE Teacher','Soccer Practice','3:30pm','6:15pm','Gym / Parking','Camera confirms left 6:15pm ✓',''],
+      ['Alex Kim','Science Club Pres.','Science Lab (studying)','4:00pm','8:00pm','Science Lab','Left BEFORE 8:47pm ✓',''],
+      ['Mr. Pete','Janitor','Evening Cleaning','6:00pm','8:05pm','Various','Camera confirms left 8:02pm ✓',''],
+      ['Elizabeth Capps','Visitor (student\'s sister)','Helping look for missing trophy','8:45pm','9:15pm','Main Hallway / Trophy Area','Signed in AFTER trophy disappeared??','flagged3'],
     ];
-    let html = `<div style="font-size:.7rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📋 OFFICIAL SIGN-OUT SHEET — FRIDAY EVENING</div>
-    <div style="background:var(--amber-dim);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Detective Tip: Compare this to what each suspect TOLD you in their interview! Someone's alibi doesn't add up...</div>
+    let html=`<div style="font-size:.7rem;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem">📋 OFFICIAL SIGN-OUT SHEET — FRIDAY EVENING</div>
+    <div style="background:var(--amber-dim);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.85rem;font-size:.8rem;font-weight:700;color:var(--txt2)">🔍 Compare this to each suspect's alibi — does their story match?</div>
     <div class="table-wrap"><div class="table-hdr" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span>Name</span><span>In</span><span>Out</span><span>Location</span><span>Notes</span></div>`;
-    rows.forEach(([name,role,activity,in_,out_,loc,note]) => {
-      const flag = name === 'Alex Kim';
-      html += `<div class="table-row${flag?' flagged2':''}" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr">
-        <span class="${flag?'flag-val2':''}">${name}<br><span style="font-size:.65rem;color:var(--muted)">${role}</span></span>
-        <span>${in_}</span><span class="${flag?'flag-val2':''}">${out_}</span>
-        <span>${loc}</span><span>${note}</span></div>`;
-    });
-    html += `</div><div style="background:var(--green-dim);border:1px solid rgba(34,197,94,.3);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--green);line-height:1.65">✅ Big Discovery! One person said they were home but was actually signed in until 9:30pm! And the camera caught someone at 8:47pm... that time fits PERFECTLY! Who could it be?!</div>`;
+    rows.forEach(([n,r,a,i,o,l,nt,f])=>{html+=`<div class="table-row${f?' '+f:f===''&&n==='Elizabeth Capps'?' flagged3':''}" style="grid-template-columns:1.5fr 1fr 1fr 1fr 2fr"><span class="${n==='Elizabeth Capps'?'flag-val3':''}">${n}<br><span style="font-size:.62rem;color:var(--muted)">${r}</span></span><span>${i}</span><span>${o}</span><span>${l}</span><span class="${n==='Elizabeth Capps'?'flag-val3':''}">${nt}</span></div>`;});
+    html+=`</div><div style="background:var(--pink-dim);border:1px solid rgba(236,72,153,.4);border-radius:var(--radius-sm);padding:.85rem;font-size:.82rem;font-weight:700;color:var(--pink);line-height:1.65">😱 WAIT. Elizabeth signed IN at 8:45pm to "help look for the missing trophy" — but the trophy wasn't reported missing until 9pm! How did she know it was gone? And the pink hoodie person was on camera at 8:47pm... only 2 minutes after she signed in... Does Elizabeth own a pink hoodie?!</div>`;
     return html;
-  }},
+  }}
 };
 
-function openDoc(id) {
-  const doc = DOCS[id];
-  if (!doc) return;
-  document.getElementById('doc-title').textContent = doc.title;
-  document.getElementById('doc-body').innerHTML = doc.render();
-  document.getElementById('doc-viewer').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-function closeDoc() { document.getElementById('doc-viewer').classList.remove('show'); document.body.style.overflow = ''; }
+function openDoc(id){const doc=DOCS[id];if(!doc)return;document.getElementById('doc-title').textContent=doc.title;document.getElementById('doc-body').innerHTML=doc.render();document.getElementById('doc-viewer').classList.add('show');document.body.style.overflow='hidden';}
+function closeDoc(){document.getElementById('doc-viewer').classList.remove('show');document.body.style.overflow='';}
 
-// ── NOTEBOOK (hints terminal) ─────────
-const NOTEBOOK_CMDS = {
-  'help': `Available commands:\n  suspects   — info on all 3 suspects\n  clues      — list your clues so far\n  status     — how far along are you?\n  hint       — get a clue hint!\n  alibi      — check the alibis\n  clear      — clear the notebook`,
-  'suspects': () => STORY.suspects.map(s => `${s.emoji} ${s.name} (${s.role})\n  Motive: ${s.motive}`).join('\n\n'),
-  'clues': () => cluesFound.length === 0
-    ? '🔍 No clues found yet! Go examine\nthe crime scene and interview suspects!'
-    : '✅ Clues found so far:\n' + STORY.clues.filter(c => cluesFound.includes(c.id)).map(c => `  ${c.emoji} ${c.name}`).join('\n') +
-      (cluesFound.length < MAX_CLUES ? `\n\n🔍 Still ${MAX_CLUES - cluesFound.length} more to find!` : '\n\n🏆 All clues found! Time to accuse!'),
-  'status': () => `🔍 Case Progress: ${progress}%\n⭐ XP Earned: ${xp}\n🧩 Clues: ${cluesFound.length} of ${MAX_CLUES}\n${cluesFound.length >= 3 ? '✅ Ready to make an accusation!' : '🔍 Need at least 3 clues first!'}`,
-  'hint': () => {
-    if (!cluesFound.includes('c1')) return '💡 Start at the Crime Scene!\nExamine the trophy case photos first.';
-    if (!cluesFound.includes('c3')) return '💡 Check the camera footage!\nIt unlocks after you find 2 scene clues.';
-    if (!cluesFound.includes('c5')) return '💡 Read the sign-out sheet!\nSomeone\'s alibi doesn\'t match!';
-    if (!cluesFound.includes('c4')) return '💡 Interview the suspects!\nOne of them will slip up...';
-    return '💡 You have enough clues!\nGo to the Solve panel and\nmake your accusation! You\'ve got this!';
+// ── NOTEBOOK ──────────────────────────
+const NOTEBOOK_CMDS={
+  'help':`Commands, Detective Capps:\n  suspects   — info on the 3 suspects\n  elizabeth  — what do we know about her?\n  clues      — your clues so far\n  status     — case progress\n  hint       — I need a hint!\n  shoe       — who has size 4 feet?\n  pink       — who wears pink hoodies?\n  clear      — clear the notebook`,
+  'suspects':()=>STORY.suspects.map(s=>`${s.emoji} ${s.name} (${s.role})\n  Motive: ${s.motive}\n  Alibi: ${s.alibi}`).join('\n\n'),
+  'elizabeth':()=>`😇 Elizabeth Capps — Your Sister\n  Age: ${STORY.elizabeth.age}\n  Role: ${STORY.elizabeth.role}\n  Motive: ${STORY.elizabeth.motive}\n  She's been "helping" all along...\n  ${elizUnlocked?'💖 But wait — the sticky note says "EB was here"...\n  EB = Elizabeth? And she was on the\n  camera at 9:02pm looking nervous!\n  And she knew about the footprint\n  before you found it... SUSPICIOUS!':'Find more clues to learn more!'}`,
+  'clues':()=>cluesFound.length===0?'No clues yet! Go explore!':'✅ Clues found:\n'+ALL_CLUES.filter(c=>cluesFound.includes(c.id)).map(c=>`  ${c.emoji} ${c.name}`).join('\n')+(cluesFound.length<TOTAL_CLUES?`\n\n🔍 Still ${TOTAL_CLUES-cluesFound.length} more to find!`:'\n\n🏆 All clues found!'),
+  'status':()=>`🔍 Progress: ${progress}%\n⭐ XP: ${xp}\n🧩 Clues: ${cluesFound.length} of ${TOTAL_CLUES}\n${elizUnlocked?'😱 The secret suspect is unlocked!\n   Go to Solve It to make your accusation!':cluesFound.length>=3?'✅ Ready to start solving!':'🔍 Keep finding clues!'}`,
+  'hint':()=>{
+    if(!cluesFound.includes('c1'))return '💡 Start at the Crime Scene!\nLook at the trophy case photos.';
+    if(!cluesFound.includes('c3'))return '💡 Check the camera footage!\nUnlocks after 2 scene clues.';
+    if(!cluesFound.includes('c4'))return '💡 Interview all 3 suspects!\nAnd pay attention to who is "helping" you...';
+    if(!cluesFound.includes('c5'))return '💡 Read the sign-out sheet!\nCheck who was in the building and WHEN.';
+    if(!elizUnlocked)return '💡 Find all the clues!\nSomething doesn\'t add up about\nsomeone close to this case...';
+    return '💡 You have all the clues!\nGo to Solve It and look at\nALL the suspects — even\nthe ones not on the main list!';
   },
-  'alibi': () => STORY.suspects.map(s => `${s.emoji} ${s.name}:\n  "${s.alibi}"\n  Verified? ${s.id === STORY.culprit ? '❌ Actually... maybe not.' : '✅ Seems solid.'}`).join('\n\n'),
-  'clear': '__CLEAR__',
+  'shoe':()=>`👟 Shoe Size 4 Analysis:\n  Alex Kim (age 11) — size 7\n  Sam Torres (age 10) — size 6\n  Coach Rivera (age 38) — size 11\n  ${elizUnlocked?`Elizabeth Capps (age ${STORY.elizabeth.age}) — size... 4? 🤔\n  That's the same as the footprint!`:'Someone with very small feet...\n  Find more clues to figure out who!'}`,
+  'pink':()=>`🎨 Pink Hoodie Analysis:\n  Alex Kim — no pink hoodie (blue hoodie)\n  Sam Torres — yes has pink... but was at Drama!\n  Coach Rivera — definitely NO pink hoodies\n  ${elizUnlocked?`Elizabeth Capps — has a bright pink\n  hoodie she got for her birthday! 😱`:'Hmm... find more clues to learn who!'}`,
+  'clear':'__CLEAR__',
 };
-function runNotebook() {
-  const input = document.getElementById('note-input');
-  const output = document.getElementById('note-out');
-  const cmd = input.value.trim().toLowerCase();
-  input.value = '';
-  if (!cmd) return;
-  let response = NOTEBOOK_CMDS[cmd];
-  if (typeof response === 'function') response = response();
-  if (!response) response = `I don't know that command!\nType 'help' to see what I can do!`;
-  if (response === '__CLEAR__') { output.innerHTML = '<span class="m">// Notebook cleared!</span>\n'; return; }
-  const line = document.createElement('div');
-  line.style.cssText = 'border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
-  line.innerHTML = `<span class="a">You: ${cmd}</span>\n<span>${response}</span>`;
-  output.appendChild(line);
-  output.scrollTop = output.scrollHeight;
+function runNotebook(){
+  const input=document.getElementById('note-input');const output=document.getElementById('note-out');
+  const cmd=input.value.trim().toLowerCase(); input.value=''; if(!cmd)return;
+  let response=NOTEBOOK_CMDS[cmd]; if(typeof response==='function')response=response();
+  if(!response)response=`I don't know that command!\nType 'help' to see what I can do!`;
+  if(response==='__CLEAR__'){output.innerHTML='<span class="m">// Notebook cleared!</span>\n';return;}
+  const line=document.createElement('div');
+  line.style.cssText='border-top:1px solid var(--border);padding-top:8px;margin-top:8px';
+  line.innerHTML=`<span class="a">Capps: ${cmd}</span>\n<span>${response}</span>`;
+  output.appendChild(line); output.scrollTop=output.scrollHeight;
 }
-document.getElementById('note-input').addEventListener('keydown', e => { if (e.key === 'Enter') runNotebook(); });
+document.getElementById('note-input').addEventListener('keydown',e=>{if(e.key==='Enter')runNotebook();});
 
-// ── TOAST ────────────────────────────
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show' + (type ? ' ' + type : '');
-  setTimeout(() => t.className = 'toast', 2800);
-}
+// ── TOAST ──────────────────────────────
+function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2800);}
 
-// ── LOGO TAP (secret hint) ────────────
-function logoTap() {
+// ── LOGO TAP ──────────────────────────
+function logoTap(){
   logoTaps++;
-  if (logoTimer) clearTimeout(logoTimer);
-  logoTimer = setTimeout(() => logoTaps = 0, 2000);
-  if (logoTaps === 5) {
-    showToast('🌟 Secret hint: Check the sign-out sheet!', 'warn');
-    logoTaps = 0;
-  }
+  if(logoTimer)clearTimeout(logoTimer);
+  logoTimer=setTimeout(()=>logoTaps=0,2000);
+  if(logoTaps===5){showToast('💖 Tip: Think about who has a purple gel pen...','twist');logoTaps=0;}
 }
 
-// ── SAVE ─────────────────────────────
-function save() { localStorage.setItem('kidmystery_v3', JSON.stringify({ xp, cluesFound, progress, q1Solved, q2Solved })); }
+// ── SAVE ──────────────────────────────
+function save(){localStorage.setItem('kidmystery_capps_v1',JSON.stringify({xp,cluesFound,progress,q1Solved,q2Solved,elizUnlocked}));}
 </script>
 </body>
 </html>
